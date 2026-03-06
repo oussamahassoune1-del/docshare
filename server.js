@@ -114,12 +114,19 @@ http.createServer(async(req,res)=>{
     return json(res,{id:nu.id,name:nu.name,email:nu.email,role:nu.role,dept:nu.dept,createdAt:nu.createdAt});
   }
 
-  if(method==='DELETE'&&url.startsWith('/api/users/')){
-    const u=auth(req);if(!u||u.role!=='admin') return err(res,'Accès refusé',403);
+  if(method==='PUT'&&url.startsWith('/api/users/')){
+    const u=auth(req);if(!u||u.role!=='admin')return err(res,'Accès refusé',403);
     const tid=url.split('/api/users/')[1];
-    if(db.users.filter(u=>u.role==='admin').length===1&&db.users.find(u=>u.id===tid)?.role==='admin') return err(res,'Impossible de supprimer le seul admin');
-    db.users=db.users.filter(u=>u.id!==tid);saveData(db);
-    return json(res,{ok:true});
+    const b=await parseBody(req);const{name,email,password,dept,role}=b.data;
+    const target=db.users.find(u=>u.id===tid);if(!target)return err(res,'Utilisateur non trouvé',404);
+    if(email&&email!==target.email&&db.users.find(u=>u.email===email.toLowerCase()))return err(res,'Email déjà utilisé');
+    if(name)target.name=name;
+    if(email)target.email=email.toLowerCase();
+    if(password&&password.length>=6)target.password=hashPw(password);
+    if(dept)target.dept=dept;
+    if(role)target.role=role;
+    saveData(db);
+    return json(res,{id:target.id,name:target.name,email:target.email,role:target.role,dept:target.dept,createdAt:target.createdAt});
   }
 
   if(method==='GET'&&url==='/api/files'){
