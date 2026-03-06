@@ -98,10 +98,12 @@ http.createServer(async(req,res)=>{
     return json(res,{id:u.id,name:u.name,email:u.email,role:u.role,dept:u.dept});
   }
 
-  if(method==='GET'&&url==='/api/users'){
-    const u=auth(req);if(!u||u.role!=='admin') return err(res,'Accès refusé',403);
-    return json(res,db.users.map(u=>({id:u.id,name:u.name,email:u.email,role:u.role,dept:u.dept,createdAt:u.createdAt})));
-  }
+if(method==='GET'&&url==='/api/users'){
+  const u=auth(req);if(!u) return err(res,'Non authentifié',401);
+  // Tous les utilisateurs peuvent voir la liste pour partager
+  // mais seulement l'admin voit les détails complets
+  return json(res,db.users.map(x=>({id:x.id,name:x.name,email:x.email,role:x.role,dept:x.dept,createdAt:x.createdAt})));
+}
 
   if(method==='POST'&&url==='/api/users'){
     const u=auth(req);if(!u||u.role!=='admin') return err(res,'Accès refusé',403);
