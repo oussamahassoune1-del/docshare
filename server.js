@@ -124,7 +124,10 @@ http.createServer(async(req,res)=>{
 
   if(method==='GET'&&url==='/api/files'){
     const u=auth(req);if(!u) return err(res,'Non authentifié',401);
-    const files=u.role==='admin'?db.files:db.files.filter(f=>f.ownerId===u.id);
+    const sharedFileIds=db.shares.filter(s=>s.toUserId===u.id).map(s=>s.fileId);
+const files=u.role==='admin'
+  ? db.files
+  : db.files.filter(f=>f.ownerId===u.id || sharedFileIds.includes(f.id));
     return json(res,files.map(f=>({id:f.id,name:f.name,size:f.size,dept:f.dept,ownerId:f.ownerId,ownerName:db.users.find(x=>x.id===f.ownerId)?.name,uploadedAt:f.uploadedAt})));
   }
 
