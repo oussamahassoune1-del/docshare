@@ -252,7 +252,7 @@ async function initApp(){
   }catch{showLogin();}
 }
 
-async function loadUsers(){try{allUsers=currentUser?.role==='admin'?await api('GET','/api/users'):[];}catch{}}
+async function loadUsers(){try{allUsers=await api('GET','/api/users');}catch{}}
 async function loadFiles(){try{allFiles=await api('GET','/api/files');}catch{}}
 async function loadShares(){try{allShares=await api('GET','/api/shares');}catch{}}
 
