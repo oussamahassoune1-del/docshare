@@ -16,6 +16,8 @@ input,select,button{font-family:'DM Sans',sans-serif;outline:none;}button{cursor
 @keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
 @keyframes slideIn{from{transform:translateX(40px);opacity:0}to{transform:none;opacity:1}}
 @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-18px)}}
+@keyframes spin{to{transform:rotate(360deg)}}
+.spin{animation:spin .7s linear infinite;}
 .btn-primary{background:linear-gradient(135deg,#2563eb,#1d4ed8);color:#fff;border:none;border-radius:10px;padding:10px 18px;font-size:13px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:7px;transition:opacity .2s;box-shadow:0 4px 14px rgba(37,99,235,.3);}
 .btn-primary:hover{opacity:.9;}.btn-primary:disabled{opacity:.5;cursor:not-allowed;}
 .input-field{width:100%;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:10px;padding:9px 12px;color:#fff;font-size:13px;transition:border-color .2s;}
@@ -25,24 +27,25 @@ input,select,button{font-family:'DM Sans',sans-serif;outline:none;}button{cursor
 .toast.success{background:#1a6b3a;border:1px solid #2d9e60;}.toast.error{background:#6b1a1a;border:1px solid #9e2d2d;}
 .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:1000;display:flex;align-items:center;justify-content:center;padding:24px;backdrop-filter:blur(4px);}
 .modal-box{background:#141720;border:1px solid rgba(255,255,255,.1);border-radius:18px;padding:28px;width:100%;max-width:440px;max-height:90vh;overflow-y:auto;}
-.nav-btn{width:100%;display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:10px;border:none;margin-bottom:4px;background:transparent;color:#64748b;font-size:13px;text-align:left;cursor:pointer;position:relative;transition:all .15s;}
+.nav-btn{width:100%;display:flex;align-items:center;gap:9px;padding:9px 12px;border-radius:10px;border:none;margin-bottom:3px;background:transparent;color:#64748b;font-size:12px;text-align:left;cursor:pointer;position:relative;transition:all .15s;}
 .nav-btn.active{background:rgba(37,99,235,.2);color:#60a5fa;font-weight:600;}
-.nav-btn.active::after{content:'';position:absolute;right:0;top:50%;transform:translateY(-50%);width:3px;height:20px;border-radius:3px;background:#2563eb;}
-.kpi-card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:18px 22px;transition:border-color .2s;}
+.nav-btn.active::after{content:'';position:absolute;right:0;top:50%;transform:translateY(-50%);width:3px;height:18px;border-radius:3px;background:#2563eb;}
+.kpi-card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:16px 20px;transition:border-color .2s;}
 .kpi-card:hover{border-color:rgba(255,255,255,.15);}
-.chart-card{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:16px;padding:20px;}
-.filter-pill{padding:6px 14px;border-radius:20px;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.04);color:#94a3b8;font-size:12px;cursor:pointer;transition:all .15s;}
+.chart-card{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:14px;padding:18px;}
+.filter-pill{padding:5px 12px;border-radius:20px;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.04);color:#94a3b8;font-size:12px;cursor:pointer;transition:all .15s;}
 .filter-pill.active{background:rgba(37,99,235,.2);border-color:#2563eb;color:#60a5fa;font-weight:600;}
 .data-table{width:100%;border-collapse:collapse;font-size:12px;}
-.data-table th{background:rgba(37,99,235,.15);color:#60a5fa;padding:10px 12px;text-align:left;font-weight:600;border-bottom:1px solid rgba(255,255,255,.08);white-space:nowrap;position:sticky;top:0;z-index:1;}
-.data-table td{padding:8px 12px;border-bottom:1px solid rgba(255,255,255,.04);color:#cbd5e1;}
+.data-table th{background:rgba(37,99,235,.15);color:#60a5fa;padding:9px 12px;text-align:left;font-weight:600;border-bottom:1px solid rgba(255,255,255,.08);white-space:nowrap;position:sticky;top:0;z-index:1;}
+.data-table td{padding:7px 12px;border-bottom:1px solid rgba(255,255,255,.04);color:#cbd5e1;}
 .data-table tr:hover td{background:rgba(37,99,235,.06);}
 .badge{font-size:10px;font-weight:700;border-radius:20px;padding:2px 8px;}
 .badge.admin{background:rgba(139,92,246,.2);color:#a78bfa;}.badge.user{background:rgba(37,99,235,.15);color:#60a5fa;}
-.tab-btn{padding:7px 16px;border-radius:8px;border:none;font-size:12px;font-weight:500;cursor:pointer;transition:all .15s;}
-.tab-btn.active{background:rgba(37,99,235,.25);color:#60a5fa;}
-.tab-btn:not(.active){background:transparent;color:#64748b;}
+.badge.ok{background:rgba(34,197,94,.15);color:#4ade80;}.badge.nok{background:rgba(239,68,68,.15);color:#f87171;}
+.section-header{background:#0d0f18;border-bottom:1px solid rgba(255,255,255,.06);padding:14px 24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;}
 select.input-field option{background:#1a1d26;}
+.refresh-btn{width:34px;height:34px;border-radius:8px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.05);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .2s;color:#94a3b8;}
+.refresh-btn:hover{border-color:#2563eb;color:#60a5fa;background:rgba(37,99,235,.1);}
 </style>
 </head>
 <body>
@@ -87,109 +90,75 @@ select.input-field option{background:#1a1d26;}
 <!-- APP -->
 <div id="appPage" style="display:none;flex-direction:row;min-height:100vh;">
   <!-- Sidebar -->
-  <aside style="width:220px;background:#0d0f18;border-right:1px solid rgba(255,255,255,.06);display:flex;flex-direction:column;padding:20px 14px;flex-shrink:0;min-height:100vh;">
-    <div style="display:flex;align-items:center;gap:10px;margin-bottom:28px;padding-left:6px;">
-      <div style="width:34px;height:34px;border-radius:9px;background:linear-gradient(135deg,#2563eb,#1d4ed8);display:flex;align-items:center;justify-content:center;">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+  <aside style="width:210px;background:#0d0f18;border-right:1px solid rgba(255,255,255,.06);display:flex;flex-direction:column;padding:18px 12px;flex-shrink:0;min-height:100vh;">
+    <div style="display:flex;align-items:center;gap:9px;margin-bottom:24px;padding-left:4px;">
+      <div style="width:32px;height:32px;border-radius:8px;background:linear-gradient(135deg,#2563eb,#1d4ed8);display:flex;align-items:center;justify-content:center;">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
       </div>
       <div><div style="color:#fff;font-weight:700;font-size:13px;">One Mobility</div><div style="color:#475569;font-size:10px;">Logistique</div></div>
     </div>
-    <div style="background:rgba(255,255,255,.04);border-radius:10px;padding:10px;margin-bottom:20px;border:1px solid rgba(255,255,255,.06);">
+    <div style="background:rgba(255,255,255,.04);border-radius:10px;padding:9px;margin-bottom:18px;border:1px solid rgba(255,255,255,.06);">
       <div style="display:flex;align-items:center;gap:8px;">
-        <div id="sidebarAvatar" style="width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:13px;flex-shrink:0;"></div>
+        <div id="sidebarAvatar" style="width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:12px;flex-shrink:0;"></div>
         <div><div id="sidebarName" style="color:#e2e8f0;font-size:12px;font-weight:600;"></div><div id="sidebarDept" style="color:#475569;font-size:10px;"></div></div>
       </div>
     </div>
+    <div style="color:#475569;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:1px;padding:0 6px;margin-bottom:6px;">Dashboards</div>
     <nav style="flex:1;">
-      <button class="nav-btn active" id="navDash" onclick="switchView('dashboard')">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>Dashboard
+      <button class="nav-btn active" id="navInventory" onclick="switchView('inventory')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>Inventory
       </button>
+      <button class="nav-btn" id="navScrap" onclick="switchView('scrap')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3,6 5,6 21,6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>Scrap
+      </button>
+      <button class="nav-btn" id="navExport" onclick="switchView('export')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17,8 12,3 7,8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>Export / Import
+      </button>
+      <button class="nav-btn" id="navNegstock" onclick="switchView('negstock')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Negative Stock
+      </button>
+      <button class="nav-btn" id="navCycle" onclick="switchView('cycle')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23,4 23,10 17,10"/><polyline points="1,20 1,14 7,14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>Cycle Count
+      </button>
+      <div style="height:1px;background:rgba(255,255,255,.06);margin:10px 0;"></div>
+      <div style="color:#475569;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:1px;padding:0 6px;margin-bottom:6px;">Gestion</div>
       <button class="nav-btn" id="navFiles" onclick="switchView('files')">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/></svg>Fichiers
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/></svg>Fichiers
       </button>
       <button class="nav-btn" id="navInbox" onclick="switchView('inbox')">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22,12 16,12 14,15 10,15 8,12 2,12"/><path d="M5.45 5.11L2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/></svg>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22,12 16,12 14,15 10,15 8,12 2,12"/><path d="M5.45 5.11L2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/></svg>
         Reçus<span id="inboxBadge" style="display:none;margin-left:auto;background:#2563eb;color:#fff;font-size:10px;font-weight:700;border-radius:20px;padding:1px 6px;"></span>
       </button>
       <button class="nav-btn" id="navUsers" onclick="switchView('users')" style="display:none;">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>Utilisateurs
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>Utilisateurs
       </button>
     </nav>
-    <button onclick="doLogout()" style="display:flex;align-items:center;gap:8px;padding:9px 12px;border-radius:10px;border:none;background:transparent;color:#ef4444;font-size:13px;width:100%;cursor:pointer;">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16,17 21,12 16,7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>Déconnexion
+    <button onclick="doLogout()" style="display:flex;align-items:center;gap:8px;padding:9px 10px;border-radius:10px;border:none;background:transparent;color:#ef4444;font-size:12px;width:100%;cursor:pointer;margin-top:8px;">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16,17 21,12 16,7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>Déconnexion
     </button>
   </aside>
 
-  <!-- Main -->
+  <!-- Main content -->
   <main style="flex:1;overflow-y:auto;min-width:0;">
-
-    <!-- DASHBOARD -->
-    <div id="viewDashboard">
-      <!-- Top Header -->
-      <div style="background:#0d0f18;border-bottom:1px solid rgba(255,255,255,.06);padding:16px 28px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;">
-        <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;">
-          <h1 style="font-size:20px;font-weight:700;color:#fff;">📦 Inventory Dashboard</h1>
-          <select id="dashFileSelect" onchange="loadAndRender(this.value)" style="background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:8px;padding:7px 12px;color:#fff;font-size:12px;min-width:200px;">
-            <option value="">— Sélectionner un fichier —</option>
-          </select>
-        </div>
-        <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
-          <span style="color:#64748b;font-size:12px;">Filtrer par type :</span>
-          <button class="filter-pill active" id="filterAll" onclick="setTypeFilter('ALL')">Tous</button>
-          <button class="filter-pill" id="filterRAW" onclick="setTypeFilter('RAW')">RAW</button>
-          <button class="filter-pill" id="filterFG" onclick="setTypeFilter('FG')">FG</button>
-        </div>
-      </div>
-
-      <div style="padding:24px 28px;" id="dashContent">
-        <div style="text-align:center;padding:80px 0;color:#475569;">
-          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#334155" stroke-width="1.5" style="margin:0 auto 16px;display:block;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/></svg>
-          <p style="font-size:15px;">Importez un fichier Excel pour voir le dashboard</p>
-          <p style="font-size:12px;margin-top:8px;color:#334155;">Colonnes attendues : PROJECT · MATERIAL · STOCK · PRICE UNIT · VALUE · DAY · WEEK · TYPE</p>
-        </div>
-      </div>
-    </div>
-
-    <!-- FILES -->
-    <div id="viewFiles" style="display:none;padding:28px;">
-      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:24px;">
-        <div><h1 id="filesTitle" style="font-size:20px;font-weight:700;">Fichiers</h1><p id="filesCount" style="color:#64748b;font-size:13px;margin-top:3px;"></p></div>
-        <button class="btn-primary" onclick="document.getElementById('fileInput').click()">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17,8 12,3 7,8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>Importer Excel
-        </button>
-        <input type="file" id="fileInput" accept=".xlsx,.xls,.csv" style="display:none;" onchange="uploadFile(this)"/>
-      </div>
-      <div id="filesList"></div>
-    </div>
-
-    <!-- INBOX -->
-    <div id="viewInbox" style="display:none;padding:28px;">
-      <div style="margin-bottom:24px;"><h1 style="font-size:20px;font-weight:700;">Fichiers reçus</h1><p id="inboxCount" style="color:#64748b;font-size:13px;margin-top:3px;"></p></div>
-      <div id="inboxList"></div>
-    </div>
-
-    <!-- USERS -->
-    <div id="viewUsers" style="display:none;padding:28px;">
-      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:24px;">
-        <div><h1 style="font-size:20px;font-weight:700;">Utilisateurs</h1><p id="usersCount" style="color:#64748b;font-size:13px;margin-top:3px;"></p></div>
-        <button class="btn-primary" onclick="openCreateUser()">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Nouvel utilisateur
-        </button>
-      </div>
-      <div id="usersList"></div>
-    </div>
+    <div id="viewInventory"></div>
+    <div id="viewScrap" style="display:none;"></div>
+    <div id="viewExport" style="display:none;"></div>
+    <div id="viewNegstock" style="display:none;"></div>
+    <div id="viewCycle" style="display:none;"></div>
+    <div id="viewFiles" style="display:none;padding:24px;"></div>
+    <div id="viewInbox" style="display:none;padding:24px;"></div>
+    <div id="viewUsers" style="display:none;padding:24px;"></div>
   </main>
 </div>
 
 <!-- MODAL Share -->
 <div id="shareModal" class="modal-overlay" style="display:none;">
   <div class="modal-box">
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
-      <h2 style="font-size:16px;font-weight:700;">📤 Partager</h2>
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;">
+      <h2 style="font-size:15px;font-weight:700;">📤 Partager</h2>
       <button onclick="document.getElementById('shareModal').style.display='none'" style="background:none;border:none;color:#64748b;cursor:pointer;font-size:18px;">✕</button>
     </div>
-    <p style="color:#94a3b8;font-size:13px;margin-bottom:14px;">Choisissez le destinataire :</p>
-    <select id="shareTarget" class="input-field" style="margin-bottom:18px;"></select>
+    <select id="shareTarget" class="input-field" style="margin-bottom:16px;"></select>
     <button onclick="doShare()" class="btn-primary" style="width:100%;justify-content:center;">✓ Partager</button>
   </div>
 </div>
@@ -197,45 +166,34 @@ select.input-field option{background:#1a1d26;}
 <!-- MODAL Create User -->
 <div id="createUserModal" class="modal-overlay" style="display:none;">
   <div class="modal-box">
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
-      <h2 style="font-size:16px;font-weight:700;">👤 Nouvel utilisateur</h2>
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;">
+      <h2 style="font-size:15px;font-weight:700;">👤 Nouvel utilisateur</h2>
       <button onclick="document.getElementById('createUserModal').style.display='none'" style="background:none;border:none;color:#64748b;cursor:pointer;font-size:18px;">✕</button>
     </div>
-    <div style="margin-bottom:12px;"><label class="label">Nom complet</label><input id="newName" type="text" class="input-field" placeholder="Marie Dupont"/></div>
-    <div style="margin-bottom:12px;"><label class="label">Email</label><input id="newEmail" type="email" class="input-field" placeholder="marie@entreprise.com"/></div>
-    <div style="margin-bottom:12px;"><label class="label">Mot de passe</label>
-      <div style="position:relative;">
-        <input id="newPw" type="password" class="input-field" placeholder="Min. 6 caractères" style="padding-right:44px;"/>
-        <button onclick="togglePw('newPw')" style="position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;color:#64748b;cursor:pointer;">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
-        </button>
-      </div>
+    <div style="margin-bottom:11px;"><label class="label">Nom</label><input id="newName" type="text" class="input-field"/></div>
+    <div style="margin-bottom:11px;"><label class="label">Email</label><input id="newEmail" type="email" class="input-field"/></div>
+    <div style="margin-bottom:11px;"><label class="label">Mot de passe</label><input id="newPw" type="password" class="input-field"/></div>
+    <div style="margin-bottom:11px;"><label class="label">Département</label><input id="newDept" type="text" class="input-field"/></div>
+    <div style="margin-bottom:16px;"><label class="label">Rôle</label>
+      <select id="newRole" class="input-field"><option value="user">👤 Utilisateur</option><option value="admin">🛡️ Admin</option></select>
     </div>
-    <div style="margin-bottom:12px;"><label class="label">Département</label><input id="newDept" type="text" class="input-field" placeholder="Logistique, RH..."/></div>
-    <div style="margin-bottom:18px;"><label class="label">Rôle</label>
-      <select id="newRole" class="input-field"><option value="user">👤 Utilisateur</option><option value="admin">🛡️ Administrateur</option></select>
-    </div>
-    <div id="createUserError" style="display:none;background:rgba(239,68,68,.15);border:1px solid rgba(239,68,68,.3);border-radius:10px;padding:10px 14px;color:#f87171;font-size:13px;margin-bottom:14px;"></div>
-    <button onclick="doCreateUser()" class="btn-primary" style="width:100%;justify-content:center;padding:12px;">✓ Créer</button>
+    <div id="createUserError" style="display:none;background:rgba(239,68,68,.15);border:1px solid rgba(239,68,68,.3);border-radius:10px;padding:9px 12px;color:#f87171;font-size:12px;margin-bottom:12px;"></div>
+    <button onclick="doCreateUser()" class="btn-primary" style="width:100%;justify-content:center;">✓ Créer</button>
   </div>
-</div>
-
-<script>
+</div><script>
 // ── State ─────────────────────────────────────────────────────────────────────
 let token=localStorage.getItem('ds_token'),currentUser=null,allUsers=[],allFiles=[],allShares=[],shareFileId=null;
-let rawData=[],filteredData=[],typeFilter='ALL';
 let charts={};
-const COLORS=['#3b82f6,#1d4ed8','#10b981,#065f46','#f59e0b,#92400e','#8b5cf6,#4c1d95','#ec4899,#831843','#06b6d4,#0e7490'];
+const COLORS=['#3b82f6','#10b981','#f59e0b','#8b5cf6','#ec4899','#06b6d4','#ef4444','#84cc16','#f97316','#a855f7','#14b8a6','#eab308','#64748b','#0ea5e9','#d946ef'];
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
-function strColor(s){let h=0;for(let i=0;i<s.length;i++)h=s.charCodeAt(i)+((h<<5)-h);return COLORS[Math.abs(h)%COLORS.length];}
+function strColor(s){const C=['#3b82f6,#1d4ed8','#10b981,#065f46','#f59e0b,#92400e','#8b5cf6,#4c1d95','#ec4899,#831843','#06b6d4,#0e7490'];let h=0;for(let i=0;i<s.length;i++)h=s.charCodeAt(i)+((h<<5)-h);return C[Math.abs(h)%C.length];}
 function fmtDate(ts){return new Date(ts).toLocaleDateString('fr-FR',{day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'});}
 function fmtSize(b){return b<1024?b+' o':b<1048576?(b/1024).toFixed(1)+' Ko':(b/1048576).toFixed(1)+' Mo';}
-function fmtNum(n){if(n==null||isNaN(n))return'—';if(Math.abs(n)>=1e6)return(n/1e6).toFixed(1)+'M';if(Math.abs(n)>=1e3)return(n/1e3).toFixed(1)+'k';return n.toLocaleString('fr-FR',{maximumFractionDigits:2});}
-function fmtEur(n){if(n==null||isNaN(n))return'—';if(Math.abs(n)>=1e6)return(n/1e6).toFixed(2)+'M €';if(Math.abs(n)>=1e3)return(n/1e3).toFixed(1)+'k €';return n.toLocaleString('fr-FR',{maximumFractionDigits:2})+' €';}
+function fmtNum(n){if(n==null||isNaN(n))return'—';if(Math.abs(n)>=1e6)return(n/1e6).toFixed(2)+'M';if(Math.abs(n)>=1e3)return(n/1e3).toFixed(1)+'k';return Number(n).toLocaleString('fr-FR',{maximumFractionDigits:2});}
+function fmtEur(n){if(n==null||isNaN(n))return'—';if(Math.abs(n)>=1e6)return(n/1e6).toFixed(2)+'M €';if(Math.abs(n)>=1e3)return(n/1e3).toFixed(1)+'k €';return Number(n).toLocaleString('fr-FR',{maximumFractionDigits:2})+' €';}
+function fmtPct(n){return(Number(n)||0).toFixed(1)+'%';}
 function togglePw(id){const i=document.getElementById(id);i.type=i.type==='password'?'text':'password';}
-
-// Convert Excel serial date to readable string
 function excelDateToStr(v){
   if(!v||v==='')return'—';
   const n=parseFloat(v);
@@ -245,6 +203,8 @@ function excelDateToStr(v){
   }
   return String(v);
 }
+function getCol(row,...names){for(const n of names){if(row[n]!==undefined&&row[n]!=='')return row[n];}return'';}
+function normalizeKeys(arr){return arr.map(row=>{const nr={};Object.keys(row).forEach(k=>{nr[k.trim().toUpperCase().replace(/ /g,'_')]=row[k];});return nr;});}
 
 function toast(msg,type='success'){
   document.querySelectorAll('.toast').forEach(t=>t.remove());
@@ -289,8 +249,7 @@ async function initApp(){
   try{
     if(token&&!currentUser)currentUser=await api('GET','/api/me');
     await Promise.all([loadUsers(),loadFiles(),loadShares()]);
-    renderSidebar();switchView('dashboard');showApp();
-    setInterval(async()=>{await Promise.all([loadFiles(),loadShares()]);},30000);
+    renderSidebar();switchView('inventory');showApp();
   }catch{showLogin();}
 }
 
@@ -313,359 +272,548 @@ function updateBadge(){
   if(c>0){b.textContent=c;b.style.display='inline';}else b.style.display='none';
 }
 
-let currentView='dashboard';
+// ── Views ─────────────────────────────────────────────────────────────────────
+const ALL_VIEWS=['inventory','scrap','export','negstock','cycle','files','inbox','users'];
+let currentView='inventory';
+
 function switchView(v){
   currentView=v;
-  ['dashboard','files','inbox','users'].forEach(x=>{
-    document.getElementById('view'+x.charAt(0).toUpperCase()+x.slice(1)).style.display=x===v?'block':'none';
-    const b=document.getElementById('nav'+x.charAt(0).toUpperCase()+x.slice(1));
-    if(b)b.classList.toggle('active',x===v);
+  ALL_VIEWS.forEach(x=>{
+    const el=document.getElementById('view'+x.charAt(0).toUpperCase()+x.slice(1));
+    if(el)el.style.display=x===v?'block':'none';
+    const btn=document.getElementById('nav'+x.charAt(0).toUpperCase()+x.slice(1));
+    if(btn)btn.classList.toggle('active',x===v);
   });
-  if(v==='dashboard')renderDashboardShell();
+  if(v==='inventory')renderDashShell('inventory','📦 Inventory','renderInventory');
+  else if(v==='scrap')renderDashShell('scrap','🗑️ Scrap','renderScrap');
+  else if(v==='export')renderDashShell('export','🚢 Export / Import','renderExport');
+  else if(v==='negstock')renderDashShell('negstock','📉 Negative Stock','renderNegstock');
+  else if(v==='cycle')renderDashShell('cycle','🔄 Cycle Count','renderCycle');
   else if(v==='files')renderFiles();
   else if(v==='inbox')renderInbox();
   else if(v==='users')renderUsers();
 }
 
-// ── DASHBOARD ─────────────────────────────────────────────────────────────────
-function renderDashboardShell(){
-  const mf=currentUser.role==='admin'?allFiles:[...allFiles.filter(f=>f.ownerId===currentUser.id),...allShares.filter(s=>s.toUserId===currentUser.id).map(s=>allFiles.find(f=>f.id===s.fileId)).filter(Boolean)];
-  const unique=[...new Map(mf.map(f=>[f.id,f])).values()];
-  const sel=document.getElementById('dashFileSelect');
-  const prev=sel.value;
-  sel.innerHTML='<option value="">— Sélectionner un fichier —</option>'+unique.map(f=>`<option value="${f.id}">${f.name}</option>`).join('');
-  if(prev){sel.value=prev;}
-  else if(unique.length>0){sel.value=unique[0].id;loadAndRender(unique[0].id);}
+// ── Generic Dashboard Shell ───────────────────────────────────────────────────
+function getAccessibleFiles(){
+  const owned=allFiles.filter(f=>f.ownerId===currentUser.id);
+  const received=allShares.filter(s=>s.toUserId===currentUser.id).map(s=>allFiles.find(f=>f.id===s.fileId)).filter(Boolean);
+  const all2=currentUser.role==='admin'?allFiles:[...owned,...received];
+  return[...new Map(all2.map(f=>[f.id,f])).values()];
 }
 
-function setTypeFilter(t){
-  typeFilter=t;
-  ['All','RAW','FG'].forEach(x=>document.getElementById('filter'+x)?.classList.remove('active'));
-  document.getElementById('filter'+t)?.classList.add('active');
-  applyFilterAndRender();
+function renderDashShell(view,title,renderFn){
+  const container=document.getElementById('view'+view.charAt(0).toUpperCase()+view.slice(1));
+  const files=getAccessibleFiles();
+  container.innerHTML=`
+    <div class="section-header">
+      <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
+        <h1 style="font-size:18px;font-weight:700;">${title}</h1>
+        <select id="sel_${view}" onchange="loadDash('${view}','${renderFn}',this.value)" style="background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:8px;padding:7px 12px;color:#fff;font-size:12px;min-width:200px;">
+          <option value="">— Sélectionner un fichier —</option>
+          ${files.map(f=>`<option value="${f.id}">${f.name}</option>`).join('')}
+        </select>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px;">
+        <button class="refresh-btn" id="refreshBtn_${view}" onclick="refreshDash('${view}','${renderFn}')" title="Actualiser">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23,4 23,10 17,10"/><polyline points="1,20 1,14 7,14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+        </button>
+        <button class="btn-primary" onclick="document.getElementById('fileInput_${view}').click()">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17,8 12,3 7,8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>Importer
+        </button>
+        <input type="file" id="fileInput_${view}" accept=".xlsx,.xls,.csv" style="display:none;" onchange="uploadAndLoad('${view}','${renderFn}',this)"/>
+      </div>
+    </div>
+    <div id="content_${view}" style="padding:22px;">
+      <div style="text-align:center;padding:80px 0;color:#475569;">
+        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#334155" stroke-width="1.5" style="margin:0 auto 16px;display:block;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/></svg>
+        <p>Importez ou sélectionnez un fichier Excel</p>
+      </div>
+    </div>`;
+  // Auto-load first file
+  if(files.length>0){
+    document.getElementById(`sel_${view}`).value=files[0].id;
+    loadDash(view,renderFn,files[0].id);
+  }
 }
 
-function applyFilterAndRender(){
-  filteredData=typeFilter==='ALL'?rawData:rawData.filter(r=>(r.TYPE||'').toString().toUpperCase()===typeFilter);
-  renderKPIs();
-  renderCharts();
-  renderDataTable();
-}
+// ── Load & Render ─────────────────────────────────────────────────────────────
+const dashData={};
 
-async function loadAndRender(fileId){
-  if(!fileId){document.getElementById('dashContent').innerHTML='';return;}
-  document.getElementById('dashContent').innerHTML=`<div style="text-align:center;padding:60px;color:#64748b;">Chargement des données...</div>`;
+async function loadDash(view,renderFn,fileId){
+  if(!fileId)return;
+  const content=document.getElementById(`content_${view}`);
+  content.innerHTML=`<div style="text-align:center;padding:60px;color:#64748b;"><svg class="spin" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2" style="display:block;margin:0 auto 12px;"><polyline points="23,4 23,10 17,10"/><polyline points="1,20 1,14 7,14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>Chargement...</div>`;
   try{
     const r=await api('GET',`/api/files/${fileId}/download`);
     const buf=await r.arrayBuffer();
     const wb=XLSX.read(buf,{type:'array'});
     const ws=wb.Sheets[wb.SheetNames[0]];
     const json=XLSX.utils.sheet_to_json(ws,{defval:''});
-    // Normalize keys uppercase
-    rawData=json.map(row=>{
-      const nr={};
-      Object.keys(row).forEach(k=>{nr[k.trim().toUpperCase().replace(/ /g,'_')]=row[k];});
-      return nr;
-    });
-    applyFilterAndRender();
-  }catch(e){document.getElementById('dashContent').innerHTML=`<p style="color:#f87171;padding:20px;">Erreur: ${e.message}</p>`;}
+    dashData[view]=normalizeKeys(json);
+    window[renderFn](view);
+  }catch(e){content.innerHTML=`<p style="color:#f87171;padding:24px;">Erreur: ${e.message}</p>`;}
 }
 
-function getCol(row,...names){
-  for(const n of names){if(row[n]!==undefined&&row[n]!=='')return row[n];}
-  return '';
+async function refreshDash(view,renderFn){
+  const btn=document.getElementById(`refreshBtn_${view}`);
+  const svg=btn?.querySelector('svg');
+  if(svg)svg.classList.add('spin');
+  await loadFiles();await loadShares();
+  const selVal=document.getElementById(`sel_${view}`)?.value;
+  if(selVal)await loadDash(view,renderFn,selVal);
+  else if(svg)svg.classList.remove('spin');
+  if(svg)setTimeout(()=>svg.classList.remove('spin'),800);
+  toast('Données actualisées !');
 }
 
-function renderKPIs(){
-  const totalStock=filteredData.reduce((s,r)=>{const v=parseFloat(getCol(r,'STOCK'));return s+(isNaN(v)?0:v);},0);
-  const totalValue=filteredData.reduce((s,r)=>{const v=parseFloat(getCol(r,'VALUE'));return s+(isNaN(v)?0:v);},0);
-  const totalRAW=filteredData.filter(r=>(getCol(r,'TYPE')||'').toString().toUpperCase()==='RAW').reduce((s,r)=>{const v=parseFloat(getCol(r,'VALUE'));return s+(isNaN(v)?0:v);},0);
-  const totalFG=filteredData.filter(r=>(getCol(r,'TYPE')||'').toString().toUpperCase()==='FG').reduce((s,r)=>{const v=parseFloat(getCol(r,'VALUE'));return s+(isNaN(v)?0:v);},0);
-  const avgPrice=filteredData.reduce((s,r)=>{const v=parseFloat(getCol(r,'PRICE_UNIT','PRICE UNIT'));return s+(isNaN(v)?0:v);},0)/(filteredData.length||1);
-  const projects=new Set(filteredData.map(r=>getCol(r,'PROJECT'))).size;
+async function uploadAndLoad(view,renderFn,input){
+  const file=input.files[0];if(!file)return;
+  if(!file.name.match(/\.(xlsx|xls|csv)$/i)){toast('Seuls xlsx, xls, csv acceptés','error');return;}
+  try{
+    const fd=new FormData();fd.append('file',file);
+    const nf=await api('POST','/api/files',fd,true);
+    allFiles.push(nf);
+    const sel=document.getElementById(`sel_${view}`);
+    sel.innerHTML+=`<option value="${nf.id}">${nf.name}</option>`;
+    sel.value=nf.id;
+    await loadDash(view,renderFn,nf.id);
+    toast(`"${file.name}" importé !`);
+  }catch(e){toast(e.message,'error');}
+  input.value='';
+}
 
-  document.getElementById('dashContent').innerHTML=`
-    <!-- KPIs -->
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-bottom:24px;" id="kpiGrid">
-      ${[
-        {label:'Total Value',val:fmtEur(totalValue),sub:'Valeur totale stock',color:'#3b82f6',icon:'M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z'},
-        {label:'Value RAW',val:fmtEur(totalRAW),sub:'Matières premières',color:'#f59e0b',icon:'M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z'},
-        {label:'Value FG',val:fmtEur(totalFG),sub:'Produits finis',color:'#10b981',icon:'M22 11.08V12a10 10 0 1 1-5.93-9.14'},
-        {label:'Total Stock',val:fmtNum(totalStock),sub:'Unités en stock',color:'#8b5cf6',icon:'M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z'},
-        {label:'Prix Moyen',val:fmtEur(avgPrice),sub:'Prix unitaire moyen',color:'#06b6d4',icon:'M12 1v22M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6'},
-        {label:'Projets',val:projects,sub:'Projets actifs',color:'#ec4899',icon:'M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2'},
-      ].map(k=>`
-        <div class="kpi-card">
-          <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;">
-            <div style="color:#64748b;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;">${k.label}</div>
-            <div style="width:32px;height:32px;border-radius:8px;background:${k.color}22;display:flex;align-items:center;justify-content:center;">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="${k.color}" stroke-width="2"><path d="${k.icon}"/></svg>
-            </div>
-          </div>
-          <div style="color:#fff;font-size:22px;font-weight:700;margin-bottom:3px;">${k.val}</div>
-          <div style="color:#475569;font-size:11px;">${k.sub}</div>
-        </div>`).join('')}
-    </div>
+function destroyCharts(...ids){ids.forEach(id=>{if(charts[id]){charts[id].destroy();delete charts[id];}});}
 
-    <!-- Charts row 1 -->
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;">
-      <div class="chart-card">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
-          <h3 style="color:#e2e8f0;font-size:13px;font-weight:600;">📊 VALUE PAR PROJECT</h3>
-          <span style="color:#475569;font-size:11px;" id="chartProjectCount"></span>
-        </div>
-        <div style="height:260px;"><canvas id="chartProject"></canvas></div>
-      </div>
-      <div class="chart-card">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
-          <h3 style="color:#e2e8f0;font-size:13px;font-weight:600;">📈 ÉVOLUTION PAR SEMAINE</h3>
-        </div>
-        <div style="height:260px;"><canvas id="chartWeek"></canvas></div>
-      </div>
-    </div>
+function makeChart(id,config){
+  destroyCharts(id);
+  const ctx=document.getElementById(id)?.getContext('2d');
+  if(ctx)charts[id]=new Chart(ctx,config);
+}
 
-    <!-- Charts row 2 -->
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;">
-      <div class="chart-card">
-        <div style="margin-bottom:16px;"><h3 style="color:#e2e8f0;font-size:13px;font-weight:600;">🥧 RÉPARTITION PAR TYPE</h3></div>
-        <div style="height:220px;"><canvas id="chartType"></canvas></div>
-      </div>
-      <div class="chart-card">
-        <div style="margin-bottom:16px;"><h3 style="color:#e2e8f0;font-size:13px;font-weight:600;">🏆 TOP 10 MATÉRIAUX (STOCK)</h3></div>
-        <div style="height:220px;"><canvas id="chartTop10"></canvas></div>
-      </div>
-    </div>
-
-    <!-- Data Table -->
-    <div class="chart-card" id="dataTableSection">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;flex-wrap:wrap;gap:8px;">
-        <h3 style="color:#e2e8f0;font-size:13px;font-weight:600;">🗂️ DONNÉES BRUTES</h3>
-        <div style="display:flex;gap:8px;align-items:center;">
-          <input id="searchTable" type="text" placeholder="Rechercher..." style="background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:8px;padding:6px 12px;color:#fff;font-size:12px;width:180px;" oninput="filterTable(this.value)"/>
-          <span id="tableCount" style="color:#64748b;font-size:12px;"></span>
+// ── KPI Row ───────────────────────────────────────────────────────────────────
+function kpiHTML(items){
+  return`<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-bottom:20px;">${
+    items.map(k=>`<div class="kpi-card">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px;">
+        <div style="color:#64748b;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;">${k.label}</div>
+        <div style="width:28px;height:28px;border-radius:7px;background:${k.color}22;display:flex;align-items:center;justify-content:center;">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="${k.color}" stroke-width="2"><path d="${k.icon}"/></svg>
         </div>
       </div>
-      <div style="overflow:auto;max-height:400px;border-radius:10px;border:1px solid rgba(255,255,255,.06);">
-        <table class="data-table" id="mainTable"><thead></thead><tbody></tbody></table>
-      </div>
-    </div>`;
-
-  renderCharts();
-  renderDataTable();
+      <div style="color:#fff;font-size:20px;font-weight:700;margin-bottom:2px;">${k.val}</div>
+      <div style="color:#475569;font-size:11px;">${k.sub||''}</div>
+    </div>`).join('')
+  }</div>`;
 }
 
-const CHART_COLORS=['#3b82f6','#10b981','#f59e0b','#8b5cf6','#ec4899','#06b6d4','#ef4444','#84cc16','#f97316','#a855f7','#14b8a6','#eab308'];
-
-function destroyChart(id){if(charts[id]){charts[id].destroy();delete charts[id];}}
-
-function renderCharts(){
-  // Chart 1: Value by Project
-  destroyChart('project');
-  const projMap={};
-  filteredData.forEach(r=>{
-    const p=String(getCol(r,'PROJECT')||'Inconnu');
-    const v=parseFloat(getCol(r,'VALUE'))||0;
-    projMap[p]=(projMap[p]||0)+v;
-  });
-  const projSorted=Object.entries(projMap).sort((a,b)=>b[1]-a[1]).slice(0,15);
-  document.getElementById('chartProjectCount').textContent=`${Object.keys(projMap).length} projets`;
-  const ctx1=document.getElementById('chartProject')?.getContext('2d');
-  if(ctx1){
-    charts['project']=new Chart(ctx1,{
-      type:'bar',
-      data:{labels:projSorted.map(p=>p[0]),datasets:[{data:projSorted.map(p=>p[1]),backgroundColor:CHART_COLORS,borderRadius:4,borderSkipped:false}]},
-      options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>fmtEur(c.raw)}}},scales:{x:{ticks:{color:'#64748b',font:{size:9},maxRotation:45},grid:{color:'rgba(255,255,255,.04)'}},y:{ticks:{color:'#64748b',font:{size:10},callback:v=>fmtEur(v)},grid:{color:'rgba(255,255,255,.06)'}}}}
-    });
-  }
-
-  // Chart 2: Value by Week
-  destroyChart('week');
-  const weekMap={};
-  filteredData.forEach(r=>{
-    const w=String(getCol(r,'WEEK')||'?');
-    const v=parseFloat(getCol(r,'VALUE'))||0;
-    weekMap[w]=(weekMap[w]||0)+v;
-  });
-  const weekSorted=Object.entries(weekMap).sort((a,b)=>parseFloat(a[0])-parseFloat(b[0]));
-  const ctx2=document.getElementById('chartWeek')?.getContext('2d');
-  if(ctx2){
-    charts['week']=new Chart(ctx2,{
-      type:'line',
-      data:{labels:weekSorted.map(w=>'W'+w[0]),datasets:[{data:weekSorted.map(w=>w[1]),borderColor:'#3b82f6',backgroundColor:'rgba(59,130,246,.1)',fill:true,tension:.4,pointRadius:3,pointBackgroundColor:'#3b82f6'}]},
-      options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>fmtEur(c.raw)}}},scales:{x:{ticks:{color:'#64748b',font:{size:10}},grid:{color:'rgba(255,255,255,.04)'}},y:{ticks:{color:'#64748b',font:{size:10},callback:v=>fmtEur(v)},grid:{color:'rgba(255,255,255,.06)'}}}}
-    });
-  }
-
-  // Chart 3: Donut by Type
-  destroyChart('type');
-  const typeMap={};
-  filteredData.forEach(r=>{const t=String(getCol(r,'TYPE')||'Autre').toUpperCase();typeMap[t]=(typeMap[t]||0)+(parseFloat(getCol(r,'VALUE'))||0);});
-  const ctx3=document.getElementById('chartType')?.getContext('2d');
-  if(ctx3){
-    charts['type']=new Chart(ctx3,{
-      type:'doughnut',
-      data:{labels:Object.keys(typeMap),datasets:[{data:Object.values(typeMap),backgroundColor:CHART_COLORS,borderWidth:2,borderColor:'#0f1117'}]},
-      options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{color:'#94a3b8',font:{size:11},padding:12}},tooltip:{callbacks:{label:c=>`${c.label}: ${fmtEur(c.raw)}`}}}}
-    });
-  }
-
-  // Chart 4: Top 10 Materials by Stock
-  destroyChart('top10');
-  const matMap={};
-  filteredData.forEach(r=>{const m=String(getCol(r,'MATERIAL')||'?');const s=parseFloat(getCol(r,'STOCK'))||0;matMap[m]=(matMap[m]||0)+s;});
-  const top10=Object.entries(matMap).sort((a,b)=>b[1]-a[1]).slice(0,10);
-  const ctx4=document.getElementById('chartTop10')?.getContext('2d');
-  if(ctx4){
-    charts['top10']=new Chart(ctx4,{
-      type:'bar',
-      data:{labels:top10.map(m=>m[0].length>12?m[0].slice(0,12)+'…':m[0]),datasets:[{data:top10.map(m=>m[1]),backgroundColor:CHART_COLORS,borderRadius:4}]},
-      options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>fmtNum(c.raw)+' unités'}}},scales:{x:{ticks:{color:'#64748b',font:{size:10},callback:v=>fmtNum(v)},grid:{color:'rgba(255,255,255,.06)'}},y:{ticks:{color:'#94a3b8',font:{size:10}},grid:{display:false}}}}
-    });
-  }
+function chartCard(title,canvasId,height=240){
+  return`<div class="chart-card"><div style="margin-bottom:12px;"><h3 style="color:#e2e8f0;font-size:12px;font-weight:600;">${title}</h3></div><div style="height:${height}px;"><canvas id="${canvasId}"></canvas></div></div>`;
 }
 
-let tableSearchVal='';
-function filterTable(val){tableSearchVal=val;renderDataTable();}
+function tableSection(id,headers,rows,title='🗂️ DONNÉES'){
+  const dayKeys=headers.filter(h=>h.includes('DATE')||h.includes('DAY')||h.includes('POSTING')||h.includes('TRAITEMENT')||h.includes('CRFF'));
+  const numKeys=headers.filter(h=>h.includes('VALUE')||h.includes('AMOUNT')||h.includes('PRIX')||h.includes('PRICE')||h.includes('STOCK'));
+  return`<div class="chart-card" style="margin-top:16px;">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;flex-wrap:wrap;gap:8px;">
+      <h3 style="color:#e2e8f0;font-size:12px;font-weight:600;">${title} — ${rows.length} lignes</h3>
+      <input type="text" placeholder="Rechercher..." oninput="filterTableById('${id}',this.value,${JSON.stringify(headers)},${JSON.stringify(rows.slice(0,500))})" style="background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:8px;padding:5px 10px;color:#fff;font-size:12px;width:160px;"/>
+    </div>
+    <div style="overflow:auto;max-height:360px;border-radius:10px;border:1px solid rgba(255,255,255,.06);">
+      <table class="data-table" id="${id}">
+        <thead><tr>${headers.map(h=>`<th>${h}</th>`).join('')}</tr></thead>
+        <tbody>${rows.slice(0,300).map(row=>`<tr>${headers.map(h=>{
+          let v=row[h]??'';
+          if(dayKeys.includes(h))v=excelDateToStr(v);
+          else if(numKeys.includes(h)){const n=parseFloat(v);if(!isNaN(n))v=n.toLocaleString('fr-FR',{maximumFractionDigits:2});}
+          return`<td>${v}</td>`;
+        }).join('')}</tr>`).join('')}</tbody>
+      </table>
+    </div>
+    ${rows.length>300?`<p style="color:#475569;font-size:11px;margin-top:6px;text-align:center;">Affichage limité à 300 lignes sur ${rows.length}</p>`:''}
+  </div>`;
+}
 
-function renderDataTable(){
-  if(!filteredData.length)return;
-  const headers=Object.keys(filteredData[0]);
-  const searched=tableSearchVal?filteredData.filter(r=>Object.values(r).some(v=>String(v).toLowerCase().includes(tableSearchVal.toLowerCase()))):filteredData;
-  const display=searched.slice(0,300);
-  const table=document.getElementById('mainTable');
-  if(!table)return;
-  // DAY columns to detect
-  const dayKeys=headers.filter(h=>h.includes('DAY')||h.includes('DATE'));
-  const priceKeys=headers.filter(h=>h.includes('PRICE')||h.includes('VALUE'));
-  table.querySelector('thead').innerHTML=`<tr>${headers.map(h=>`<th>${h}</th>`).join('')}</tr>`;
-  table.querySelector('tbody').innerHTML=display.map(row=>`<tr>${headers.map(h=>{
-    let v=row[h];
-    if(dayKeys.includes(h)){v=excelDateToStr(v);}
-    else if(priceKeys.includes(h)){const n=parseFloat(v);v=isNaN(n)?v:n.toLocaleString('fr-FR',{maximumFractionDigits:2});}
-    return`<td>${v??''}</td>`;
+function filterTableById(id,val,headers,rows){
+  const filtered=val?rows.filter(r=>Object.values(r).some(v=>String(v).toLowerCase().includes(val.toLowerCase()))):rows;
+  const tbody=document.getElementById(id)?.querySelector('tbody');
+  if(!tbody)return;
+  const dayKeys=headers.filter(h=>h.includes('DATE')||h.includes('DAY')||h.includes('POSTING')||h.includes('TRAITEMENT')||h.includes('CRFF'));
+  const numKeys=headers.filter(h=>h.includes('VALUE')||h.includes('AMOUNT')||h.includes('PRIX')||h.includes('PRICE')||h.includes('STOCK'));
+  tbody.innerHTML=filtered.slice(0,300).map(row=>`<tr>${headers.map(h=>{
+    let v=row[h]??'';
+    if(dayKeys.includes(h))v=excelDateToStr(v);
+    else if(numKeys.includes(h)){const n=parseFloat(v);if(!isNaN(n))v=n.toLocaleString('fr-FR',{maximumFractionDigits:2});}
+    return`<td>${v}</td>`;
   }).join('')}</tr>`).join('');
-  const cnt=document.getElementById('tableCount');
-  if(cnt)cnt.textContent=`${searched.length} lignes${searched.length>300?' (300 affichées)':''}`;
+}
+
+// ── INVENTORY ─────────────────────────────────────────────────────────────────
+function renderInventory(view){
+  const data=dashData[view]||[];
+  const content=document.getElementById(`content_${view}`);
+  const totalVal=data.reduce((s,r)=>{const v=parseFloat(getCol(r,'VALUE'));return s+(isNaN(v)?0:v);},0);
+  const totalStock=data.reduce((s,r)=>{const v=parseFloat(getCol(r,'STOCK'));return s+(isNaN(v)?0:v);},0);
+  const totalRAW=data.filter(r=>(getCol(r,'TYPE')||'').toString().toUpperCase()==='RAW').reduce((s,r)=>{const v=parseFloat(getCol(r,'VALUE'));return s+(isNaN(v)?0:v);},0);
+  const totalFG=data.filter(r=>(getCol(r,'TYPE')||'').toString().toUpperCase()==='FG').reduce((s,r)=>{const v=parseFloat(getCol(r,'VALUE'));return s+(isNaN(v)?0:v);},0);
+  const projects=new Set(data.map(r=>getCol(r,'PROJECT'))).size;
+  const avgPrice=data.reduce((s,r)=>{const v=parseFloat(getCol(r,'PRICE_UNIT','PRICE UNIT'));return s+(isNaN(v)?0:v);},0)/(data.length||1);
+
+  content.innerHTML=
+    kpiHTML([
+      {label:'Total Value',val:fmtEur(totalVal),color:'#3b82f6',icon:'M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z',sub:'Valeur totale'},
+      {label:'Value RAW',val:fmtEur(totalRAW),color:'#f59e0b',icon:'M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z',sub:'Matières premières'},
+      {label:'Value FG',val:fmtEur(totalFG),color:'#10b981',icon:'M22 11.08V12a10 10 0 1 1-5.93-9.14',sub:'Produits finis'},
+      {label:'Total Stock',val:fmtNum(totalStock),color:'#8b5cf6',icon:'M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z',sub:'Unités'},
+      {label:'Prix Moyen',val:fmtEur(avgPrice),color:'#06b6d4',icon:'M12 1v22M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6',sub:'Unitaire'},
+      {label:'Projets',val:projects,color:'#ec4899',icon:'M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2',sub:'Actifs'},
+    ])+
+    `<div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;">
+      ${chartCard('📊 VALUE PAR PROJECT','inv_proj')}
+      ${chartCard('📈 ÉVOLUTION PAR SEMAINE','inv_week')}
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;">
+      ${chartCard('🥧 FG vs RAW','inv_type',200)}
+      ${chartCard('🏆 TOP 10 MATÉRIAUX','inv_top',200)}
+    </div>`+
+    tableSection('inv_table',Object.keys(data[0]||{}),data,'🗂️ DONNÉES INVENTORY');
+
+  // Charts
+  const projMap={};data.forEach(r=>{const p=String(getCol(r,'PROJECT')||'?');const v=parseFloat(getCol(r,'VALUE'))||0;projMap[p]=(projMap[p]||0)+v;});
+  const projS=Object.entries(projMap).sort((a,b)=>b[1]-a[1]).slice(0,12);
+  makeChart('inv_proj',{type:'bar',data:{labels:projS.map(p=>p[0]),datasets:[{data:projS.map(p=>p[1]),backgroundColor:COLORS,borderRadius:4}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>fmtEur(c.raw)}}},scales:{x:{ticks:{color:'#64748b',font:{size:9},maxRotation:45},grid:{color:'rgba(255,255,255,.04)'}},y:{ticks:{color:'#64748b',font:{size:9},callback:v=>fmtEur(v)},grid:{color:'rgba(255,255,255,.05)'}}}}});
+
+  const weekMap={};data.forEach(r=>{const w='W'+String(getCol(r,'WEEK')||'?');const v=parseFloat(getCol(r,'VALUE'))||0;weekMap[w]=(weekMap[w]||0)+v;});
+  const weekS=Object.entries(weekMap).sort((a,b)=>a[0].localeCompare(b[0]));
+  makeChart('inv_week',{type:'line',data:{labels:weekS.map(w=>w[0]),datasets:[{data:weekS.map(w=>w[1]),borderColor:'#3b82f6',backgroundColor:'rgba(59,130,246,.1)',fill:true,tension:.4,pointRadius:3}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>fmtEur(c.raw)}}},scales:{x:{ticks:{color:'#64748b',font:{size:9}},grid:{color:'rgba(255,255,255,.04)'}},y:{ticks:{color:'#64748b',font:{size:9},callback:v=>fmtEur(v)},grid:{color:'rgba(255,255,255,.05)'}}}}});
+
+  const typeMap={};data.forEach(r=>{const t=String(getCol(r,'TYPE')||'Autre').toUpperCase();typeMap[t]=(typeMap[t]||0)+(parseFloat(getCol(r,'VALUE'))||0);});
+  makeChart('inv_type',{type:'doughnut',data:{labels:Object.keys(typeMap),datasets:[{data:Object.values(typeMap),backgroundColor:COLORS,borderWidth:2,borderColor:'#0f1117'}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{color:'#94a3b8',font:{size:11},padding:10}},tooltip:{callbacks:{label:c=>`${c.label}: ${fmtEur(c.raw)}`}}}}});
+
+  const matMap={};data.forEach(r=>{const m=String(getCol(r,'MATERIAL')||'?');const s=parseFloat(getCol(r,'STOCK'))||0;matMap[m]=(matMap[m]||0)+s;});
+  const top10=Object.entries(matMap).sort((a,b)=>b[1]-a[1]).slice(0,10);
+  makeChart('inv_top',{type:'bar',data:{labels:top10.map(m=>m[0].length>14?m[0].slice(0,14)+'…':m[0]),datasets:[{data:top10.map(m=>m[1]),backgroundColor:COLORS,borderRadius:4}]},options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>fmtNum(c.raw)+' u'}}},scales:{x:{ticks:{color:'#64748b',font:{size:9},callback:v=>fmtNum(v)},grid:{color:'rgba(255,255,255,.05)'}},y:{ticks:{color:'#94a3b8',font:{size:9}},grid:{display:false}}}}});
+}
+
+// ── SCRAP ─────────────────────────────────────────────────────────────────────
+function renderScrap(view){
+  const data=dashData[view]||[];
+  const content=document.getElementById(`content_${view}`);
+  const amtKey='AMOUNT_IN_EUR';
+  const totalScrap=data.reduce((s,r)=>{const v=parseFloat(getCol(r,amtKey,'AMOUNT_IN_LOCAL_CURRENCY'));return s+(isNaN(v)?0:v);},0);
+  const types=new Set(data.map(r=>getCol(r,'TYPE'))).size;
+  const areas=new Set(data.map(r=>getCol(r,'AREA'))).size;
+  const weeks=new Set(data.map(r=>getCol(r,'WEEK'))).size;
+
+  content.innerHTML=
+    kpiHTML([
+      {label:'Total Scrap',val:fmtEur(totalScrap),color:'#ef4444',icon:'M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6',sub:'Valeur totale scrap'},
+      {label:'Types',val:types,color:'#f59e0b',icon:'M4 6h16M4 10h16M4 14h16M4 18h16',sub:'Catégories'},
+      {label:'Zones',val:areas,color:'#8b5cf6',icon:'M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z',sub:'AREA'},
+      {label:'Semaines',val:weeks,color:'#06b6d4',icon:'M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2z',sub:'Couverture'},
+      {label:'Lignes',val:data.length,color:'#10b981',icon:'M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2',sub:'Entrées'},
+    ])+
+    `<div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;">
+      ${chartCard('📊 SCRAP PAR TYPE','scrap_type')}
+      ${chartCard('📈 VALUE / SEMAINE','scrap_week')}
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;">
+      ${chartCard('🏭 SCRAP PAR AREA','scrap_area',200)}
+      ${chartCard('📉 PARETO PAR TYPE','scrap_pareto',200)}
+    </div>`+
+    tableSection('scrap_table',Object.keys(data[0]||{}),data,'🗂️ DONNÉES SCRAP');
+
+  // Type chart
+  const typeMap={};data.forEach(r=>{const t=String(getCol(r,'TYPE')||'Autre');const v=parseFloat(getCol(r,amtKey,'AMOUNT_IN_LOCAL_CURRENCY'))||0;typeMap[t]=(typeMap[t]||0)+v;});
+  const typeS=Object.entries(typeMap).sort((a,b)=>b[1]-a[1]);
+  makeChart('scrap_type',{type:'bar',data:{labels:typeS.map(t=>t[0]),datasets:[{data:typeS.map(t=>t[1]),backgroundColor:COLORS,borderRadius:4}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>fmtEur(c.raw)}}},scales:{x:{ticks:{color:'#64748b',font:{size:9},maxRotation:45},grid:{color:'rgba(255,255,255,.04)'}},y:{ticks:{color:'#64748b',font:{size:9},callback:v=>fmtEur(v)},grid:{color:'rgba(255,255,255,.05)'}}}}});
+
+  // Week chart
+  const weekMap={};data.forEach(r=>{const w='W'+String(getCol(r,'WEEK')||'?');const v=parseFloat(getCol(r,amtKey,'AMOUNT_IN_LOCAL_CURRENCY'))||0;weekMap[w]=(weekMap[w]||0)+v;});
+  const weekS=Object.entries(weekMap).sort((a,b)=>a[0].localeCompare(b[0]));
+  makeChart('scrap_week',{type:'bar',data:{labels:weekS.map(w=>w[0]),datasets:[{data:weekS.map(w=>w[1]),backgroundColor:'#ef4444',borderRadius:4}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>fmtEur(c.raw)}}},scales:{x:{ticks:{color:'#64748b',font:{size:9}},grid:{color:'rgba(255,255,255,.04)'}},y:{ticks:{color:'#64748b',font:{size:9},callback:v=>fmtEur(v)},grid:{color:'rgba(255,255,255,.05)'}}}}});
+
+  // Area chart
+  const areaMap={};data.forEach(r=>{const a=String(getCol(r,'AREA')||'?');const v=parseFloat(getCol(r,amtKey,'AMOUNT_IN_LOCAL_CURRENCY'))||0;areaMap[a]=(areaMap[a]||0)+v;});
+  const areaS=Object.entries(areaMap).sort((a,b)=>b[1]-a[1]);
+  makeChart('scrap_area',{type:'doughnut',data:{labels:areaS.map(a=>a[0]),datasets:[{data:areaS.map(a=>a[1]),backgroundColor:COLORS,borderWidth:2,borderColor:'#0f1117'}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{color:'#94a3b8',font:{size:10},padding:8}},tooltip:{callbacks:{label:c=>`${c.label}: ${fmtEur(c.raw)}`}}}}});
+
+  // Pareto
+  const paretoS=[...typeS].sort((a,b)=>b[1]-a[1]);
+  const total=paretoS.reduce((s,p)=>s+p[1],0);
+  let cum=0;const cumPct=paretoS.map(p=>{cum+=p[1];return(cum/total*100);});
+  makeChart('scrap_pareto',{type:'bar',data:{labels:paretoS.map(p=>p[0].length>12?p[0].slice(0,12)+'…':p[0]),datasets:[{type:'bar',data:paretoS.map(p=>p[1]),backgroundColor:'#3b82f6',borderRadius:3,yAxisID:'y'},{type:'line',data:cumPct,borderColor:'#f59e0b',borderWidth:2,pointRadius:3,yAxisID:'y1',tension:.3}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>c.datasetIndex===0?fmtEur(c.raw):fmtPct(c.raw)}}},scales:{x:{ticks:{color:'#64748b',font:{size:9},maxRotation:30},grid:{display:false}},y:{ticks:{color:'#64748b',font:{size:9},callback:v=>fmtEur(v)},grid:{color:'rgba(255,255,255,.05)'}},y1:{position:'right',min:0,max:100,ticks:{color:'#f59e0b',font:{size:9},callback:v=>v+'%'},grid:{display:false}}}}});
+}
+
+// ── EXPORT / IMPORT ───────────────────────────────────────────────────────────
+function renderExport(view){
+  const data=dashData[view]||[];
+  const content=document.getElementById(`content_${view}`);
+  const totalVal=data.reduce((s,r)=>{const v=parseFloat(getCol(r,'VALUE'));return s+(isNaN(v)?0:v);},0);
+  const payers=new Set(data.map(r=>getCol(r,'PAYER'))).size;
+  const avgFill=data.reduce((s,r)=>{const v=parseFloat(getCol(r,'NIVEAU_DE_REMPLISSAGE_DES_EXPORTS','NIVEAU_REMPLISSAGE'));return s+(isNaN(v)?0:v);},0)/(data.length||1);
+  const tracks=new Set(data.map(r=>getCol(r,'TRACK'))).size;
+
+  content.innerHTML=
+    kpiHTML([
+      {label:'Total Value',val:fmtEur(totalVal),color:'#3b82f6',icon:'M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z',sub:'Valeur shipments'},
+      {label:'Clients',val:payers,color:'#10b981',icon:'M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2',sub:'Payers'},
+      {label:'Remplissage Moy.',val:fmtPct(avgFill*100),color:'#f59e0b',icon:'M22 11.08V12a10 10 0 1 1-5.93-9.14',sub:'Taux moyen'},
+      {label:'Tracks',val:tracks,color:'#8b5cf6',icon:'M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01',sub:'Lignes transport'},
+      {label:'Lignes',val:data.length,color:'#06b6d4',icon:'M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2',sub:'Entrées'},
+    ])+
+    `<div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;">
+      ${chartCard('📊 VALUE PAR CLIENT (PAYER)','exp_payer')}
+      ${chartCard('🥧 VENTES PAR MOIS','exp_month',240)}
+    </div>
+    <div style="display:grid;grid-template-columns:1fr;gap:14px;margin-bottom:14px;">
+      ${chartCard('📈 TAUX DE REMPLISSAGE PAR SEMAINE (%)','exp_fill',220)}
+    </div>`+
+    tableSection('exp_table',Object.keys(data[0]||{}),data,'🗂️ DONNÉES EXPORT/IMPORT');
+
+  // Payer chart
+  const payerMap={};data.forEach(r=>{const p=String(getCol(r,'PAYER')||'?');const v=parseFloat(getCol(r,'VALUE'))||0;payerMap[p]=(payerMap[p]||0)+v;});
+  const payerS=Object.entries(payerMap).sort((a,b)=>b[1]-a[1]).slice(0,10);
+  makeChart('exp_payer',{type:'bar',data:{labels:payerS.map(p=>p[0].length>18?p[0].slice(0,18)+'…':p[0]),datasets:[{data:payerS.map(p=>p[1]),backgroundColor:COLORS,borderRadius:4}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>fmtEur(c.raw)}}},scales:{x:{ticks:{color:'#64748b',font:{size:9},maxRotation:30},grid:{color:'rgba(255,255,255,.04)'}},y:{ticks:{color:'#64748b',font:{size:9},callback:v=>fmtEur(v)},grid:{color:'rgba(255,255,255,.05)'}}}}});
+
+  // Month donut
+  const monthMap={};data.forEach(r=>{const m='M'+String(getCol(r,'MONTH')||'?');const v=parseFloat(getCol(r,'VALUE'))||0;monthMap[m]=(monthMap[m]||0)+v;});
+  makeChart('exp_month',{type:'doughnut',data:{labels:Object.keys(monthMap),datasets:[{data:Object.values(monthMap),backgroundColor:COLORS,borderWidth:2,borderColor:'#0f1117'}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'right',labels:{color:'#94a3b8',font:{size:10},padding:8}},tooltip:{callbacks:{label:c=>`${c.label}: ${fmtEur(c.raw)}`}}}}});
+
+  // Fill rate by week
+  const fillMap={};const fillCnt={};
+  data.forEach(r=>{
+    const w=String(getCol(r,'SEMAINE')||getCol(r,'WEEK')||'?');
+    const v=parseFloat(getCol(r,'NIVEAU_DE_REMPLISSAGE_DES_EXPORTS','NIVEAU_REMPLISSAGE'))||0;
+    fillMap[w]=(fillMap[w]||0)+v;fillCnt[w]=(fillCnt[w]||0)+1;
+  });
+  const fillS=Object.entries(fillMap).sort((a,b)=>a[0].localeCompare(b[0]));
+  makeChart('exp_fill',{type:'bar',data:{labels:fillS.map(f=>f[0]),datasets:[{data:fillS.map(f=>(f[1]/fillCnt[f[0]]*100).toFixed(1)),backgroundColor:fillS.map(f=>(f[1]/fillCnt[f[0]])>=0.95?'#10b981':'#f59e0b'),borderRadius:4}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>c.raw+'%'}}},scales:{x:{ticks:{color:'#64748b',font:{size:9}},grid:{color:'rgba(255,255,255,.04)'}},y:{min:0,max:100,ticks:{color:'#64748b',font:{size:9},callback:v=>v+'%'},grid:{color:'rgba(255,255,255,.05)'}}}}});
+}
+
+// ── NEGATIVE STOCK ────────────────────────────────────────────────────────────
+function renderNegstock(view){
+  const data=dashData[view]||[];
+  const content=document.getElementById(`content_${view}`);
+  const totalVal=data.reduce((s,r)=>{const v=parseFloat(getCol(r,'VALUE'));return s+(isNaN(v)?0:v);},0);
+  const totalOK=data.filter(r=>String(getCol(r,'STATUT','STATUS')||'').toUpperCase()==='OK').length;
+  const totalNOK=data.filter(r=>String(getCol(r,'STATUT','STATUS')||'').toUpperCase()==='NOK').length;
+  const projects=new Set(data.map(r=>getCol(r,'PROJECTS','PROJECT'))).size;
+
+  content.innerHTML=
+    kpiHTML([
+      {label:'Total',val:data.length,color:'#3b82f6',icon:'M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2',sub:'Entrées totales'},
+      {label:'Traité (OK)',val:totalOK,color:'#10b981',icon:'M22 11.08V12a10 10 0 1 1-5.93-9.14',sub:'Statut OK'},
+      {label:'Non Traité',val:totalNOK,color:'#ef4444',icon:'M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 1 1-18 0 9 9 0 0 1 18 0z',sub:'Statut NOK'},
+      {label:'Taux Traité',val:fmtPct(data.length>0?totalOK/data.length*100:0),color:'#f59e0b',icon:'M22 11.08V12a10 10 0 1 1-5.93-9.14',sub:'% traitement'},
+      {label:'Total Value',val:fmtEur(totalVal),color:'#8b5cf6',icon:'M12 1v22M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6',sub:'Valeur stock négatif'},
+      {label:'Projets',val:projects,color:'#06b6d4',icon:'M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2',sub:'Projets affectés'},
+    ])+
+    `<div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;">
+      ${chartCard('📊 STATUT DE TRAITEMENT PAR DATE','neg_date')}
+      ${chartCard('📈 VALUE PAR PROJECT','neg_proj')}
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;">
+      ${chartCard('🥧 OK vs NOK','neg_status',200)}
+      ${chartCard('📅 TRAITEMENT PAR SEMAINE','neg_week',200)}
+    </div>`+
+    tableSection('neg_table',Object.keys(data[0]||{}),data,'🗂️ DONNÉES NEGATIVE STOCK');
+
+  // Date chart
+  const dateMap={ok:{},nok:{}};
+  data.forEach(r=>{
+    const d=excelDateToStr(getCol(r,'DATE_DE_TRAITEMENT','DATE'));
+    const s=String(getCol(r,'STATUT','STATUS')||'').toUpperCase();
+    if(s==='OK'){dateMap.ok[d]=(dateMap.ok[d]||0)+1;}
+    else{dateMap.nok[d]=(dateMap.nok[d]||0)+1;}
+  });
+  const allDates=[...new Set([...Object.keys(dateMap.ok),...Object.keys(dateMap.nok)])].sort();
+  makeChart('neg_date',{type:'bar',data:{labels:allDates,datasets:[{label:'OK',data:allDates.map(d=>dateMap.ok[d]||0),backgroundColor:'#10b981',borderRadius:3},{label:'NOK',data:allDates.map(d=>dateMap.nok[d]||0),backgroundColor:'#ef4444',borderRadius:3}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'top',labels:{color:'#94a3b8',font:{size:10}}}},scales:{x:{ticks:{color:'#64748b',font:{size:9},maxRotation:30},grid:{color:'rgba(255,255,255,.04)'}},y:{ticks:{color:'#64748b',font:{size:9}},grid:{color:'rgba(255,255,255,.05)'}}}}});
+
+  // Project value
+  const projMap={};data.forEach(r=>{const p=String(getCol(r,'PROJECTS','PROJECT')||'?');const v=parseFloat(getCol(r,'VALUE'))||0;projMap[p]=(projMap[p]||0)+v;});
+  const projS=Object.entries(projMap).sort((a,b)=>b[1]-a[1]).slice(0,12);
+  makeChart('neg_proj',{type:'bar',data:{labels:projS.map(p=>p[0].length>14?p[0].slice(0,14)+'…':p[0]),datasets:[{data:projS.map(p=>p[1]),backgroundColor:COLORS,borderRadius:4}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>fmtEur(c.raw)}}},scales:{x:{ticks:{color:'#64748b',font:{size:9},maxRotation:45},grid:{color:'rgba(255,255,255,.04)'}},y:{ticks:{color:'#64748b',font:{size:9},callback:v=>fmtEur(v)},grid:{color:'rgba(255,255,255,.05)'}}}}});
+
+  // Status donut
+  makeChart('neg_status',{type:'doughnut',data:{labels:['OK','NOK'],datasets:[{data:[totalOK,totalNOK],backgroundColor:['#10b981','#ef4444'],borderWidth:3,borderColor:'#0f1117'}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{color:'#94a3b8',font:{size:12},padding:12}},tooltip:{callbacks:{label:c=>`${c.label}: ${c.raw} (${fmtPct(c.raw/data.length*100)})`}}}}});
+
+  // Week chart
+  const weekMap={};data.forEach(r=>{const w='W'+String(getCol(r,'WEEK')||'?');weekMap[w]=(weekMap[w]||0)+1;});
+  const weekS=Object.entries(weekMap).sort((a,b)=>a[0].localeCompare(b[0]));
+  makeChart('neg_week',{type:'bar',data:{labels:weekS.map(w=>w[0]),datasets:[{data:weekS.map(w=>w[1]),backgroundColor:'#8b5cf6',borderRadius:4}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{ticks:{color:'#64748b',font:{size:9}},grid:{color:'rgba(255,255,255,.04)'}},y:{ticks:{color:'#64748b',font:{size:9}},grid:{color:'rgba(255,255,255,.05)'}}}}});
+}
+
+// ── CYCLE COUNT ───────────────────────────────────────────────────────────────
+function renderCycle(view){
+  const data=dashData[view]||[];
+  const content=document.getElementById(`content_${view}`);
+  const headers=Object.keys(data[0]||{});
+  const numCols=headers.filter(h=>{const vals=data.map(r=>parseFloat(r[h])).filter(v=>!isNaN(v));return vals.length>data.length*0.5;});
+  const catCols=headers.filter(h=>!numCols.includes(h));
+
+  // Auto KPIs
+  const kpis=[{label:'Total Lignes',val:data.length,color:'#3b82f6',icon:'M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2',sub:'Entrées'}];
+  numCols.slice(0,4).forEach(h=>{
+    const vals=data.map(r=>parseFloat(r[h])).filter(v=>!isNaN(v));
+    const sum=vals.reduce((a,b)=>a+b,0);
+    kpis.push({label:h.replace(/_/g,' '),val:fmtNum(sum),color:COLORS[kpis.length%COLORS.length],icon:'M12 1v22M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6',sub:'Total'});
+  });
+
+  content.innerHTML=kpiHTML(kpis)+
+    `<div style="display:grid;grid-template-columns:${catCols.length>=2?'1fr 1fr':'1fr'};gap:14px;margin-bottom:14px;">${
+      catCols.slice(0,2).map((col,i)=>`<div class="chart-card">
+        <div style="margin-bottom:12px;"><h3 style="color:#e2e8f0;font-size:12px;font-weight:600;">📊 ${col.replace(/_/g,' ')}</h3></div>
+        <div style="height:240px;"><canvas id="cyc_cat_${i}"></canvas></div>
+      </div>`).join('')
+    }</div>`+
+    (numCols.length>0?`<div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;">${
+      numCols.slice(0,2).map((col,i)=>`<div class="chart-card">
+        <div style="margin-bottom:12px;"><h3 style="color:#e2e8f0;font-size:12px;font-weight:600;">📈 ${col.replace(/_/g,' ')} PAR LIGNE</h3></div>
+        <div style="height:220px;"><canvas id="cyc_num_${i}"></canvas></div>
+      </div>`).join('')
+    }</div>`:'')+
+    tableSection('cyc_table',headers,data,'🗂️ DONNÉES CYCLE COUNT');
+
+  // Render cat charts
+  catCols.slice(0,2).forEach((col,i)=>{
+    const map={};data.forEach(r=>{const v=String(r[col]||'?');map[v]=(map[v]||0)+1;});
+    const sorted=Object.entries(map).sort((a,b)=>b[1]-a[1]).slice(0,12);
+    makeChart(`cyc_cat_${i}`,{type:'bar',data:{labels:sorted.map(s=>s[0].length>14?s[0].slice(0,14)+'…':s[0]),datasets:[{data:sorted.map(s=>s[1]),backgroundColor:COLORS,borderRadius:4}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{ticks:{color:'#64748b',font:{size:9},maxRotation:40},grid:{color:'rgba(255,255,255,.04)'}},y:{ticks:{color:'#64748b',font:{size:9}},grid:{color:'rgba(255,255,255,.05)'}}}}});
+  });
+
+  // Render num charts
+  numCols.slice(0,2).forEach((col,i)=>{
+    const vals=data.slice(0,50).map(r=>parseFloat(r[col])||0);
+    makeChart(`cyc_num_${i}`,{type:'line',data:{labels:vals.map((_,j)=>j+1),datasets:[{data:vals,borderColor:COLORS[i],backgroundColor:COLORS[i]+'22',fill:true,tension:.4,pointRadius:2}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{ticks:{color:'#64748b',font:{size:9}},grid:{color:'rgba(255,255,255,.04)'}},y:{ticks:{color:'#64748b',font:{size:9},callback:v=>fmtNum(v)},grid:{color:'rgba(255,255,255,.05)'}}}}});
+  });
 }
 
 // ── FILES ─────────────────────────────────────────────────────────────────────
 function renderFiles(){
   const mf=currentUser.role==='admin'?allFiles:allFiles.filter(f=>f.ownerId===currentUser.id);
-  document.getElementById('filesTitle').textContent=currentUser.role==='admin'?'Tous les fichiers':'Mes fichiers';
-  document.getElementById('filesCount').textContent=`${mf.length} fichier(s)`;
-  if(mf.length===0){document.getElementById('filesList').innerHTML=`<div style="text-align:center;padding:60px;color:#475569;"><p>Aucun fichier — importez votre premier fichier Excel</p></div>`;return;}
-  document.getElementById('filesList').innerHTML=`<div style="display:flex;flex-direction:column;gap:10px;">${mf.map(f=>{
-    const fs2=allShares.filter(s=>s.fileId===f.id);
-    const tags=fs2.map(s=>`<span style="background:rgba(37,99,235,.15);color:#60a5fa;font-size:11px;padding:2px 8px;border-radius:20px;font-weight:500;">→ ${s.toUserName||'?'}</span>`).join('');
-    const canDel=currentUser.role==='admin'||f.ownerId===currentUser.id;
-    return `<div style="background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:12px;padding:14px 18px;display:flex;align-items:center;gap:12px;">
-      <div style="width:40px;height:40px;border-radius:9px;background:rgba(34,197,94,.12);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/></svg>
-      </div>
-      <div style="flex:1;overflow:hidden;">
-        <div style="color:#e2e8f0;font-size:14px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${f.name}</div>
-        <div style="color:#475569;font-size:11px;margin-top:2px;">${f.ownerName||'—'} · ${f.dept} · ${fmtSize(f.size)} · ${fmtDate(f.uploadedAt)}</div>
-        ${tags?`<div style="display:flex;gap:4px;flex-wrap:wrap;margin-top:5px;">${tags}</div>`:''}
-      </div>
-      <div style="display:flex;gap:6px;flex-shrink:0;">
-        <button style="width:32px;height:32px;border-radius:7px;border:none;background:rgba(255,255,255,.05);display:flex;align-items:center;justify-content:center;cursor:pointer;" title="Voir dashboard" onclick="switchView('dashboard');setTimeout(()=>{document.getElementById('dashFileSelect').value='${f.id}';loadAndRender('${f.id}');},100)">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
-        </button>
-        <button style="width:32px;height:32px;border-radius:7px;border:none;background:rgba(255,255,255,.05);display:flex;align-items:center;justify-content:center;cursor:pointer;" title="Partager" onclick="openShare('${f.id}')">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16,6 12,2 8,6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
-        </button>
-        <button style="width:32px;height:32px;border-radius:7px;border:none;background:rgba(255,255,255,.05);display:flex;align-items:center;justify-content:center;cursor:pointer;" title="Télécharger" onclick="downloadFile('${f.id}','${f.name}')">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7,10 12,15 17,10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-        </button>
-        ${canDel?`<button style="width:32px;height:32px;border-radius:7px;border:none;background:rgba(255,255,255,.05);display:flex;align-items:center;justify-content:center;cursor:pointer;" title="Supprimer" onclick="deleteFile('${f.id}')">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2"><polyline points="3,6 5,6 21,6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
-        </button>`:''}
-      </div></div>`;}).join('')}</div>`;
+  document.getElementById('viewFiles').innerHTML=`
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
+      <div><h1 style="font-size:18px;font-weight:700;">Fichiers</h1><p style="color:#64748b;font-size:12px;margin-top:2px;">${mf.length} fichier(s)</p></div>
+      <button class="btn-primary" onclick="document.getElementById('mainFileInput').click()">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17,8 12,3 7,8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>Importer
+      </button>
+      <input type="file" id="mainFileInput" accept=".xlsx,.xls,.csv" style="display:none;" onchange="uploadMainFile(this)"/>
+    </div>
+    ${mf.length===0?'<div style="text-align:center;padding:60px;color:#475569;"><p>Aucun fichier</p></div>':
+    `<div style="display:flex;flex-direction:column;gap:9px;">${mf.map(f=>{
+      const sh=allShares.filter(s=>s.fileId===f.id);
+      const canDel=currentUser.role==='admin'||f.ownerId===currentUser.id;
+      return`<div style="background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:11px;padding:13px 16px;display:flex;align-items:center;gap:11px;">
+        <div style="width:38px;height:38px;border-radius:9px;background:rgba(34,197,94,.12);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/></svg>
+        </div>
+        <div style="flex:1;overflow:hidden;">
+          <div style="color:#e2e8f0;font-size:13px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${f.name}</div>
+          <div style="color:#475569;font-size:11px;margin-top:1px;">${f.ownerName||'—'} · ${fmtSize(f.size)} · ${fmtDate(f.uploadedAt)}</div>
+          ${sh.length>0?`<div style="margin-top:4px;display:flex;gap:4px;flex-wrap:wrap;">${sh.map(s=>`<span style="background:rgba(37,99,235,.15);color:#60a5fa;font-size:10px;padding:1px 7px;border-radius:20px;">→ ${s.toUserName||'?'}</span>`).join('')}</div>`:''}
+        </div>
+        <div style="display:flex;gap:5px;">
+          <button style="width:30px;height:30px;border-radius:7px;border:none;background:rgba(255,255,255,.05);display:flex;align-items:center;justify-content:center;cursor:pointer;" onclick="openShare('${f.id}')"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16,6 12,2 8,6"/><line x1="12" y1="2" x2="12" y2="15"/></svg></button>
+          <button style="width:30px;height:30px;border-radius:7px;border:none;background:rgba(255,255,255,.05);display:flex;align-items:center;justify-content:center;cursor:pointer;" onclick="downloadFile('${f.id}','${f.name}')"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7,10 12,15 17,10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></button>
+          ${canDel?`<button style="width:30px;height:30px;border-radius:7px;border:none;background:rgba(255,255,255,.05);display:flex;align-items:center;justify-content:center;cursor:pointer;" onclick="deleteFile('${f.id}')"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2"><polyline points="3,6 5,6 21,6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></button>`:''}
+        </div>
+      </div>`;}).join('')}</div>`}`;
 }
 
 function renderInbox(){
   const inbox=allShares.filter(s=>s.toUserId===currentUser.id);
-  document.getElementById('inboxCount').textContent=`${inbox.length} fichier(s) partagé(s) avec vous`;
-  if(inbox.length===0){document.getElementById('inboxList').innerHTML=`<div style="text-align:center;padding:60px;color:#475569;"><p>Aucun fichier reçu</p></div>`;return;}
-  document.getElementById('inboxList').innerHTML=`<div style="display:flex;flex-direction:column;gap:10px;">${inbox.map(s=>{
-    const file=allFiles.find(f=>f.id===s.fileId);if(!file)return'';
-    return`<div style="background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:12px;padding:14px 18px;display:flex;align-items:center;gap:12px;">
-      <div style="width:40px;height:40px;border-radius:9px;background:rgba(34,197,94,.12);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/></svg>
-      </div>
-      <div style="flex:1;">
-        <div style="color:#e2e8f0;font-size:14px;font-weight:600;">${file.name}</div>
-        <div style="color:#475569;font-size:11px;margin-top:2px;">De : <span style="color:#60a5fa;font-weight:500;">${s.fromUserName||'?'}</span> · ${fmtDate(s.sharedAt)}</div>
-      </div>
-      <div style="display:flex;gap:6px;">
-        <button style="width:32px;height:32px;border-radius:7px;border:none;background:rgba(255,255,255,.05);display:flex;align-items:center;justify-content:center;cursor:pointer;" onclick="switchView('dashboard');setTimeout(()=>{document.getElementById('dashFileSelect').value='${file.id}';loadAndRender('${file.id}');},100)">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+  document.getElementById('viewInbox').innerHTML=`
+    <h1 style="font-size:18px;font-weight:700;margin-bottom:6px;">Fichiers reçus</h1>
+    <p style="color:#64748b;font-size:12px;margin-bottom:18px;">${inbox.length} fichier(s)</p>
+    ${inbox.length===0?'<div style="text-align:center;padding:60px;color:#475569;"><p>Aucun fichier reçu</p></div>':
+    `<div style="display:flex;flex-direction:column;gap:9px;">${inbox.map(s=>{
+      const file=allFiles.find(f=>f.id===s.fileId);if(!file)return'';
+      return`<div style="background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:11px;padding:13px 16px;display:flex;align-items:center;gap:11px;">
+        <div style="width:38px;height:38px;border-radius:9px;background:rgba(34,197,94,.12);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/></svg>
+        </div>
+        <div style="flex:1;">
+          <div style="color:#e2e8f0;font-size:13px;font-weight:600;">${file.name}</div>
+          <div style="color:#475569;font-size:11px;margin-top:1px;">De : <span style="color:#60a5fa;font-weight:500;">${s.fromUserName||'?'}</span> · ${fmtDate(s.sharedAt)}</div>
+        </div>
+        <button style="width:30px;height:30px;border-radius:7px;border:none;background:rgba(255,255,255,.05);display:flex;align-items:center;justify-content:center;cursor:pointer;" onclick="downloadFile('${file.id}','${file.name}')">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7,10 12,15 17,10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
         </button>
-        <button style="width:32px;height:32px;border-radius:7px;border:none;background:rgba(255,255,255,.05);display:flex;align-items:center;justify-content:center;cursor:pointer;" onclick="downloadFile('${file.id}','${file.name}')">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7,10 12,15 17,10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-        </button>
-      </div></div>`;}).join('')}</div>`;
+      </div>`;}).join('')}</div>`}`;
 }
 
 function renderUsers(){
-  document.getElementById('usersCount').textContent=`${allUsers.length} utilisateur(s)`;
-  document.getElementById('usersList').innerHTML=`<div style="display:flex;flex-direction:column;gap:10px;">${allUsers.map(u=>{
-    const[c1,c2]=strColor(u.name).split(',');
-    return`<div style="background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:12px;padding:14px 18px;display:flex;align-items:center;gap:12px;">
-      <div style="width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,${c1},${c2});display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:15px;flex-shrink:0;">${u.name[0].toUpperCase()}</div>
-      <div style="flex:1;">
-        <div style="display:flex;align-items:center;gap:8px;">
-          <span style="color:#e2e8f0;font-size:14px;font-weight:600;">${u.name}</span>
-          <span class="badge ${u.role}">${u.role==='admin'?'ADMIN':'USER'}</span>
+  document.getElementById('viewUsers').innerHTML=`
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
+      <div><h1 style="font-size:18px;font-weight:700;">Utilisateurs</h1><p style="color:#64748b;font-size:12px;margin-top:2px;">${allUsers.length} utilisateur(s)</p></div>
+      <button class="btn-primary" onclick="openCreateUser()">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Nouveau
+      </button>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:9px;">${allUsers.map(u=>{
+      const[c1,c2]=strColor(u.name).split(',');
+      return`<div style="background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:11px;padding:13px 16px;display:flex;align-items:center;gap:11px;">
+        <div style="width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,${c1},${c2});display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:14px;flex-shrink:0;">${u.name[0].toUpperCase()}</div>
+        <div style="flex:1;">
+          <div style="display:flex;align-items:center;gap:7px;">
+            <span style="color:#e2e8f0;font-size:13px;font-weight:600;">${u.name}</span>
+            <span class="badge ${u.role}">${u.role==='admin'?'ADMIN':'USER'}</span>
+          </div>
+          <div style="color:#475569;font-size:11px;margin-top:1px;">${u.email} · ${u.dept}</div>
         </div>
-        <div style="color:#475569;font-size:11px;margin-top:2px;">${u.email} · ${u.dept}</div>
-      </div>
-      ${u.id!=='admin_001'?`<button style="width:32px;height:32px;border-radius:7px;border:none;background:rgba(255,255,255,.05);display:flex;align-items:center;justify-content:center;cursor:pointer;" onclick="deleteUser('${u.id}','${u.name}')">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2"><polyline points="3,6 5,6 21,6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
-      </button>`:''}
-    </div>`;}).join('')}</div>`;
+        ${u.id!=='admin_001'?`<button style="width:30px;height:30px;border-radius:7px;border:none;background:rgba(255,255,255,.05);display:flex;align-items:center;justify-content:center;cursor:pointer;" onclick="deleteUser('${u.id}','${u.name}')"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2"><polyline points="3,6 5,6 21,6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></button>`:''}
+      </div>`;}).join('')}</div>`;
 }
 
-async function uploadFile(input){
+// ── Actions ───────────────────────────────────────────────────────────────────
+async function uploadMainFile(input){
   const file=input.files[0];if(!file)return;
   if(!file.name.match(/\.(xlsx|xls|csv)$/i)){toast('Seuls xlsx, xls, csv acceptés','error');return;}
-  try{const fd=new FormData();fd.append('file',file);const nf=await api('POST','/api/files',fd,true);allFiles.push(nf);renderFiles();renderDashboardShell();toast(`"${file.name}" importé !`);}
+  try{const fd=new FormData();fd.append('file',file);const nf=await api('POST','/api/files',fd,true);allFiles.push(nf);renderFiles();toast(`"${file.name}" importé !`);}
   catch(e){toast(e.message,'error');}
   input.value='';
 }
+
 async function downloadFile(id,name){
   try{const r=await api('GET',`/api/files/${id}/download`);const blob=await r.blob();const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;a.click();toast('Téléchargement démarré');}
   catch(e){toast(e.message,'error');}
 }
+
 async function deleteFile(id){
   if(!confirm('Supprimer ce fichier ?'))return;
-  try{await api('DELETE',`/api/files/${id}`);allFiles=allFiles.filter(f=>f.id!==id);allShares=allShares.filter(s=>s.fileId!==id);renderFiles();renderDashboardShell();updateBadge();toast('Supprimé');}
+  try{await api('DELETE',`/api/files/${id}`);allFiles=allFiles.filter(f=>f.id!==id);allShares=allShares.filter(s=>s.fileId!==id);renderFiles();updateBadge();toast('Supprimé');}
   catch(e){toast(e.message,'error');}
 }
+
 function openShare(fid){
   shareFileId=fid;
   const already=allShares.filter(s=>s.fileId===fid).map(s=>s.toUserId);
   document.getElementById('shareTarget').innerHTML='<option value="">— Choisir —</option>'+allUsers.filter(u=>u.id!==currentUser.id&&!already.includes(u.id)).map(u=>`<option value="${u.id}">${u.name} (${u.dept})</option>`).join('');
   document.getElementById('shareModal').style.display='flex';
 }
+
 async function doShare(){
   const tid=document.getElementById('shareTarget').value;
   if(!tid){toast('Sélectionnez un utilisateur','error');return;}
   try{const s=await api('POST','/api/shares',{fileId:shareFileId,toUserId:tid});allShares.push(s);document.getElementById('shareModal').style.display='none';renderFiles();updateBadge();toast(`✓ Partagé avec ${s.toUserName}`);}
   catch(e){toast(e.message,'error');}
 }
+
 function openCreateUser(){
   ['newName','newEmail','newPw','newDept'].forEach(id=>document.getElementById(id).value='');
   document.getElementById('newRole').value='user';
   document.getElementById('createUserError').style.display='none';
   document.getElementById('createUserModal').style.display='flex';
 }
+
 async function doCreateUser(){
   const name=document.getElementById('newName').value.trim(),email=document.getElementById('newEmail').value.trim(),pw=document.getElementById('newPw').value,dept=document.getElementById('newDept').value.trim(),role=document.getElementById('newRole').value;
   const errEl=document.getElementById('createUserError');errEl.style.display='none';
   try{const u=await api('POST','/api/users',{name,email,password:pw,dept,role});allUsers.push(u);document.getElementById('createUserModal').style.display='none';renderUsers();toast(`"${name}" créé !`);}
   catch(e){errEl.textContent=e.message;errEl.style.display='block';}
 }
+
 async function deleteUser(id,name){
   if(!confirm(`Supprimer "${name}" ?`))return;
   try{await api('DELETE',`/api/users/${id}`);allUsers=allUsers.filter(u=>u.id!==id);renderUsers();toast('Supprimé');}
