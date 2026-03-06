@@ -15,6 +15,7 @@ button{cursor:pointer;}
 @keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
 @keyframes slideIn{from{transform:translateX(40px);opacity:0}to{transform:none;opacity:1}}
 @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-18px)}}
+@keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
 .btn-primary{background:linear-gradient(135deg,#2563eb,#1d4ed8);color:#fff;border:none;border-radius:10px;padding:12px 20px;font-size:14px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:8px;transition:opacity .2s;box-shadow:0 4px 16px rgba(37,99,235,.3);}
 .btn-primary:hover{opacity:.9;}.btn-primary:disabled{opacity:.5;cursor:not-allowed;}
 .card{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:14px;padding:16px 20px;display:flex;align-items:center;gap:14px;transition:border-color .2s;}
@@ -37,6 +38,10 @@ button{cursor:pointer;}
 .badge.admin{background:rgba(139,92,246,.2);color:#a78bfa;}.badge.user{background:rgba(37,99,235,.15);color:#60a5fa;}
 .shared-tag{background:rgba(37,99,235,.15);color:#60a5fa;font-size:11px;padding:2px 8px;border-radius:20px;font-weight:500;}
 select.input-field option{background:#1a1d26;}
+/* Refresh button */
+.btn-refresh{width:38px;height:38px;border-radius:10px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.04);color:#64748b;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .2s;flex-shrink:0;}
+.btn-refresh:hover{background:rgba(37,99,235,.15);border-color:rgba(37,99,235,.4);color:#60a5fa;}
+.btn-refresh.spinning svg{animation:spin .7s linear infinite;}
 </style>
 </head>
 <body>
@@ -73,7 +78,8 @@ select.input-field option{background:#1a1d26;}
     <div id="loginError" style="display:none;background:rgba(239,68,68,.15);border:1px solid rgba(239,68,68,.3);border-radius:10px;padding:10px 14px;color:#f87171;font-size:13px;margin-bottom:16px;"></div>
     <button onclick="doLogin()" id="loginBtn" class="btn-primary" style="width:100%;justify-content:center;padding:14px;font-size:15px;">Se connecter →</button>
     <div style="margin-top:20px;padding:14px;background:rgba(255,255,255,.03);border-radius:10px;border:1px solid rgba(255,255,255,.06);">
-          </div>
+      <p style="color:#475569;font-size:12px;text-align:center;">Admin : <span style="color:#60a5fa;font-weight:600;">admin@entreprise.com</span> / <span style="color:#60a5fa;font-weight:600;">admin123</span></p>
+    </div>
   </div>
 </div>
 
@@ -89,7 +95,7 @@ select.input-field option{background:#1a1d26;}
     <div style="background:rgba(255,255,255,.04);border-radius:12px;padding:12px;margin-bottom:24px;border:1px solid rgba(255,255,255,.06);">
       <div style="display:flex;align-items:center;gap:10px;">
         <div id="sidebarAvatar" style="width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:14px;flex-shrink:0;"></div>
-        <div><div id="sidebarName" style="color:#e2e8f0;font-size:13px;font-weight:600;"></div></div>
+        <div><div id="sidebarName" style="color:#e2e8f0;font-size:13px;font-weight:600;"></div><div id="sidebarDept" style="color:#475569;font-size:11px;"></div></div>
       </div>
     </div>
     <nav style="flex:1;">
@@ -111,26 +117,65 @@ select.input-field option{background:#1a1d26;}
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16,17 21,12 16,7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>Déconnexion
     </button>
   </aside>
+
   <main style="flex:1;padding:32px;overflow-y:auto;min-width:0;">
+
+    <!-- DASHBOARD -->
     <div id="viewDashboard" style="animation:fadeIn .4s;">
-      <div style="margin-bottom:32px;"><h1 id="dashGreet" style="font-size:26px;font-weight:700;"></h1><p id="dashDate" style="color:#64748b;margin-top:4px;"></p></div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:32px;">
+        <div><h1 id="dashGreet" style="font-size:26px;font-weight:700;"></h1><p id="dashDate" style="color:#64748b;margin-top:4px;font-size:13px;"></p></div>
+        <button class="btn-refresh" onclick="doRefresh()" title="Actualiser les données">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23,4 23,10 17,10"/><polyline points="1,20 1,14 7,14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+        </button>
+      </div>
       <div id="dashStats" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:16px;margin-bottom:32px;"></div>
       <div id="dashRecent"></div>
     </div>
+
+    <!-- FILES -->
     <div id="viewFiles" style="display:none;animation:fadeIn .4s;">
-      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:28px;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:28px;gap:12px;">
         <div><h1 id="filesTitle" style="font-size:22px;font-weight:700;">Mes fichiers</h1><p id="filesCount" style="color:#64748b;font-size:13px;margin-top:3px;"></p></div>
-        <button class="btn-primary" onclick="document.getElementById('fileInput').click()">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17,8 12,3 7,8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>Importer Excel / CSV
-        </button>
+        <div style="display:flex;gap:10px;align-items:center;flex-shrink:0;">
+          <button class="btn-refresh" onclick="doRefresh()" title="Actualiser">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23,4 23,10 17,10"/><polyline points="1,20 1,14 7,14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+          </button>
+          <button class="btn-primary" onclick="document.getElementById('fileInput').click()">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17,8 12,3 7,8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>Importer Excel / CSV
+          </button>
+        </div>
         <input type="file" id="fileInput" accept=".xlsx,.xls,.csv" style="display:none;" onchange="uploadFile(this)"/>
       </div>
       <div id="filesList"></div>
     </div>
+
+    <!-- INBOX -->
     <div id="viewInbox" style="display:none;animation:fadeIn .4s;">
-      <div style="margin-bottom:28px;"><h1 style="font-size:22px;font-weight:700;">Fichiers reçus</h1><p id="inboxCount" style="color:#64748b;font-size:13px;margin-top:3px;"></p></div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:28px;">
+        <div><h1 style="font-size:22px;font-weight:700;">Fichiers reçus</h1><p id="inboxCount" style="color:#64748b;font-size:13px;margin-top:3px;"></p></div>
+        <button class="btn-refresh" onclick="doRefresh()" title="Actualiser">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23,4 23,10 17,10"/><polyline points="1,20 1,14 7,14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+        </button>
+      </div>
       <div id="inboxList"></div>
     </div>
+
+    <!-- USERS -->
+    <div id="viewUsers" style="display:none;animation:fadeIn .4s;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:28px;gap:12px;">
+        <div><h1 style="font-size:22px;font-weight:700;">Utilisateurs</h1><p id="usersCount" style="color:#64748b;font-size:13px;margin-top:3px;"></p></div>
+        <div style="display:flex;gap:10px;align-items:center;flex-shrink:0;">
+          <button class="btn-refresh" onclick="doRefresh()" title="Actualiser">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23,4 23,10 17,10"/><polyline points="1,20 1,14 7,14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+          </button>
+          <button class="btn-primary" onclick="openCreateUser()">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Nouvel utilisateur
+          </button>
+        </div>
+      </div>
+      <div id="usersList"></div>
+    </div>
+
   </main>
 </div>
 
@@ -158,8 +203,6 @@ select.input-field option{background:#1a1d26;}
     <div style="margin-bottom:14px;"><label class="label">Email</label><input id="newEmail" type="email" class="input-field" placeholder="marie@entreprise.com"/></div>
     <div style="margin-bottom:14px;"><label class="label">Mot de passe</label>
       <div style="position:relative;">
-        <div id="site-info"></div>
-        <button id="refresh-btn">Refresh</button>
         <input id="newPw" type="password" class="input-field" placeholder="Min. 6 caractères" style="padding-right:44px;"/>
         <button onclick="togglePw('newPw')" style="position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;color:#64748b;cursor:pointer;">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
@@ -202,6 +245,22 @@ async function api(method,path,body,isFile=false){
   return data;
 }
 
+/* ---- REFRESH ---- */
+async function doRefresh(){
+  const btns=document.querySelectorAll('.btn-refresh');
+  btns.forEach(b=>b.classList.add('spinning'));
+  try{
+    await Promise.all([loadFiles(),loadShares(),...(currentUser?.role==='admin'?[loadUsers()]:[])]);
+    renderView();
+    updateBadge();
+    toast('Données actualisées ✓');
+  }catch(e){
+    toast('Erreur lors de l\'actualisation','error');
+  }finally{
+    setTimeout(()=>btns.forEach(b=>b.classList.remove('spinning')),700);
+  }
+}
+
 async function doLogin(){
   const email=document.getElementById('loginEmail').value.trim();
   const pw=document.getElementById('loginPw').value;
@@ -218,7 +277,6 @@ async function doLogin(){
 }
 
 function doLogout(){token=null;currentUser=null;localStorage.removeItem('ds_token');showLogin();}
-
 function showLogin(){document.getElementById('loading').style.display='none';document.getElementById('loginPage').style.display='flex';document.getElementById('appPage').style.display='none';}
 function showApp(){document.getElementById('loading').style.display='none';document.getElementById('loginPage').style.display='none';document.getElementById('appPage').style.display='flex';}
 
@@ -295,13 +353,14 @@ function renderDashboard(){
       <div class="card">
         <div class="file-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/></svg></div>
         <div style="flex:1;overflow:hidden;"><div style="color:#e2e8f0;font-size:14px;font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${f.name}</div>
+        <div style="color:#475569;font-size:12px;">${f.ownerName||'—'} · ${fmtDate(f.uploadedAt)}</div></div>
         <div style="color:#475569;font-size:12px;">${fmtSize(f.size)}</div>
       </div>`).join('')}</div>`;
 }
 
 function renderFiles(){
-  const mf=allFiles.filter(f=>f.ownerId===currentUser.id);
-  document.getElementById('filesTitle').textContent='Mes fichiers';
+  const mf=currentUser.role==='admin'?allFiles:allFiles.filter(f=>f.ownerId===currentUser.id);
+  document.getElementById('filesTitle').textContent=currentUser.role==='admin'?'Tous les fichiers':'Mes fichiers';
   document.getElementById('filesCount').textContent=`${mf.length} fichier(s)`;
   if(mf.length===0){document.getElementById('filesList').innerHTML=`<div style="text-align:center;padding:80px 0;color:#475569;"><p style="font-size:15px;">Aucun fichier — importez votre premier fichier Excel</p></div>`;return;}
   document.getElementById('filesList').innerHTML=`<div style="display:flex;flex-direction:column;gap:10px;">${mf.map(f=>{
@@ -331,7 +390,7 @@ function renderInbox(){
     return `<div class="card">
       <div class="file-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/></svg></div>
       <div style="flex:1;"><div style="color:#e2e8f0;font-size:15px;font-weight:600;">${file.name}</div>
-      <divdiv>
+      <div style="color:#475569;font-size:12px;margin-top:2px;">De : <span style="color:#60a5fa;font-weight:500;">${s.fromUserName||'?'}</span> · ${fmtDate(s.sharedAt)} · ${fmtSize(file.size)}</div></div>
       <button class="action-btn" title="Télécharger" onclick="downloadFile('${file.id}','${file.name}')"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7,10 12,15 17,10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></button>
     </div>`;}).join('')}</div>`;
 }
@@ -343,7 +402,7 @@ function renderUsers(){
     return `<div class="card">
       <div style="width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,${c1},${c2});display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:16px;flex-shrink:0;">${u.name[0].toUpperCase()}</div>
       <div style="flex:1;">
-        <divan class="badge ${u.role}">${u.role==='admin'?'ADMIN':'UTILISATEUR'}</span></div>
+        <div style="display:flex;align-items:center;gap:8px;"><span style="color:#e2e8f0;font-size:15px;font-weight:600;">${u.name}</span><span class="badge ${u.role}">${u.role==='admin'?'ADMIN':'UTILISATEUR'}</span></div>
         <div style="color:#475569;font-size:12px;margin-top:2px;">${u.email} · ${u.dept} · ${fmtDate(u.createdAt)}</div>
       </div>
       ${u.id!=='admin_001'?`<button class="action-btn" title="Supprimer" onclick="deleteUser('${u.id}','${u.name}')"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2"><polyline points="3,6 5,6 21,6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></button>`:''}
