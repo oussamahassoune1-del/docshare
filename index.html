@@ -800,11 +800,41 @@ async function doShare(){
   catch(e){toast(e.message,'error');}
 }
 
-function openCreateUser(){
-  ['newName','newEmail','newPw','newDept'].forEach(id=>document.getElementById(id).value='');
-  document.getElementById('newRole').value='user';
+let editUserId=null;
+
+function openCreateUser(user=null){
+  editUserId=user?user.id:null;
+  document.getElementById('newName').value=user?.name||'';
+  document.getElementById('newEmail').value=user?.email||'';
+  document.getElementById('newPw').value='';
+  document.getElementById('newDept').value=user?.dept||'';
+  document.getElementById('newRole').value=user?.role||'user';
   document.getElementById('createUserError').style.display='none';
+  // Change modal title
+  document.getElementById('createUserModalTitle').textContent=user?'✏️ Modifier utilisateur':'👤 Nouvel utilisateur';
+  document.getElementById('newPwLabel').textContent=user?'Nouveau mot de passe (laisser vide = inchangé)':'Mot de passe';
   document.getElementById('createUserModal').style.display='flex';
+}
+
+async function doCreateUser(){
+  const name=document.getElementById('newName').value.trim(),email=document.getElementById('newEmail').value.trim(),pw=document.getElementById('newPw').value,dept=document.getElementById('newDept').value.trim(),role=document.getElementById('newRole').value;
+  const errEl=document.getElementById('createUserError');errEl.style.display='none';
+  try{
+    if(editUserId){
+      // MODIFY existing user
+      const body={name,email,dept,role};
+      if(pw)body.password=pw;
+      const u=await api('PUT',`/api/users/${editUserId}`,body);
+      const idx=allUsers.findIndex(x=>x.id===editUserId);
+      if(idx>=0)allUsers[idx]={...allUsers[idx],...u};
+      document.getElementById('createUserModal').style.display='none';
+      renderUsers();toast(`"${name}" modifié !`);
+    }else{
+      const u=await api('POST','/api/users',{name,email,password:pw,dept,role});
+      allUsers.push(u);document.getElementById('createUserModal').style.display='none';
+      renderUsers();toast(`"${name}" créé !`);
+    }
+  }catch(e){errEl.textContent=e.message;errEl.style.display='block';}
 }
 
 async function doCreateUser(){
