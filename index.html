@@ -1,435 +1,311 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>DocShare Entreprise</title>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
-<style>
-*{box-sizing:border-box;margin:0;padding:0;}
-body{font-family:'DM Sans',sans-serif;background:#0f1117;color:#fff;min-height:100vh;}
-::-webkit-scrollbar{width:6px;}::-webkit-scrollbar-track{background:#1a1d26;}::-webkit-scrollbar-thumb{background:#2d3148;border-radius:3px;}
-input,select,button{font-family:'DM Sans',sans-serif;outline:none;}
-button{cursor:pointer;}
-@keyframes fadeIn{from{opacity:0}to{opacity:1}}
-@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
-@keyframes slideIn{from{transform:translateX(40px);opacity:0}to{transform:none;opacity:1}}
-@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-18px)}}
-.btn-primary{background:linear-gradient(135deg,#2563eb,#1d4ed8);color:#fff;border:none;border-radius:10px;padding:12px 20px;font-size:14px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:8px;transition:opacity .2s;box-shadow:0 4px 16px rgba(37,99,235,.3);}
-.btn-primary:hover{opacity:.9;}.btn-primary:disabled{opacity:.5;cursor:not-allowed;}
-.card{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:14px;padding:16px 20px;display:flex;align-items:center;gap:14px;transition:border-color .2s;}
-.card:hover{border-color:rgba(255,255,255,.12);}
-.input-field{width:100%;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:10px;padding:11px 14px;color:#fff;font-size:14px;transition:border-color .2s;}
-.input-field:focus{border-color:#2563eb;}.input-field::placeholder{color:#475569;}
-.label{display:block;color:#94a3b8;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:1px;margin-bottom:5px;}
-.toast{position:fixed;bottom:28px;right:28px;z-index:9999;padding:14px 22px;border-radius:12px;font-size:14px;font-weight:500;animation:slideIn .3s ease;display:flex;align-items:center;gap:10px;box-shadow:0 8px 32px rgba(0,0,0,.5);}
-.toast.success{background:#1a6b3a;border:1px solid #2d9e60;}.toast.error{background:#6b1a1a;border:1px solid #9e2d2d;}
-.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:1000;display:flex;align-items:center;justify-content:center;padding:24px;backdrop-filter:blur(4px);}
-.modal-box{background:#141720;border:1px solid rgba(255,255,255,.1);border-radius:18px;padding:28px;width:100%;max-width:440px;max-height:90vh;overflow-y:auto;box-shadow:0 32px 80px rgba(0,0,0,.6);}
-.nav-btn{width:100%;display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:10px;border:none;margin-bottom:4px;background:transparent;color:#64748b;font-size:14px;text-align:left;cursor:pointer;position:relative;transition:all .15s;}
-.nav-btn.active{background:rgba(37,99,235,.2);color:#60a5fa;font-weight:600;}
-.nav-btn.active::after{content:'';position:absolute;right:0;top:50%;transform:translateY(-50%);width:3px;height:20px;border-radius:3px;background:#2563eb;}
-.stat-card{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:16px;padding:20px 22px;}
-.file-icon{width:44px;height:44px;border-radius:10px;background:rgba(34,197,94,.12);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
-.action-btn{width:36px;height:36px;border-radius:8px;border:none;background:rgba(255,255,255,.05);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .15s;}
-.action-btn:hover{transform:scale(1.08);}
-.badge{font-size:10px;font-weight:700;border-radius:20px;padding:2px 7px;}
-.badge.admin{background:rgba(139,92,246,.2);color:#a78bfa;}.badge.user{background:rgba(37,99,235,.15);color:#60a5fa;}
-.shared-tag{background:rgba(37,99,235,.15);color:#60a5fa;font-size:11px;padding:2px 8px;border-radius:20px;font-weight:500;}
-select.input-field option{background:#1a1d26;}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2048 Game</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background: #faf8ef;
+        }
+        #game-container {
+            width: 400px;
+            height: 400px;
+            background: #bbada0;
+            border-radius: 10px;
+            padding: 15px;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-gap: 15px;
+            position: relative;
+            user-select: none;
+        }
+        .tile {
+            width: 80px;
+            height: 80px;
+            background: #cdc1b4;
+            border-radius: 5px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            font-weight: bold;
+            color: #776e65;
+            position: absolute;
+            transition: transform 0.2s ease-in-out, background-color 0.2s ease-in-out;
+            will-change: transform;
+        }
+        .tile-2 { background: #eee4da; color: #776e65; }
+        .tile-4 { background: #ede0c8; color: #776e65; }
+        .tile-8 { background: #f2b179; color: #f9f6f2; }
+        .tile-16 { background: #f59563; color: #f9f6f2; }
+        .tile-32 { background: #f67c5f; color: #f9f6f2; }
+        .tile-64 { background: #f65e3b; color: #f9f6f2; }
+        .tile-128 { background: #edcf72; color: #f9f6f2; font-size: 20px; }
+        .tile-256 { background: #edcc61; color: #f9f6f2; font-size: 20px; }
+        .tile-512 { background: #edc850; color: #f9f6f2; font-size: 20px; }
+        .tile-1024 { background: #edc53f; color: #f9f6f2; font-size: 16px; }
+        .tile-2048 { background: #edc22e; color: #f9f6f2; font-size: 16px; }
+        #score {
+            position: absolute;
+            top: -50px;
+            right: 0;
+            font-size: 24px;
+            font-weight: bold;
+            color: #776e65;
+        }
+        #message {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 36px;
+            font-weight: bold;
+            color: #776e65;
+            display: none;
+            background: rgba(238, 228, 218, 0.8);
+            padding: 20px 40px;
+            border-radius: 10px;
+            z-index: 10;
+        }
+        #restart-btn {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 18px;
+            border: none;
+            border-radius: 5px;
+            background-color: #8f7a66;
+            color: white;
+            cursor: pointer;
+            user-select: none;
+        }
+        #restart-btn:hover {
+            background-color: #9f8b77;
+        }
+    </style>
 </head>
 <body>
-
-<!-- LOADING -->
-<div id="loading" style="min-height:100vh;background:#0a0c12;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:16px;">
-  <div style="width:52px;height:52px;border-radius:14px;background:linear-gradient(135deg,#2563eb,#1d4ed8);display:flex;align-items:center;justify-content:center;">
-    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-  </div>
-  <p style="color:#64748b;font-size:14px;">Chargement de DocShare...</p>
-</div>
-
-<!-- LOGIN -->
-<div id="loginPage" style="display:none;min-height:100vh;background:#0a0c12;align-items:center;justify-content:center;position:relative;overflow:hidden;">
-  <div style="position:absolute;width:400px;height:400px;border-radius:50%;background:#1e3a8a;filter:blur(80px);opacity:.2;top:10%;left:5%;animation:float 4s ease-in-out infinite;"></div>
-  <div style="position:absolute;width:350px;height:350px;border-radius:50%;background:#1e3a5a;filter:blur(80px);opacity:.2;bottom:10%;right:8%;animation:float 5s ease-in-out infinite .7s;"></div>
-  <div style="position:relative;z-index:1;width:100%;max-width:420px;background:rgba(18,20,30,.92);border:1px solid rgba(255,255,255,.08);border-radius:20px;padding:40px;animation:fadeUp .5s ease;box-shadow:0 32px 80px rgba(0,0,0,.6);">
-    <div style="text-align:center;margin-bottom:32px;">
-      <div style="width:64px;height:64px;border-radius:16px;background:linear-gradient(135deg,#2563eb,#1d4ed8);display:flex;align-items:center;justify-content:center;margin:0 auto 16px;box-shadow:0 8px 24px rgba(37,99,235,.4);">
-        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-      </div>
-      <h1 style="font-size:22px;font-weight:700;">DocShare Entreprise</h1>
-      <p style="color:#64748b;font-size:13px;margin-top:4px;">Plateforme de partage de fichiers sécurisée</p>
+    <div id="game-wrapper" style="position: relative;">
+        <div id="score">Score: 0</div>
+        <div id="game-container"></div>
+        <div id="message"></div>
+        <button id="restart-btn">Restart</button>
     </div>
-    <div style="margin-bottom:14px;"><label class="label">Adresse e-mail</label>
-      <input id="loginEmail" type="email" class="input-field" placeholder="vous@entreprise.com" onkeydown="if(event.key==='Enter')doLogin()"/>
-    </div>
-    <div style="margin-bottom:20px;position:relative;"><label class="label">Mot de passe</label>
-      <input id="loginPw" type="password" class="input-field" placeholder="••••••••" style="padding-right:44px;" onkeydown="if(event.key==='Enter')doLogin()"/>
-      <button onclick="togglePw('loginPw')" style="position:absolute;right:12px;bottom:11px;background:none;border:none;color:#64748b;">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
-      </button>
-    </div>
-    <div id="loginError" style="display:none;background:rgba(239,68,68,.15);border:1px solid rgba(239,68,68,.3);border-radius:10px;padding:10px 14px;color:#f87171;font-size:13px;margin-bottom:16px;"></div>
-    <button onclick="doLogin()" id="loginBtn" class="btn-primary" style="width:100%;justify-content:center;padding:14px;font-size:15px;">Se connecter →</button>
-    <div style="margin-top:20px;padding:14px;background:rgba(255,255,255,.03);border-radius:10px;border:1px solid rgba(255,255,255,.06);">
-      <p style="color:#475569;font-size:12px;text-align:center;">Admin : <span style="color:#60a5fa;font-weight:600;">admin@entreprise.com</span> / <span style="color:#60a5fa;font-weight:600;">admin123</span></p>
-    </div>
-  </div>
-</div>
 
-<!-- APP -->
-<div id="appPage" style="display:none;flex-direction:row;min-height:100vh;">
-  <aside style="width:240px;background:#0d0f18;border-right:1px solid rgba(255,255,255,.06);display:flex;flex-direction:column;padding:24px 16px;flex-shrink:0;min-height:100vh;">
-    <div style="display:flex;align-items:center;gap:10px;margin-bottom:32px;padding-left:8px;">
-      <div style="width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#2563eb,#1d4ed8);display:flex;align-items:center;justify-content:center;">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-      </div>
-      <div><div style="color:#fff;font-weight:700;font-size:14px;">DocShare</div><div style="color:#475569;font-size:11px;">Entreprise</div></div>
-    </div>
-    <div style="background:rgba(255,255,255,.04);border-radius:12px;padding:12px;margin-bottom:24px;border:1px solid rgba(255,255,255,.06);">
-      <div style="display:flex;align-items:center;gap:10px;">
-        <div id="sidebarAvatar" style="width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:14px;flex-shrink:0;"></div>
-        <div><div id="sidebarName" style="color:#e2e8f0;font-size:13px;font-weight:600;"></div><div id="sidebarDept" style="color:#475569;font-size:11px;"></div></div>
-      </div>
-    </div>
-    <nav style="flex:1;">
-      <button class="nav-btn active" id="navDash" onclick="switchView('dashboard')">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9,22 9,12 15,12 15,22"/></svg>Tableau de bord
-      </button>
-      <button class="nav-btn" id="navFiles" onclick="switchView('files')">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/></svg>Mes fichiers
-      </button>
-      <button class="nav-btn" id="navInbox" onclick="switchView('inbox')">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22,12 16,12 14,15 10,15 8,12 2,12"/><path d="M5.45 5.11L2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/></svg>
-        Fichiers reçus<span id="inboxBadge" style="display:none;margin-left:auto;background:#2563eb;color:#fff;font-size:10px;font-weight:700;border-radius:20px;padding:2px 7px;"></span>
-      </button>
-      <button class="nav-btn" id="navUsers" onclick="switchView('users')" style="display:none;">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>Utilisateurs
-      </button>
-    </nav>
-    <button onclick="doLogout()" style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:10px;border:none;background:transparent;color:#ef4444;font-size:14px;font-weight:500;width:100%;cursor:pointer;">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16,17 21,12 16,7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>Déconnexion
-    </button>
-  </aside>
-  <main style="flex:1;padding:32px;overflow-y:auto;min-width:0;">
-    <div id="viewDashboard" style="animation:fadeIn .4s;">
-      <div style="margin-bottom:32px;"><h1 id="dashGreet" style="font-size:26px;font-weight:700;"></h1><p id="dashDate" style="color:#64748b;margin-top:4px;"></p></div>
-      <div id="dashStats" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:16px;margin-bottom:32px;"></div>
-      <div id="dashRecent"></div>
-    </div>
-    <div id="viewFiles" style="display:none;animation:fadeIn .4s;">
-      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:28px;">
-        <div><h1 id="filesTitle" style="font-size:22px;font-weight:700;">Mes fichiers</h1><p id="filesCount" style="color:#64748b;font-size:13px;margin-top:3px;"></p></div>
-        <button class="btn-primary" onclick="document.getElementById('fileInput').click()">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17,8 12,3 7,8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>Importer Excel / CSV
-        </button>
-        <input type="file" id="fileInput" accept=".xlsx,.xls,.csv" style="display:none;" onchange="uploadFile(this)"/>
-      </div>
-      <div id="filesList"></div>
-    </div>
-    <div id="viewInbox" style="display:none;animation:fadeIn .4s;">
-      <div style="margin-bottom:28px;"><h1 style="font-size:22px;font-weight:700;">Fichiers reçus</h1><p id="inboxCount" style="color:#64748b;font-size:13px;margin-top:3px;"></p></div>
-      <div id="inboxList"></div>
-    </div>
-    <div id="viewUsers" style="display:none;animation:fadeIn .4s;">
-      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:28px;">
-        <div><h1 style="font-size:22px;font-weight:700;">Utilisateurs</h1><p id="usersCount" style="color:#64748b;font-size:13px;margin-top:3px;"></p></div>
-        <button class="btn-primary" onclick="openCreateUser()">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Nouvel utilisateur
-        </button>
-      </div>
-      <div id="usersList"></div>
-    </div>
-  </main>
-</div>
+    <script>
+        const GRID_SIZE = 4;
+        const TILE_SIZE = 80;
+        const TILE_GAP = 15;
 
-<!-- MODAL Share -->
-<div id="shareModal" class="modal-overlay" style="display:none;">
-  <div class="modal-box">
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
-      <h2 style="font-size:17px;font-weight:700;">📤 Partager le fichier</h2>
-      <button onclick="document.getElementById('shareModal').style.display='none'" style="background:none;border:none;color:#64748b;cursor:pointer;font-size:20px;">✕</button>
-    </div>
-    <p style="color:#94a3b8;font-size:13px;margin-bottom:16px;">Choisissez la personne qui recevra ce fichier :</p>
-    <select id="shareTarget" class="input-field" style="margin-bottom:20px;"></select>
-    <button onclick="doShare()" class="btn-primary" style="width:100%;justify-content:center;">✓ Partager maintenant</button>
-  </div>
-</div>
+        class Game2048 {
+            constructor(container) {
+                this.container = container;
+                this.scoreElem = document.getElementById('score');
+                this.messageElem = document.getElementById('message');
+                this.restartBtn = document.getElementById('restart-btn');
+                this.grid = this.createEmptyGrid();
+                this.tiles = [];
+                this.score = 0;
+                this.isAnimating = false;
 
-<!-- MODAL Create User -->
-<div id="createUserModal" class="modal-overlay" style="display:none;">
-  <div class="modal-box">
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
-      <h2 style="font-size:17px;font-weight:700;">👤 Nouvel utilisateur</h2>
-      <button onclick="document.getElementById('createUserModal').style.display='none'" style="background:none;border:none;color:#64748b;cursor:pointer;font-size:20px;">✕</button>
-    </div>
-    <div style="margin-bottom:14px;"><label class="label">Nom complet</label><input id="newName" type="text" class="input-field" placeholder="Marie Dupont"/></div>
-    <div style="margin-bottom:14px;"><label class="label">Email</label><input id="newEmail" type="email" class="input-field" placeholder="marie@entreprise.com"/></div>
-    <div style="margin-bottom:14px;"><label class="label">Mot de passe</label>
-      <div style="position:relative;">
-        <input id="newPw" type="password" class="input-field" placeholder="Min. 6 caractères" style="padding-right:44px;"/>
-        <button onclick="togglePw('newPw')" style="position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;color:#64748b;cursor:pointer;">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
-        </button>
-      </div>
-    </div>
-    <div style="margin-bottom:14px;"><label class="label">Département</label><input id="newDept" type="text" class="input-field" placeholder="Comptabilité, RH..."/></div>
-    <div style="margin-bottom:20px;"><label class="label">Rôle</label>
-      <select id="newRole" class="input-field"><option value="user">👤 Utilisateur</option><option value="admin">🛡️ Administrateur</option></select>
-    </div>
-    <div id="createUserError" style="display:none;background:rgba(239,68,68,.15);border:1px solid rgba(239,68,68,.3);border-radius:10px;padding:10px 14px;color:#f87171;font-size:13px;margin-bottom:16px;"></div>
-    <button onclick="doCreateUser()" class="btn-primary" style="width:100%;justify-content:center;padding:13px;">✓ Créer l'utilisateur</button>
-  </div>
-</div>
+                this.restartBtn.addEventListener('click', () => this.restart());
+                window.addEventListener('keydown', e => this.handleKey(e));
 
-<script>
-let token=localStorage.getItem('ds_token'),currentUser=null,allUsers=[],allFiles=[],allShares=[],shareFileId=null;
-const API='';
-const COLORS=['#3b82f6,#1d4ed8','#10b981,#065f46','#f59e0b,#92400e','#8b5cf6,#4c1d95','#ec4899,#831843','#06b6d4,#0e7490'];
-function strColor(s){let h=0;for(let i=0;i<s.length;i++)h=s.charCodeAt(i)+((h<<5)-h);return COLORS[Math.abs(h)%COLORS.length];}
-function fmtDate(ts){return new Date(ts).toLocaleDateString('fr-FR',{day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'});}
-function fmtSize(b){return b<1024?b+' o':b<1048576?(b/1024).toFixed(1)+' Ko':(b/1048576).toFixed(1)+' Mo';}
-function togglePw(id){const i=document.getElementById(id);i.type=i.type==='password'?'text':'password';}
+                this.restart();
+            }
 
-function toast(msg,type='success'){
-  document.querySelectorAll('.toast').forEach(t=>t.remove());
-  const d=document.createElement('div');d.className=`toast ${type}`;
-  d.innerHTML=`<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="${type==='success'?'M20 6L9 17l-5-5':'M18 6L6 18M6 6l12 12'}"/></svg>${msg}`;
-  document.body.appendChild(d);setTimeout(()=>d.remove(),3500);
-}
+            createEmptyGrid() {
+                let grid = [];
+                for (let i = 0; i < GRID_SIZE; i++) {
+                    grid[i] = new Array(GRID_SIZE).fill(null);
+                }
+                return grid;
+            }
 
-async function api(method,path,body,isFile=false){
-  const opts={method,headers:{'Authorization':'Bearer '+token}};
-  if(body&&!isFile){opts.headers['Content-Type']='application/json';opts.body=JSON.stringify(body);}
-  if(body&&isFile){opts.body=body;}
-  const r=await fetch(API+path,opts);
-  if(path.endsWith('/download'))return r;
-  const data=await r.json().catch(()=>({}));
-  if(!r.ok)throw new Error(data.error||'Erreur serveur');
-  return data;
-}
+            restart() {
+                this.grid = this.createEmptyGrid();
+                this.score = 0;
+                this.updateScore();
+                this.messageElem.style.display = 'none';
+                this.tiles.forEach(tile => tile.remove());
+                this.tiles = [];
+                this.addRandomTile();
+                this.addRandomTile();
+                this.render();
+            }
 
-async function doLogin(){
-  const email=document.getElementById('loginEmail').value.trim();
-  const pw=document.getElementById('loginPw').value;
-  const err=document.getElementById('loginError');
-  const btn=document.getElementById('loginBtn');
-  if(!email||!pw){err.textContent='Remplissez tous les champs';err.style.display='block';return;}
-  btn.disabled=true;btn.textContent='Connexion...';
-  try{
-    const d=await api('POST','/api/login',{email,password:pw});
-    token=d.token;localStorage.setItem('ds_token',token);currentUser=d.user;
-    err.style.display='none';await initApp();
-  }catch(e){err.textContent=e.message;err.style.display='block';}
-  btn.disabled=false;btn.innerHTML='Se connecter →';
-}
+            addRandomTile() {
+                let emptyPositions = [];
+                for (let r = 0; r < GRID_SIZE; r++) {
+                    for (let c = 0; c < GRID_SIZE; c++) {
+                        if (!this.grid[r][c]) emptyPositions.push({r, c});
+                    }
+                }
+                if (emptyPositions.length === 0) return false;
+                let pos = emptyPositions[Math.floor(Math.random() * emptyPositions.length)];
+                this.grid[pos.r][pos.c] = 2 * (Math.random() < 0.9 ? 1 : 2);
+                return true;
+            }
 
-function doLogout(){token=null;currentUser=null;localStorage.removeItem('ds_token');showLogin();}
+            updateScore() {
+                this.scoreElem.textContent = `Score: ${this.score}`;
+            }
 
-function showLogin(){document.getElementById('loading').style.display='none';document.getElementById('loginPage').style.display='flex';document.getElementById('appPage').style.display='none';}
-function showApp(){document.getElementById('loading').style.display='none';document.getElementById('loginPage').style.display='none';document.getElementById('appPage').style.display='flex';}
+            handleKey(e) {
+                if (this.isAnimating) return;
+                let moved = false;
+                switch (e.key) {
+                    case 'ArrowUp': moved = this.move('up'); break;
+                    case 'ArrowDown': moved = this.move('down'); break;
+                    case 'ArrowLeft': moved = this.move('left'); break;
+                    case 'ArrowRight': moved = this.move('right'); break;
+                }
+                if (moved) {
+                    this.isAnimating = true;
+                    this.addRandomTile();
+                    this.render(() => {
+                        this.isAnimating = false;
+                        if (this.checkGameOver()) {
+                            this.showMessage('Game Over!');
+                        } else if (this.checkWin()) {
+                            this.showMessage('You Win!');
+                        }
+                    });
+                }
+            }
 
-async function initApp(){
-  document.getElementById('loading').style.display='flex';
-  document.getElementById('loginPage').style.display='none';
-  document.getElementById('appPage').style.display='none';
-  try{
-    if(token&&!currentUser)currentUser=await api('GET','/api/me');
-    await Promise.all([loadUsers(),loadFiles(),loadShares()]);
-    renderSidebar();switchView('dashboard');showApp();
-    setInterval(async()=>{await Promise.all([loadFiles(),loadShares()]);renderView();},30000);
-  }catch{showLogin();}
-}
+            move(direction) {
+                let moved = false;
+                let merged = this.createEmptyGrid().map(row => row.map(() => false));
 
-async function loadUsers(){try{allUsers=currentUser?.role==='admin'?await api('GET','/api/users'):[];}catch{}}
-async function loadFiles(){try{allFiles=await api('GET','/api/files');}catch{}}
-async function loadShares(){try{allShares=await api('GET','/api/shares');}catch{}}
+                const moveTile = (r, c, dr, dc) => {
+                    if (!this.grid[r][c]) return false;
+                    let nr = r + dr;
+                    let nc = c + dc;
+                    if (nr < 0 || nr >= GRID_SIZE || nc < 0 || nc >= GRID_SIZE) return false;
 
-function renderSidebar(){
-  const n=currentUser.name;const[c1,c2]=strColor(n).split(',');
-  const av=document.getElementById('sidebarAvatar');
-  av.style.background=`linear-gradient(135deg,${c1},${c2})`;av.textContent=n[0].toUpperCase();
-  document.getElementById('sidebarName').textContent=n;
-  document.getElementById('sidebarDept').textContent=currentUser.dept||currentUser.role;
-  if(currentUser.role==='admin')document.getElementById('navUsers').style.display='flex';
-  updateBadge();
-}
+                    if (!this.grid[nr][nc]) {
+                        this.grid[nr][nc] = this.grid[r][c];
+                        this.grid[r][c] = null;
+                        moved = true;
+                        return true;
+                    } else if (this.grid[nr][nc] === this.grid[r][c] && !merged[nr][nc] && !merged[r][c]) {
+                        this.grid[nr][nc] *= 2;
+                        this.score += this.grid[nr][nc];
+                        this.grid[r][c] = null;
+                        merged[nr][nc] = true;
+                        moved = true;
+                        return true;
+                    }
+                    return false;
+                };
 
-function updateBadge(){
-  const c=allShares.filter(s=>s.toUserId===currentUser.id).length;
-  const b=document.getElementById('inboxBadge');
-  if(c>0){b.textContent=c;b.style.display='inline';}else b.style.display='none';
-}
+                let range = [...Array(GRID_SIZE).keys()];
+                let movedThisTurn;
 
-let currentView='dashboard';
-function switchView(v){
-  currentView=v;
-  ['dashboard','files','inbox','users'].forEach(x=>{
-    document.getElementById('view'+x.charAt(0).toUpperCase()+x.slice(1)).style.display=x===v?'block':'none';
-    const b=document.getElementById('nav'+x.charAt(0).toUpperCase()+x.slice(1));
-    if(b)b.classList.toggle('active',x===v);
-  });
-  renderView();
-}
+                switch (direction) {
+                    case 'up':
+                        for (let c = 0; c < GRID_SIZE; c++) {
+                            do {
+                                movedThisTurn = false;
+                                for (let r = 1; r < GRID_SIZE; r++) {
+                                    if (moveTile(r, c, -1, 0)) movedThisTurn = true;
+                                }
+                            } while (movedThisTurn);
+                        }
+                        break;
+                    case 'down':
+                        for (let c = 0; c < GRID_SIZE; c++) {
+                            do {
+                                movedThisTurn = false;
+                                for (let r = GRID_SIZE - 2; r >= 0; r--) {
+                                    if (moveTile(r, c, 1, 0)) movedThisTurn = true;
+                                }
+                            } while (movedThisTurn);
+                        }
+                        break;
+                    case 'left':
+                        for (let r = 0; r < GRID_SIZE; r++) {
+                            do {
+                                movedThisTurn = false;
+                                for (let c = 1; c < GRID_SIZE; c++) {
+                                    if (moveTile(r, c, 0, -1)) movedThisTurn = true;
+                                }
+                            } while (movedThisTurn);
+                        }
+                        break;
+                    case 'right':
+                        for (let r = 0; r < GRID_SIZE; r++) {
+                            do {
+                                movedThisTurn = false;
+                                for (let c = GRID_SIZE - 2; c >= 0; c--) {
+                                    if (moveTile(r, c, 0, 1)) movedThisTurn = true;
+                                }
+                            } while (movedThisTurn);
+                        }
+                        break;
+                }
+                this.updateScore();
+                return moved;
+            }
 
-function renderView(){
-  if(currentView==='dashboard')renderDashboard();
-  else if(currentView==='files')renderFiles();
-  else if(currentView==='inbox')renderInbox();
-  else if(currentView==='users')renderUsers();
-}
+            checkGameOver() {
+                for (let r = 0; r < GRID_SIZE; r++) {
+                    for (let c = 0; c < GRID_SIZE; c++) {
+                        if (!this.grid[r][c]) return false;
+                        if (c < GRID_SIZE - 1 && this.grid[r][c] === this.grid[r][c + 1]) return false;
+                        if (r < GRID_SIZE - 1 && this.grid[r][c] === this.grid[r + 1][c]) return false;
+                    }
+                }
+                return true;
+            }
 
-function renderDashboard(){
-  document.getElementById('dashGreet').textContent=`Bonjour, ${currentUser.name.split(' ')[0]} 👋`;
-  document.getElementById('dashDate').textContent=new Date().toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
-  const mf=currentUser.role==='admin'?allFiles:allFiles.filter(f=>f.ownerId===currentUser.id);
-  const stats=[
-    {label:'Fichiers',val:mf.length,color:'#3b82f6',icon:'M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z'},
-    {label:'Partagés',val:allShares.filter(s=>s.fromUserId===currentUser.id).length,color:'#10b981',icon:'M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8'},
-    {label:'Reçus',val:allShares.filter(s=>s.toUserId===currentUser.id).length,color:'#f59e0b',icon:'M22 12h-6l-2 3H10l-2-3H2'},
-    ...(currentUser.role==='admin'?[{label:'Utilisateurs',val:allUsers.length,color:'#8b5cf6',icon:'M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2'}]:[])
-  ];
-  document.getElementById('dashStats').innerHTML=stats.map(s=>`
-    <div class="stat-card"><div style="display:flex;justify-content:space-between;align-items:flex-start;">
-      <div><div style="color:#64748b;font-size:12px;margin-bottom:8px;">${s.label}</div><div style="color:#fff;font-size:32px;font-weight:700;">${s.val}</div></div>
-      <div style="width:40px;height:40px;border-radius:10px;background:${s.color}22;display:flex;align-items:center;justify-content:center;">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="${s.color}" stroke-width="2"><path d="${s.icon}"/></svg>
-      </div></div></div>`).join('');
-  const recent=[...mf].sort((a,b)=>b.uploadedAt-a.uploadedAt).slice(0,5);
-  document.getElementById('dashRecent').innerHTML=recent.length===0?'':`
-    <h2 style="color:#94a3b8;font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:1px;margin-bottom:16px;">Fichiers récents</h2>
-    <div style="display:flex;flex-direction:column;gap:8px;">${recent.map(f=>`
-      <div class="card">
-        <div class="file-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/></svg></div>
-        <div style="flex:1;overflow:hidden;"><div style="color:#e2e8f0;font-size:14px;font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${f.name}</div>
-        <div style="color:#475569;font-size:12px;">${f.ownerName||'—'} · ${fmtDate(f.uploadedAt)}</div></div>
-        <div style="color:#475569;font-size:12px;">${fmtSize(f.size)}</div>
-      </div>`).join('')}</div>`;
-}
+            checkWin() {
+                for (let r = 0; r < GRID_SIZE; r++) {
+                    for (let c = 0; c < GRID_SIZE; c++) {
+                        if (this.grid[r][c] === 2048) return true;
+                    }
+                }
+                return false;
+            }
 
-function renderFiles(){
-  const mf=currentUser.role==='admin'?allFiles:allFiles.filter(f=>f.ownerId===currentUser.id);
-  document.getElementById('filesTitle').textContent=currentUser.role==='admin'?'Tous les fichiers':'Mes fichiers';
-  document.getElementById('filesCount').textContent=`${mf.length} fichier(s)`;
-  if(mf.length===0){document.getElementById('filesList').innerHTML=`<div style="text-align:center;padding:80px 0;color:#475569;"><p style="font-size:15px;">Aucun fichier — importez votre premier fichier Excel</p></div>`;return;}
-  document.getElementById('filesList').innerHTML=`<div style="display:flex;flex-direction:column;gap:10px;">${mf.map(f=>{
-    const fs2=allShares.filter(s=>s.fileId===f.id);
-    const tags=fs2.map(s=>`<span class="shared-tag">→ ${s.toUserName||'?'}</span>`).join('');
-    const canDel=currentUser.role==='admin'||f.ownerId===currentUser.id;
-    return `<div class="card">
-      <div class="file-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/></svg></div>
-      <div style="flex:1;overflow:hidden;">
-        <div style="color:#e2e8f0;font-size:15px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${f.name}</div>
-        <div style="color:#475569;font-size:12px;margin-top:2px;">${currentUser.role==='admin'&&f.ownerName?f.ownerName+' · ':''}${f.dept} · ${fmtSize(f.size)} · ${fmtDate(f.uploadedAt)}</div>
-        ${tags?`<div style="display:flex;gap:4px;flex-wrap:wrap;margin-top:6px;">${tags}</div>`:''}
-      </div>
-      <div style="display:flex;gap:8px;flex-shrink:0;">
-        <button class="action-btn" title="Partager" onclick="openShare('${f.id}')"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16,6 12,2 8,6"/><line x1="12" y1="2" x2="12" y2="15"/></svg></button>
-        <button class="action-btn" title="Télécharger" onclick="downloadFile('${f.id}','${f.name}')"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7,10 12,15 17,10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></button>
-        ${canDel?`<button class="action-btn" title="Supprimer" onclick="deleteFile('${f.id}')"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2"><polyline points="3,6 5,6 21,6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></button>`:''}
-      </div></div>`;}).join('')}</div>`;
-}
+            showMessage(msg) {
+                this.messageElem.textContent = msg;
+                this.messageElem.style.display = 'block';
+            }
 
-function renderInbox(){
-  const inbox=allShares.filter(s=>s.toUserId===currentUser.id);
-  document.getElementById('inboxCount').textContent=`${inbox.length} fichier(s) partagé(s) avec vous`;
-  if(inbox.length===0){document.getElementById('inboxList').innerHTML=`<div style="text-align:center;padding:80px 0;color:#475569;"><p>Aucun fichier reçu pour l'instant</p></div>`;return;}
-  document.getElementById('inboxList').innerHTML=`<div style="display:flex;flex-direction:column;gap:10px;">${inbox.map(s=>{
-    const file=allFiles.find(f=>f.id===s.fileId);if(!file)return '';
-    return `<div class="card">
-      <div class="file-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/></svg></div>
-      <div style="flex:1;"><div style="color:#e2e8f0;font-size:15px;font-weight:600;">${file.name}</div>
-      <div style="color:#475569;font-size:12px;margin-top:2px;">De : <span style="color:#60a5fa;font-weight:500;">${s.fromUserName||'?'}</span> · ${fmtDate(s.sharedAt)} · ${fmtSize(file.size)}</div></div>
-      <button class="action-btn" title="Télécharger" onclick="downloadFile('${file.id}','${file.name}')"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7,10 12,15 17,10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></button>
-    </div>`;}).join('')}</div>`;
-}
+            render(callback) {
+                // Clear old tiles
+                this.tiles.forEach(tile => tile.remove());
+                this.tiles = [];
 
-function renderUsers(){
-  document.getElementById('usersCount').textContent=`${allUsers.length} utilisateur(s)`;
-  document.getElementById('usersList').innerHTML=`<div style="display:flex;flex-direction:column;gap:10px;">${allUsers.map(u=>{
-    const[c1,c2]=strColor(u.name).split(',');
-    return `<div class="card">
-      <div style="width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,${c1},${c2});display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:16px;flex-shrink:0;">${u.name[0].toUpperCase()}</div>
-      <div style="flex:1;">
-        <div style="display:flex;align-items:center;gap:8px;"><span style="color:#e2e8f0;font-size:15px;font-weight:600;">${u.name}</span><span class="badge ${u.role}">${u.role==='admin'?'ADMIN':'UTILISATEUR'}</span></div>
-        <div style="color:#475569;font-size:12px;margin-top:2px;">${u.email} · ${u.dept} · ${fmtDate(u.createdAt)}</div>
-      </div>
-      ${u.id!=='admin_001'?`<button class="action-btn" title="Supprimer" onclick="deleteUser('${u.id}','${u.name}')"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2"><polyline points="3,6 5,6 21,6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></button>`:''}
-    </div>`;}).join('')}</div>`;
-}
+                for (let r = 0; r < GRID_SIZE; r++) {
+                    for (let c = 0; c < GRID_SIZE; c++) {
+                        let value = this.grid[r][c];
+                        if (value) {
+                            let tile = document.createElement('div');
+                            tile.className = `tile tile-${value}`;
+                            tile.textContent = value;
+                            tile.style.transform = `translate(${c * (TILE_SIZE + TILE_GAP)}px, ${r * (TILE_SIZE + TILE_GAP)}px)`;
+                            this.container.appendChild(tile);
+                            this.tiles.push(tile);
+                        }
+                    }
+                }
 
-async function uploadFile(input){
-  const file=input.files[0];if(!file)return;
-  if(!file.name.match(/\.(xlsx|xls|csv)$/i)){toast('Seuls xlsx, xls, csv acceptés','error');return;}
-  try{
-    const fd=new FormData();fd.append('file',file);
-    const nf=await api('POST','/api/files',fd,true);
-    allFiles.push(nf);renderFiles();toast(`"${file.name}" importé !`);
-  }catch(e){toast(e.message,'error');}
-  input.value='';
-}
+                if (callback) {
+                    setTimeout(callback, 200);
+                }
+            }
+        }
 
-async function downloadFile(id,name){
-  try{const r=await api('GET',`/api/files/${id}/download`);const blob=await r.blob();const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;a.click();toast('Téléchargement démarré');}
-  catch(e){toast(e.message,'error');}
-}
-
-async function deleteFile(id){
-  if(!confirm('Supprimer ce fichier ?'))return;
-  try{await api('DELETE',`/api/files/${id}`);allFiles=allFiles.filter(f=>f.id!==id);allShares=allShares.filter(s=>s.fileId!==id);renderFiles();updateBadge();toast('Fichier supprimé');}
-  catch(e){toast(e.message,'error');}
-}
-
-function openShare(fileId){
-  shareFileId=fileId;
-  const already=allShares.filter(s=>s.fileId===fileId).map(s=>s.toUserId);
-  const sel=document.getElementById('shareTarget');
-  sel.innerHTML='<option value="">— Sélectionner —</option>'+allUsers.filter(u=>u.id!==currentUser.id&&!already.includes(u.id)).map(u=>`<option value="${u.id}">${u.name} (${u.dept||u.role})</option>`).join('');
-  document.getElementById('shareModal').style.display='flex';
-}
-
-async function doShare(){
-  const toUserId=document.getElementById('shareTarget').value;
-  if(!toUserId){toast('Sélectionnez un utilisateur','error');return;}
-  try{
-    const s=await api('POST','/api/shares',{fileId:shareFileId,toUserId});
-    allShares.push(s);document.getElementById('shareModal').style.display='none';
-    renderFiles();updateBadge();toast(`✓ Partagé avec ${s.toUserName}`);
-  }catch(e){toast(e.message,'error');}
-}
-
-function openCreateUser(){
-  ['newName','newEmail','newPw','newDept'].forEach(id=>document.getElementById(id).value='');
-  document.getElementById('newRole').value='user';
-  document.getElementById('createUserError').style.display='none';
-  document.getElementById('createUserModal').style.display='flex';
-}
-
-async function doCreateUser(){
-  const name=document.getElementById('newName').value.trim();
-  const email=document.getElementById('newEmail').value.trim();
-  const pw=document.getElementById('newPw').value;
-  const dept=document.getElementById('newDept').value.trim();
-  const role=document.getElementById('newRole').value;
-  const errEl=document.getElementById('createUserError');errEl.style.display='none';
-  try{
-    const u=await api('POST','/api/users',{name,email,password:pw,dept,role});
-    allUsers.push(u);document.getElementById('createUserModal').style.display='none';
-    renderUsers();toast(`Utilisateur "${name}" créé !`);
-  }catch(e){errEl.textContent=e.message;errEl.style.display='block';}
-}
-
-async function deleteUser(id,name){
-  if(!confirm(`Supprimer "${name}" ?`))return;
-  try{await api('DELETE',`/api/users/${id}`);allUsers=allUsers.filter(u=>u.id!==id);renderUsers();toast('Utilisateur supprimé');}
-  catch(e){toast(e.message,'error');}
-}
-
-window.onload=async()=>{
-  if(token){try{await initApp();}catch{showLogin();}}
-  else showLogin();
-};
-</script>
+        const game = new Game2048(document.getElementById('game-container'));
+    </script>
 </body>
 </html>
