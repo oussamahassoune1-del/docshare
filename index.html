@@ -26,6 +26,52 @@
             position: relative;
             user-select: none;
         }
+        #score {
+            position: absolute;
+            top: -50px;
+            right: 0;
+            font-size: 24px;
+            font-weight: bold;
+            color: #776e65;
+        }
+        #site-info {
+            position: absolute;
+            top: -50px;
+            left: 0;
+            font-size: 18px;
+            font-weight: normal;
+            color: #776e65;
+        }
+        #message {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 36px;
+            font-weight: bold;
+            color: #776e65;
+            display: none;
+            background: rgba(238, 228, 218, 0.8);
+            padding: 20px 40px;
+            border-radius: 10px;
+            z-index: 10;
+        }
+        #refresh-btn {
+            position: absolute;
+            top: -50px;
+            left: 200px;
+            padding: 5px 15px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            background-color: #8f7a66;
+            color: white;
+            cursor: pointer;
+            user-select: none;
+        }
+        #refresh-btn:hover {
+            background-color: #9f8b77;
+        }
         .tile {
             width: 80px;
             height: 80px;
@@ -52,28 +98,6 @@
         .tile-512 { background: #edc850; color: #f9f6f2; font-size: 20px; }
         .tile-1024 { background: #edc53f; color: #f9f6f2; font-size: 16px; }
         .tile-2048 { background: #edc22e; color: #f9f6f2; font-size: 16px; }
-        #score {
-            position: absolute;
-            top: -50px;
-            right: 0;
-            font-size: 24px;
-            font-weight: bold;
-            color: #776e65;
-        }
-        #message {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 36px;
-            font-weight: bold;
-            color: #776e65;
-            display: none;
-            background: rgba(238, 228, 218, 0.8);
-            padding: 20px 40px;
-            border-radius: 10px;
-            z-index: 10;
-        }
         #restart-btn {
             margin-top: 20px;
             padding: 10px 20px;
@@ -93,12 +117,17 @@
 <body>
     <div id="game-wrapper" style="position: relative;">
         <div id="score">Score: 0</div>
+        <div id="site-info"></div>
+        <button id="refresh-btn">Refresh</button>
         <div id="game-container"></div>
         <div id="message"></div>
         <button id="restart-btn">Restart</button>
     </div>
 
     <script>
+        const siteInfoElem = document.getElementById('site-info');
+        const refreshBtn = document.getElementById('refresh-btn');
+
         const GRID_SIZE = 4;
         const TILE_SIZE = 80;
         const TILE_GAP = 15;
@@ -109,14 +138,25 @@
                 this.scoreElem = document.getElementById('score');
                 this.messageElem = document.getElementById('message');
                 this.restartBtn = document.getElementById('restart-btn');
+                this.refreshBtn = refreshBtn;
                 this.grid = this.createEmptyGrid();
                 this.tiles = [];
                 this.score = 0;
                 this.isAnimating = false;
 
                 this.restartBtn.addEventListener('click', () => this.restart());
+                this.refreshBtn.addEventListener('click', () => this.refresh());
                 window.addEventListener('keydown', e => this.handleKey(e));
 
+                this.showSiteInfo();
+                this.restart();
+            }
+
+            showSiteInfo() {
+                siteInfoElem.textContent = `Site: ${window.location.href}`;
+            }
+
+            refresh() {
                 this.restart();
             }
 
