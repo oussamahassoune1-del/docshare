@@ -89,7 +89,7 @@ select.input-field option{background:#1a1d26;}
     <div style="background:rgba(255,255,255,.04);border-radius:12px;padding:12px;margin-bottom:24px;border:1px solid rgba(255,255,255,.06);">
       <div style="display:flex;align-items:center;gap:10px;">
         <div id="sidebarAvatar" style="width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:14px;flex-shrink:0;"></div>
-        <div><div id="sidebarName" style="color:#e2e8f0;font-size:13px;font-weight:600;"></div><div id="sidebarDept" style="color:#475569;font-size:11px;"></div></div>
+        <div><div id="sidebarName" style="color:#e2e8f0;font-size:13px;font-weight:600;"></div></div>
       </div>
     </div>
     <nav style="flex:1;">
@@ -130,15 +130,6 @@ select.input-field option{background:#1a1d26;}
     <div id="viewInbox" style="display:none;animation:fadeIn .4s;">
       <div style="margin-bottom:28px;"><h1 style="font-size:22px;font-weight:700;">Fichiers reçus</h1><p id="inboxCount" style="color:#64748b;font-size:13px;margin-top:3px;"></p></div>
       <div id="inboxList"></div>
-    </div>
-    <div id="viewUsers" style="display:none;animation:fadeIn .4s;">
-      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:28px;">
-        <div><h1 style="font-size:22px;font-weight:700;">Utilisateurs</h1><p id="usersCount" style="color:#64748b;font-size:13px;margin-top:3px;"></p></div>
-        <button class="btn-primary" onclick="openCreateUser()">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Nouvel utilisateur
-        </button>
-      </div>
-      <div id="usersList"></div>
     </div>
   </main>
 </div>
@@ -304,14 +295,13 @@ function renderDashboard(){
       <div class="card">
         <div class="file-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/></svg></div>
         <div style="flex:1;overflow:hidden;"><div style="color:#e2e8f0;font-size:14px;font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${f.name}</div>
-        <div style="color:#475569;font-size:12px;">${f.ownerName||'—'} · ${fmtDate(f.uploadedAt)}</div></div>
         <div style="color:#475569;font-size:12px;">${fmtSize(f.size)}</div>
       </div>`).join('')}</div>`;
 }
 
 function renderFiles(){
-  const mf=currentUser.role==='admin'?allFiles:allFiles.filter(f=>f.ownerId===currentUser.id);
-  document.getElementById('filesTitle').textContent=currentUser.role==='admin'?'Tous les fichiers':'Mes fichiers';
+  const mf=allFiles.filter(f=>f.ownerId===currentUser.id);
+  document.getElementById('filesTitle').textContent='Mes fichiers';
   document.getElementById('filesCount').textContent=`${mf.length} fichier(s)`;
   if(mf.length===0){document.getElementById('filesList').innerHTML=`<div style="text-align:center;padding:80px 0;color:#475569;"><p style="font-size:15px;">Aucun fichier — importez votre premier fichier Excel</p></div>`;return;}
   document.getElementById('filesList').innerHTML=`<div style="display:flex;flex-direction:column;gap:10px;">${mf.map(f=>{
@@ -341,7 +331,7 @@ function renderInbox(){
     return `<div class="card">
       <div class="file-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/></svg></div>
       <div style="flex:1;"><div style="color:#e2e8f0;font-size:15px;font-weight:600;">${file.name}</div>
-      <div style="color:#475569;font-size:12px;margin-top:2px;">De : <span style="color:#60a5fa;font-weight:500;">${s.fromUserName||'?'}</span> · ${fmtDate(s.sharedAt)} · ${fmtSize(file.size)}</div></div>
+      <divdiv>
       <button class="action-btn" title="Télécharger" onclick="downloadFile('${file.id}','${file.name}')"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7,10 12,15 17,10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></button>
     </div>`;}).join('')}</div>`;
 }
@@ -353,7 +343,7 @@ function renderUsers(){
     return `<div class="card">
       <div style="width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,${c1},${c2});display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:16px;flex-shrink:0;">${u.name[0].toUpperCase()}</div>
       <div style="flex:1;">
-        <div style="display:flex;align-items:center;gap:8px;"><span style="color:#e2e8f0;font-size:15px;font-weight:600;">${u.name}</span><span class="badge ${u.role}">${u.role==='admin'?'ADMIN':'UTILISATEUR'}</span></div>
+        <divan class="badge ${u.role}">${u.role==='admin'?'ADMIN':'UTILISATEUR'}</span></div>
         <div style="color:#475569;font-size:12px;margin-top:2px;">${u.email} · ${u.dept} · ${fmtDate(u.createdAt)}</div>
       </div>
       ${u.id!=='admin_001'?`<button class="action-btn" title="Supprimer" onclick="deleteUser('${u.id}','${u.name}')"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2"><polyline points="3,6 5,6 21,6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></button>`:''}
