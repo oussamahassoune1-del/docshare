@@ -10,6 +10,8 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
 <script>Chart.register(ChartDataLabels);</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;}
 body{font-family:'DM Sans',sans-serif;background:#0f1117;color:#fff;min-height:100vh;}
@@ -85,7 +87,7 @@ select.input-field option{background:#1a1d26;}
     <div id="loginError" style="display:none;background:rgba(239,68,68,.15);border:1px solid rgba(239,68,68,.3);border-radius:10px;padding:10px 14px;color:#f87171;font-size:13px;margin-bottom:16px;"></div>
     <button onclick="doLogin()" id="loginBtn" class="btn-primary" style="width:100%;justify-content:center;padding:13px;font-size:14px;">Se connecter →</button>
     <div style="margin-top:18px;padding:12px;background:rgba(255,255,255,.03);border-radius:10px;border:1px solid rgba(255,255,255,.06);">
-      <p style="color:#475569;font-size:11px;text-align:center;">Admin : <span style="color:#60a5fa;font-weight:600;">admin@entreprise.com</span> / <span style="color:#60a5fa;font-weight:600;">admin123</span></p>
+      <p style="color:#475569;font-size:11px;text-align:center;">Admin : <span style="color:#60a5fa;font-weight:600;"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="355451585c5b75505b41475045475c46501b565a58">[email&#160;protected]</a></span> / <span style="color:#60a5fa;font-weight:600;">admin123</span></p>
     </div>
   </div>
 </div>
@@ -185,7 +187,7 @@ select.input-field option{background:#1a1d26;}
   </div>
 </div>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 // ── State ─────────────────────────────────────────────────────────────────────
 let token=localStorage.getItem('ds_token'),currentUser=null,allUsers=[],allFiles=[],allShares=[],shareFileId=null;
 let charts={};
@@ -322,6 +324,9 @@ function renderDashShell(view,title,renderFn){
       <div style="display:flex;align-items:center;gap:8px;">
         <button class="refresh-btn" id="refreshBtn_${view}" onclick="refreshDash('${view}','${renderFn}')" title="Actualiser">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23,4 23,10 17,10"/><polyline points="1,20 1,14 7,14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+        </button>
+        <button class="refresh-btn" onclick="exportPDF('${view}','${title}')" title="Exporter en PDF" style="color:#f87171;border-color:rgba(248,113,113,.3);">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10,9 9,9 8,9"/></svg>
         </button>
         <button class="btn-primary" onclick="document.getElementById('fileInput_${view}').click()">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17,8 12,3 7,8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>Importer
@@ -981,8 +986,70 @@ async function doCreateUser(){
 
 async function deleteUser(id,name){
   if(!confirm(`Supprimer "${name}" ?`))return;
-  try{await api('DELETE',`/api/users/${id}`);allUsers=allUsers.filter(u=>u.id!==id);renderUsers();toast('Supprimé');}
+  try{await api('DELETE',`/api/users/${id}`);allUsers=  try{await api('DELETE',`/api/users/${id}`);allUsers=allUsers.filter(u=>u.id!==id);renderUsers();toast('Supprimé');}
   catch(e){toast(e.message,'error');}
+}
+
+// ── EXPORT PNG / PDF ──────────────────────────────────────────────────────────
+async function captureView(view){
+  const el=document.getElementById('view'+view.charAt(0).toUpperCase()+view.slice(1));
+  if(!el){toast('Rien à exporter','error');return null;}
+  toast('Capture en cours…');
+  const canvas=await html2canvas(el,{
+    backgroundColor:'#0f1117',scale:2,useCORS:true,logging:false,
+    scrollY:0,windowWidth:el.scrollWidth,height:el.scrollHeight
+  });
+  return canvas;
+}
+
+async function exportPNG(view,title){
+  try{
+    const canvas=await captureView(view);if(!canvas)return;
+    const link=document.createElement('a');
+    const name=(title||view).replace(/[^a-z0-9]/gi,'_')+'_'+new Date().toLocaleDateString('fr-FR').replace(/\//g,'-');
+    link.download=name+'.png';link.href=canvas.toDataURL('image/png');link.click();
+    toast('📸 PNG exporté !');
+  }catch(e){toast('Erreur export PNG: '+e.message,'error');}
+}
+
+async function exportPDF(view,title){
+  try{
+    const canvas=await captureView(view);if(!canvas)return;
+    const {jsPDF}=window.jspdf;
+    const imgData=canvas.toDataURL('image/png');
+    const imgW=canvas.width,imgH=canvas.height;
+    const isLandscape=imgW>imgH;
+    const pdf=new jsPDF({orientation:isLandscape?'landscape':'portrait',unit:'mm',format:'a4'});
+    const pageW=pdf.internal.pageSize.getWidth(),pageH=pdf.internal.pageSize.getHeight();
+    const ratio=Math.min(pageW/imgW,(pageH-14)/imgH);
+    const w=imgW*ratio,h=imgH*ratio;
+    const addHeader=()=>{
+      pdf.setFillColor(13,15,24);pdf.rect(0,0,pageW,12,'F');
+      pdf.setTextColor(255,255,255);pdf.setFontSize(9);pdf.setFont('helvetica','bold');
+      pdf.text('One Mobility — '+(title||view),6,8);
+      pdf.setFont('helvetica','normal');pdf.setFontSize(7);pdf.setTextColor(100,116,139);
+      pdf.text(new Date().toLocaleString('fr-FR'),pageW-6,8,'right');
+    };
+    addHeader();
+    const availH=pageH-14;
+    if(h<=availH){
+      pdf.addImage(imgData,'PNG',(pageW-w)/2,13,w,h);
+    }else{
+      const sliceH=Math.floor(imgH*(availH/h));
+      let yOffset=0,pageNum=0;
+      while(yOffset<imgH){
+        if(pageNum>0){pdf.addPage();addHeader();}
+        const sc=document.createElement('canvas');
+        sc.width=imgW;sc.height=Math.min(sliceH,imgH-yOffset);
+        sc.getContext('2d').drawImage(canvas,0,yOffset,imgW,sc.height,0,0,imgW,sc.height);
+        const srh=(sc.height/imgH)*h;
+        pdf.addImage(sc.toDataURL('image/png'),'PNG',(pageW-w)/2,13,w,srh);
+        yOffset+=sliceH;pageNum++;
+      }
+    }
+    const name=(title||view).replace(/[^a-z0-9]/gi,'_')+'_'+new Date().toLocaleDateString('fr-FR').replace(/\//g,'-');
+    pdf.save(name+'.pdf');toast('📄 PDF exporté !');
+  }catch(e){toast('Erreur export PDF: '+e.message,'error');}
 }
 
 window.onload=async()=>{
