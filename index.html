@@ -1000,28 +1000,6 @@ function openCreateUser(user=null){
   document.getElementById('newPwLabel').textContent=user?'Nouveau mot de passe (laisser vide = inchangé)':'Mot de passe';
   document.getElementById('createUserModal').style.display='flex';
 }
-
-async function doCreateUser(){
-  const name=document.getElementById('newName').value.trim(),email=document.getElementById('newEmail').value.trim(),pw=document.getElementById('newPw').value,dept=document.getElementById('newDept').value.trim(),role=document.getElementById('newRole').value;
-  const errEl=document.getElementById('createUserError');errEl.style.display='none';
-  try{
-    if(editUserId){
-      // MODIFY existing user
-      const body={name,email,dept,role};
-      if(pw)body.password=pw;
-      const u=await api('PUT',`/api/users/${editUserId}`,body);
-      const idx=allUsers.findIndex(x=>x.id===editUserId);
-      if(idx>=0)allUsers[idx]={...allUsers[idx],...u};
-      document.getElementById('createUserModal').style.display='none';
-      renderUsers();toast(`"${name}" modifié !`);
-    }else{
-      const u=await api('POST','/api/users',{name,email,password:pw,dept,role});
-      allUsers.push(u);document.getElementById('createUserModal').style.display='none';
-      renderUsers();toast(`"${name}" créé !`);
-    }
-  }catch(e){errEl.textContent=e.message;errEl.style.display='block';}
-}
-
 async function doCreateUser(){
   const name=document.getElementById('newName').value.trim(),email=document.getElementById('newEmail').value.trim(),pw=document.getElementById('newPw').value,dept=document.getElementById('newDept').value.trim(),role=document.getElementById('newRole').value;
   const errEl=document.getElementById('createUserError');errEl.style.display='none';
