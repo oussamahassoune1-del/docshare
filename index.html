@@ -459,13 +459,13 @@ function renderInventory(view){
   const avgPrice=data.reduce((s,r)=>{const v=parseFloat(getCol(r,'PRICE_UNIT','PRICE UNIT'));return s+(isNaN(v)?0:v);},0)/(data.length||1);
 
   // Calculs RAW
-  const dataRAW=data.filter(r=>(getCol(r,'TYPE')||'').toString().toUpperCase()==='RAW');
+ const dataRAW=data.filter(r=>(getCol(r,'TYPE')||'').toString().toUpperCase().includes('RAW'));
   const totalRAW=dataRAW.reduce((s,r)=>{const v=parseFloat(getCol(r,'VALUE'));return s+(isNaN(v)?0:v);},0);
   const stockRAW=dataRAW.reduce((s,r)=>{const v=parseFloat(getCol(r,'STOCK'));return s+(isNaN(v)?0:v);},0);
   const projRAW=new Set(dataRAW.map(r=>getCol(r,'PROJECT'))).size;
 
   // Calculs FG
-  const dataFG=data.filter(r=>(getCol(r,'TYPE')||'').toString().toUpperCase()==='FG');
+  const dataFG=data.filter(r=>(getCol(r,'TYPE')||'').toString().toUpperCase().includes('FG'));
   const totalFG=dataFG.reduce((s,r)=>{const v=parseFloat(getCol(r,'VALUE'));return s+(isNaN(v)?0:v);},0);
   const stockFG=dataFG.reduce((s,r)=>{const v=parseFloat(getCol(r,'STOCK'));return s+(isNaN(v)?0:v);},0);
   const projFG=new Set(dataFG.map(r=>getCol(r,'PROJECT'))).size;
