@@ -451,22 +451,90 @@ function filterTableById(id,val,headers,rows){
 function renderInventory(view){
   const data=dashData[view]||[];
   const content=document.getElementById(`content_${view}`);
+
+  // Calculs globaux
   const totalVal=data.reduce((s,r)=>{const v=parseFloat(getCol(r,'VALUE'));return s+(isNaN(v)?0:v);},0);
   const totalStock=data.reduce((s,r)=>{const v=parseFloat(getCol(r,'STOCK'));return s+(isNaN(v)?0:v);},0);
-  const totalRAW=data.filter(r=>(getCol(r,'TYPE')||'').toString().toUpperCase()==='RAW').reduce((s,r)=>{const v=parseFloat(getCol(r,'VALUE'));return s+(isNaN(v)?0:v);},0);
-  const totalFG=data.filter(r=>(getCol(r,'TYPE')||'').toString().toUpperCase()==='FG').reduce((s,r)=>{const v=parseFloat(getCol(r,'VALUE'));return s+(isNaN(v)?0:v);},0);
   const projects=new Set(data.map(r=>getCol(r,'PROJECT'))).size;
   const avgPrice=data.reduce((s,r)=>{const v=parseFloat(getCol(r,'PRICE_UNIT','PRICE UNIT'));return s+(isNaN(v)?0:v);},0)/(data.length||1);
 
-  content.innerHTML=
-    kpiHTML([
-      {label:'Total Value',val:fmtEur(totalVal),color:'#3b82f6',icon:'M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z',sub:'Valeur totale'},
-      {label:'Value RAW',val:fmtEur(totalRAW),color:'#f59e0b',icon:'M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z',sub:'Matières premières'},
-      {label:'Value FG',val:fmtEur(totalFG),color:'#10b981',icon:'M22 11.08V12a10 10 0 1 1-5.93-9.14',sub:'Produits finis'},
-      {label:'Total Stock',val:fmtNum(totalStock),color:'#8b5cf6',icon:'M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z',sub:'Unités'},
+  // Calculs RAW
+  const dataRAW=data.filter(r=>(getCol(r,'TYPE')||'').toString().toUpperCase()==='RAW');
+  const totalRAW=dataRAW.reduce((s,r)=>{const v=parseFloat(getCol(r,'VALUE'));return s+(isNaN(v)?0:v);},0);
+  const stockRAW=dataRAW.reduce((s,r)=>{const v=parseFloat(getCol(r,'STOCK'));return s+(isNaN(v)?0:v);},0);
+  const projRAW=new Set(dataRAW.map(r=>getCol(r,'PROJECT'))).size;
+
+  // Calculs FG
+  const dataFG=data.filter(r=>(getCol(r,'TYPE')||'').toString().toUpperCase()==='FG');
+  const totalFG=dataFG.reduce((s,r)=>{const v=parseFloat(getCol(r,'VALUE'));return s+(isNaN(v)?0:v);},0);
+  const stockFG=dataFG.reduce((s,r)=>{const v=parseFloat(getCol(r,'STOCK'));return s+(isNaN(v)?0:v);},0);
+  const projFG=new Set(dataFG.map(r=>getCol(r,'PROJECT'))).size;
+
+  // KPI double bloc RAW / FG
+  const kpiDoubleHTML=`
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:20px;">
+
+      <!-- BLOC RAW -->
+      <div style="background:rgba(245,158,11,.06);border:1px solid rgba(245,158,11,.2);border-radius:14px;padding:16px 20px;">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:14px;">
+          <div style="width:8px;height:8px;border-radius:50%;background:#f59e0b;"></div>
+          <span style="color:#f59e0b;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;">RAW MATERIAL</span>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;">
+          <div>
+            <div style="color:#94a3b8;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px;">Total Value</div>
+            <div style="color:#fff;font-size:18px;font-weight:700;">${fmtEur(totalRAW)}</div>
+            <div style="color:#475569;font-size:10px;">Valeur totale</div>
+          </div>
+          <div>
+            <div style="color:#94a3b8;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px;">Stock</div>
+            <div style="color:#f59e0b;font-size:18px;font-weight:700;">${fmtNum(stockRAW)}</div>
+            <div style="color:#475569;font-size:10px;">Unités</div>
+          </div>
+          <div>
+            <div style="color:#94a3b8;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px;">Projets</div>
+            <div style="color:#f59e0b;font-size:18px;font-weight:700;">${projRAW}</div>
+            <div style="color:#475569;font-size:10px;">Actifs</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- BLOC FG -->
+      <div style="background:rgba(16,185,129,.06);border:1px solid rgba(16,185,129,.2);border-radius:14px;padding:16px 20px;">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:14px;">
+          <div style="width:8px;height:8px;border-radius:50%;background:#10b981;"></div>
+          <span style="color:#10b981;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;">FINISHED GOODS (FG)</span>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;">
+          <div>
+            <div style="color:#94a3b8;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px;">Total Value</div>
+            <div style="color:#fff;font-size:18px;font-weight:700;">${fmtEur(totalFG)}</div>
+            <div style="color:#475569;font-size:10px;">Valeur totale</div>
+          </div>
+          <div>
+            <div style="color:#94a3b8;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px;">Stock</div>
+            <div style="color:#10b981;font-size:18px;font-weight:700;">${fmtNum(stockFG)}</div>
+            <div style="color:#475569;font-size:10px;">Unités</div>
+          </div>
+          <div>
+            <div style="color:#94a3b8;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px;">Projets</div>
+            <div style="color:#10b981;font-size:18px;font-weight:700;">${projFG}</div>
+            <div style="color:#475569;font-size:10px;">Actifs</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- KPI globaux (rangée du bas) -->
+    ${kpiHTML([
+      {label:'Total Value',val:fmtEur(totalVal),color:'#3b82f6',icon:'M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z',sub:'Toutes catégories'},
+      {label:'Total Stock',val:fmtNum(totalStock),color:'#8b5cf6',icon:'M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z',sub:'Unités totales'},
       {label:'Prix Moyen',val:fmtEur(avgPrice),color:'#06b6d4',icon:'M12 1v22M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6',sub:'Unitaire'},
-      {label:'Projets',val:projects,color:'#ec4899',icon:'M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2',sub:'Actifs'},
-    ])+
+      {label:'Projets',val:projects,color:'#ec4899',icon:'M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2',sub:'Total actifs'},
+    ])}`;
+
+  content.innerHTML=kpiDoubleHTML+
     `<div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;">
       ${chartCard('📊 VALUE PAR PROJECT','inv_proj')}
       ${chartCard('📈 ÉVOLUTION PAR SEMAINE','inv_week')}
@@ -477,7 +545,7 @@ function renderInventory(view){
     </div>`+
     tableSection('inv_table',Object.keys(data[0]||{}),data,'🗂️ DONNÉES INVENTORY');
 
-  // Charts
+  // Charts (identiques à avant)
   const projMap={};data.forEach(r=>{const p=String(getCol(r,'PROJECT')||'?');const v=parseFloat(getCol(r,'VALUE'))||0;projMap[p]=(projMap[p]||0)+v;});
   const projS=Object.entries(projMap).sort((a,b)=>b[1]-a[1]).slice(0,12);
   makeChart('inv_proj',{type:'bar',data:{labels:projS.map(p=>p[0]),datasets:[{data:projS.map(p=>p[1]),backgroundColor:COLORS,borderRadius:4}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>fmtEur(c.raw)}}},scales:{x:{ticks:{color:'#64748b',font:{size:9},maxRotation:45},grid:{color:'rgba(255,255,255,.04)'}},y:{ticks:{color:'#64748b',font:{size:9},callback:v=>fmtEur(v)},grid:{color:'rgba(255,255,255,.05)'}}}}});
