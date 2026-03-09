@@ -452,116 +452,93 @@ function renderInventory(view){
   const data=dashData[view]||[];
   const content=document.getElementById(`content_${view}`);
 
-  // Calculs globaux
   const totalVal=data.reduce((s,r)=>{const v=parseFloat(getCol(r,'VALUE'));return s+(isNaN(v)?0:v);},0);
   const totalStock=data.reduce((s,r)=>{const v=parseFloat(getCol(r,'STOCK'));return s+(isNaN(v)?0:v);},0);
   const projects=new Set(data.map(r=>getCol(r,'PROJECT'))).size;
   const avgPrice=data.reduce((s,r)=>{const v=parseFloat(getCol(r,'PRICE_UNIT','PRICE UNIT'));return s+(isNaN(v)?0:v);},0)/(data.length||1);
 
-  // Calculs RAW
- const dataRAW=data.filter(r=>(getCol(r,'TYPE')||'').toString().toUpperCase().includes('RAW'));
+  const dataRAW=data.filter(r=>(getCol(r,'TYPE')||'').toString().toUpperCase().includes('RAW'));
   const totalRAW=dataRAW.reduce((s,r)=>{const v=parseFloat(getCol(r,'VALUE'));return s+(isNaN(v)?0:v);},0);
   const stockRAW=dataRAW.reduce((s,r)=>{const v=parseFloat(getCol(r,'STOCK'));return s+(isNaN(v)?0:v);},0);
   const projRAW=new Set(dataRAW.map(r=>getCol(r,'PROJECT'))).size;
 
-  // Calculs FG
   const dataFG=data.filter(r=>(getCol(r,'TYPE')||'').toString().toUpperCase().includes('FG'));
   const totalFG=dataFG.reduce((s,r)=>{const v=parseFloat(getCol(r,'VALUE'));return s+(isNaN(v)?0:v);},0);
   const stockFG=dataFG.reduce((s,r)=>{const v=parseFloat(getCol(r,'STOCK'));return s+(isNaN(v)?0:v);},0);
   const projFG=new Set(dataFG.map(r=>getCol(r,'PROJECT'))).size;
 
-  // KPI double bloc RAW / FG
-  const kpiDoubleHTML=`
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:20px;">
+  const kpiGlobal=kpiHTML([
+    {label:'Total Value',val:fmtEur(totalVal),color:'#3b82f6',icon:'M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z',sub:'Toutes catégories'},
+    {label:'Total Stock',val:fmtNum(totalStock),color:'#8b5cf6',icon:'M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z',sub:'Unités totales'},
+    {label:'Prix Moyen',val:fmtEur(avgPrice),color:'#06b6d4',icon:'M12 1v22M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6',sub:'Unitaire'},
+    {label:'Projets',val:projects,color:'#ec4899',icon:'M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2',sub:'Total actifs'},
+  ]);
 
-      <!-- BLOC RAW -->
-      <div style="background:rgba(245,158,11,.06);border:1px solid rgba(245,158,11,.2);border-radius:14px;padding:16px 20px;">
-        <div style="display:flex;align-items:center;gap:8px;margin-bottom:14px;">
-          <div style="width:8px;height:8px;border-radius:50%;background:#f59e0b;"></div>
-          <span style="color:#f59e0b;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;">RAW MATERIAL</span>
-        </div>
-        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;">
-          <div>
-            <div style="color:#94a3b8;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px;">Total Value</div>
-            <div style="color:#fff;font-size:18px;font-weight:700;">${fmtEur(totalRAW)}</div>
-            <div style="color:#475569;font-size:10px;">Valeur totale</div>
-          </div>
-          <div>
-            <div style="color:#94a3b8;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px;">Stock</div>
-            <div style="color:#f59e0b;font-size:18px;font-weight:700;">${fmtNum(stockRAW)}</div>
-            <div style="color:#475569;font-size:10px;">Unités</div>
-          </div>
-          <div>
-            <div style="color:#94a3b8;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px;">Projets</div>
-            <div style="color:#f59e0b;font-size:18px;font-weight:700;">${projRAW}</div>
-            <div style="color:#475569;font-size:10px;">Actifs</div>
-          </div>
-        </div>
-      </div>
+  function kpiCell(label,val,color){
+    return '<div>'+
+      '<div style="color:#94a3b8;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px;">'+label+'</div>'+
+      '<div style="color:'+color+';font-size:20px;font-weight:700;">'+val+'</div>'+
+    '</div>';
+  }
 
-      <!-- BLOC FG -->
-      <div style="background:rgba(16,185,129,.06);border:1px solid rgba(16,185,129,.2);border-radius:14px;padding:16px 20px;">
-        <div style="display:flex;align-items:center;gap:8px;margin-bottom:14px;">
-          <div style="width:8px;height:8px;border-radius:50%;background:#10b981;"></div>
-          <span style="color:#10b981;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;">FINISHED GOODS (FG)</span>
-        </div>
-        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;">
-          <div>
-            <div style="color:#94a3b8;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px;">Total Value</div>
-            <div style="color:#fff;font-size:18px;font-weight:700;">${fmtEur(totalFG)}</div>
-            <div style="color:#475569;font-size:10px;">Valeur totale</div>
-          </div>
-          <div>
-            <div style="color:#94a3b8;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px;">Stock</div>
-            <div style="color:#10b981;font-size:18px;font-weight:700;">${fmtNum(stockFG)}</div>
-            <div style="color:#475569;font-size:10px;">Unités</div>
-          </div>
-          <div>
-            <div style="color:#94a3b8;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px;">Projets</div>
-            <div style="color:#10b981;font-size:18px;font-weight:700;">${projFG}</div>
-            <div style="color:#475569;font-size:10px;">Actifs</div>
-          </div>
-        </div>
-      </div>
+  const blocRAW=
+    '<div style="background:rgba(245,158,11,.06);border:1px solid rgba(245,158,11,.25);border-radius:14px;padding:16px 20px;">'+
+      '<div style="display:flex;align-items:center;gap:8px;margin-bottom:14px;">'+
+        '<div style="width:8px;height:8px;border-radius:50%;background:#f59e0b;"></div>'+
+        '<span style="color:#f59e0b;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;">RAW MATERIAL</span>'+
+      '</div>'+
+      '<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;">'+
+        kpiCell('Total Value',fmtEur(totalRAW),'#fff')+
+        kpiCell('Stock',fmtNum(stockRAW),'#f59e0b')+
+        kpiCell('Projets',projRAW,'#f59e0b')+
+      '</div>'+
+    '</div>';
 
-    </div>
+  const blocFG=
+    '<div style="background:rgba(16,185,129,.06);border:1px solid rgba(16,185,129,.25);border-radius:14px;padding:16px 20px;">'+
+      '<div style="display:flex;align-items:center;gap:8px;margin-bottom:14px;">'+
+        '<div style="width:8px;height:8px;border-radius:50%;background:#10b981;"></div>'+
+        '<span style="color:#10b981;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;">FINISHED GOODS (FG)</span>'+
+      '</div>'+
+      '<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;">'+
+        kpiCell('Total Value',fmtEur(totalFG),'#fff')+
+        kpiCell('Stock',fmtNum(stockFG),'#10b981')+
+        kpiCell('Projets',projFG,'#10b981')+
+      '</div>'+
+    '</div>';
 
-    <!-- KPI globaux (rangée du bas) -->
-    ${kpiHTML([
-      {label:'Total Value',val:fmtEur(totalVal),color:'#3b82f6',icon:'M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z',sub:'Toutes catégories'},
-      {label:'Total Stock',val:fmtNum(totalStock),color:'#8b5cf6',icon:'M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z',sub:'Unités totales'},
-      {label:'Prix Moyen',val:fmtEur(avgPrice),color:'#06b6d4',icon:'M12 1v22M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6',sub:'Unitaire'},
-      {label:'Projets',val:projects,color:'#ec4899',icon:'M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2',sub:'Total actifs'},
-    ])}`;
-
-  content.innerHTML=kpiDoubleHTML+
-    `<div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;">
-      ${chartCard('📊 VALUE PAR PROJECT','inv_proj')}
-      ${chartCard('📈 ÉVOLUTION PAR SEMAINE','inv_week')}
-    </div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;">
-      ${chartCard('🥧 FG vs RAW','inv_type',200)}
-      ${chartCard('🏆 TOP 10 MATÉRIAUX','inv_top',200)}
-    </div>`+
+  content.innerHTML=
+    '<div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:20px;">'+blocRAW+blocFG+'</div>'+
+    kpiGlobal+
+    '<div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;">'+
+      chartCard('📊 VALUE PAR PROJECT — RAW MATERIAL','inv_proj_raw')+
+      chartCard('📊 VALUE PAR PROJECT — FINISHED GOODS','inv_proj_fg')+
+    '</div>'+
+    '<div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;">'+
+      chartCard('🥧 FG vs RAW','inv_type',200)+
+      chartCard('🏆 TOP 10 MATÉRIAUX','inv_top',200)+
+    '</div>'+
     tableSection('inv_table',Object.keys(data[0]||{}),data,'🗂️ DONNÉES INVENTORY');
 
-  // Charts (identiques à avant)
-  const projMap={};data.forEach(r=>{const p=String(getCol(r,'PROJECT')||'?');const v=parseFloat(getCol(r,'VALUE'))||0;projMap[p]=(projMap[p]||0)+v;});
-  const projS=Object.entries(projMap).sort((a,b)=>b[1]-a[1]).slice(0,12);
-  makeChart('inv_proj',{type:'bar',data:{labels:projS.map(p=>p[0]),datasets:[{data:projS.map(p=>p[1]),backgroundColor:COLORS,borderRadius:4}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>fmtEur(c.raw)}}},scales:{x:{ticks:{color:'#64748b',font:{size:9},maxRotation:45},grid:{color:'rgba(255,255,255,.04)'}},y:{ticks:{color:'#64748b',font:{size:9},callback:v=>fmtEur(v)},grid:{color:'rgba(255,255,255,.05)'}}}}});
+  // Graphe VALUE PAR PROJECT - RAW
+  const projMapRAW={};dataRAW.forEach(r=>{const p=String(getCol(r,'PROJECT')||'?');const v=parseFloat(getCol(r,'VALUE'))||0;projMapRAW[p]=(projMapRAW[p]||0)+v;});
+  const projSRAW=Object.entries(projMapRAW).sort((a,b)=>b[1]-a[1]).slice(0,12);
+  makeChart('inv_proj_raw',{type:'bar',data:{labels:projSRAW.map(p=>p[0]),datasets:[{data:projSRAW.map(p=>p[1]),backgroundColor:'#f59e0b',borderRadius:4}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>fmtEur(c.raw)}}},scales:{x:{ticks:{color:'#64748b',font:{size:9},maxRotation:45},grid:{color:'rgba(255,255,255,.04)'}},y:{ticks:{color:'#64748b',font:{size:9},callback:v=>fmtEur(v)},grid:{color:'rgba(255,255,255,.05)'}}}}});
 
-  const weekMap={};data.forEach(r=>{const w='W'+String(getCol(r,'WEEK')||'?');const v=parseFloat(getCol(r,'VALUE'))||0;weekMap[w]=(weekMap[w]||0)+v;});
-  const weekS=Object.entries(weekMap).sort((a,b)=>a[0].localeCompare(b[0]));
-  makeChart('inv_week',{type:'line',data:{labels:weekS.map(w=>w[0]),datasets:[{data:weekS.map(w=>w[1]),borderColor:'#3b82f6',backgroundColor:'rgba(59,130,246,.1)',fill:true,tension:.4,pointRadius:3}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>fmtEur(c.raw)}}},scales:{x:{ticks:{color:'#64748b',font:{size:9}},grid:{color:'rgba(255,255,255,.04)'}},y:{ticks:{color:'#64748b',font:{size:9},callback:v=>fmtEur(v)},grid:{color:'rgba(255,255,255,.05)'}}}}});
+  // Graphe VALUE PAR PROJECT - FG
+  const projMapFG={};dataFG.forEach(r=>{const p=String(getCol(r,'PROJECT')||'?');const v=parseFloat(getCol(r,'VALUE'))||0;projMapFG[p]=(projMapFG[p]||0)+v;});
+  const projSFG=Object.entries(projMapFG).sort((a,b)=>b[1]-a[1]).slice(0,12);
+  makeChart('inv_proj_fg',{type:'bar',data:{labels:projSFG.map(p=>p[0]),datasets:[{data:projSFG.map(p=>p[1]),backgroundColor:'#10b981',borderRadius:4}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>fmtEur(c.raw)}}},scales:{x:{ticks:{color:'#64748b',font:{size:9},maxRotation:45},grid:{color:'rgba(255,255,255,.04)'}},y:{ticks:{color:'#64748b',font:{size:9},callback:v=>fmtEur(v)},grid:{color:'rgba(255,255,255,.05)'}}}}});
 
+  // Donut FG vs RAW
   const typeMap={};data.forEach(r=>{const t=String(getCol(r,'TYPE')||'Autre').toUpperCase();typeMap[t]=(typeMap[t]||0)+(parseFloat(getCol(r,'VALUE'))||0);});
-  makeChart('inv_type',{type:'doughnut',data:{labels:Object.keys(typeMap),datasets:[{data:Object.values(typeMap),backgroundColor:COLORS,borderWidth:2,borderColor:'#0f1117'}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{color:'#94a3b8',font:{size:11},padding:10}},tooltip:{callbacks:{label:c=>`${c.label}: ${fmtEur(c.raw)}`}}}}});
+  makeChart('inv_type',{type:'doughnut',data:{labels:Object.keys(typeMap),datasets:[{data:Object.values(typeMap),backgroundColor:['#f59e0b','#10b981'],borderWidth:2,borderColor:'#0f1117'}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{color:'#94a3b8',font:{size:11},padding:10}},tooltip:{callbacks:{label:c=>c.label+': '+fmtEur(c.raw)}}}}});
 
+  // Top 10 matériaux
   const matMap={};data.forEach(r=>{const m=String(getCol(r,'MATERIAL')||'?');const s=parseFloat(getCol(r,'STOCK'))||0;matMap[m]=(matMap[m]||0)+s;});
   const top10=Object.entries(matMap).sort((a,b)=>b[1]-a[1]).slice(0,10);
   makeChart('inv_top',{type:'bar',data:{labels:top10.map(m=>m[0].length>14?m[0].slice(0,14)+'…':m[0]),datasets:[{data:top10.map(m=>m[1]),backgroundColor:COLORS,borderRadius:4}]},options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>fmtNum(c.raw)+' u'}}},scales:{x:{ticks:{color:'#64748b',font:{size:9},callback:v=>fmtNum(v)},grid:{color:'rgba(255,255,255,.05)'}},y:{ticks:{color:'#94a3b8',font:{size:9}},grid:{display:false}}}}});
 }
-
 // ── SCRAP ─────────────────────────────────────────────────────────────────────
 function renderScrap(view){
   const data=dashData[view]||[];
