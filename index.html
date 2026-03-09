@@ -545,50 +545,72 @@ function renderScrap(view){
   const data=dashData[view]||[];
   const content=document.getElementById(`content_${view}`);
   const amtKey='AMOUNT_IN_EUR';
-  const totalScrap=data.reduce((s,r)=>{const v=parseFloat(getCol(r,amtKey,'AMOUNT_IN_LOCAL_CURRENCY'));return s+(isNaN(v)?0:v);},0);
-  const types=new Set(data.map(r=>getCol(r,'TYPE'))).size;
-  const areas=new Set(data.map(r=>getCol(r,'AREA'))).size;
-  const weeks=new Set(data.map(r=>getCol(r,'WEEK'))).size;
+
+  const uniqueTypes=[...new Set(data.map(r=>getCol(r,'TYPE')).filter(Boolean))];
+  const uniqueAreas=[...new Set(data.map(r=>getCol(r,'AREA')).filter(Boolean))];
+  const uniqueWeeks=[...new Set(data.map(r=>getCol(r,'WEEK')).filter(Boolean))];
+
+  const typeMap={};
+  data.forEach(r=>{const t=String(getCol(r,'TYPE')||'Autre');const v=Math.abs(parseFloat(getCol(r,amtKey,'AMOUNT_IN_LOCAL_CURRENCY'))||0);typeMap[t]=(typeMap[t]||0)+v;});
+  const typeS=Object.entries(typeMap).sort((a,b)=>b[1]-a[1]);
+  const totalScrapAbs=typeS.reduce((s,t)=>s+t[1],0);
+
+  const areaColorMap={'Assembly':'#3b82f6','Cutting':'#f97316','Damage':'#ef4444','Manufacturing':'#10b981'};
+  const getAreaColor=a=>areaColorMap[a]||'#8b5cf6';
+
+  const typeAreaMap={};
+  data.forEach(r=>{
+    const t=String(getCol(r,'TYPE')||'Autre');
+    const a=String(getCol(r,'AREA')||'?');
+    const v=Math.abs(parseFloat(getCol(r,amtKey,'AMOUNT_IN_LOCAL_CURRENCY'))||0);
+    if(!typeAreaMap[t])typeAreaMap[t]={};
+    typeAreaMap[t][a]=(typeAreaMap[t][a]||0)+v;
+  });
+
+  const weekAreaMap={};
+  data.forEach(r=>{
+    const w=String(getCol(r,'WEEK')||'?');
+    const a=String(getCol(r,'AREA')||'?');
+    const v=Math.abs(parseFloat(getCol(r,amtKey,'AMOUNT_IN_LOCAL_CURRENCY'))||0);
+    if(!weekAreaMap[w])weekAreaMap[w]={};
+    weekAreaMap[w][a]=(weekAreaMap[w][a]||0)+v;
+  });
+  const weekKeys=Object.keys(weekAreaMap).sort((a,b)=>Number(a)-Number(b));
+
+  const paretoS=[...typeS];
+  const totalP=paretoS.reduce((s,p)=>s+p[1],0);
+  let cum=0;
+  const cumPct=paretoS.map(p=>{cum+=p[1];return parseFloat((cum/totalP*100).toFixed(1));});
 
   content.innerHTML=
     kpiHTML([
-      {label:'Total Scrap',val:fmtEur(totalScrap),color:'#ef4444',icon:'M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6',sub:'Valeur totale scrap'},
-      {label:'Types',val:types,color:'#f59e0b',icon:'M4 6h16M4 10h16M4 14h16M4 18h16',sub:'Catégories'},
-      {label:'Zones',val:areas,color:'#8b5cf6',icon:'M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z',sub:'AREA'},
-      {label:'Semaines',val:weeks,color:'#06b6d4',icon:'M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2z',sub:'Couverture'},
-      {label:'Lignes',val:data.length,color:'#10b981',icon:'M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2',sub:'Entrées'},
+      {label:'Total Scrap Value',val:fmtEur(totalScrapAbs),color:'#ef4444',icon:'M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6',sub:'Valeur totale'},
+      {label:'Types',val:uniqueTypes.length,color:'#f59e0b',icon:'M4 6h16M4 10h16M4 14h16M4 18h16',sub:uniqueTypes.join(', ').slice(0,30)},
+      {label:'Zones (AREA)',val:uniqueAreas.length,color:'#3b82f6',icon:'M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z',sub:uniqueAreas.join(', ')},
+      {label:'Semaines',val:uniqueWeeks.length,color:'#10b981',icon:'M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2z',sub:'W'+uniqueWeeks.join(', W')},
+      {label:'Lignes',val:data.length,color:'#8b5cf6',icon:'M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2',sub:'Entrées totales'},
     ])+
     `<div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;">
-      ${chartCard('📊 SCRAP PAR TYPE','scrap_type')}
-      ${chartCard('📈 VALUE / SEMAINE','scrap_week')}
+      ${chartCard('📊 SCRAP REPORT — PAR TYPE & AREA (€)','scrap_grouped',300)}
+      ${chartCard('📉 SCRAP BY TYPE — PARETO (€)','scrap_pareto',300)}
     </div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;">
-      ${chartCard('🏭 SCRAP PAR AREA','scrap_area',200)}
-      ${chartCard('📉 PARETO PAR TYPE','scrap_pareto',200)}
+    <div style="display:grid;grid-template-columns:1fr;gap:14px;margin-bottom:14px;">
+      ${chartCard('📈 COUNT SCRAP / WEEK (€)','scrap_week',280)}
     </div>`+
     tableSection('scrap_table',Object.keys(data[0]||{}),data,'🗂️ DONNÉES SCRAP');
 
-  // Type chart
-  const typeMap={};data.forEach(r=>{const t=String(getCol(r,'TYPE')||'Autre');const v=parseFloat(getCol(r,amtKey,'AMOUNT_IN_LOCAL_CURRENCY'))||0;typeMap[t]=(typeMap[t]||0)+v;});
-  const typeS=Object.entries(typeMap).sort((a,b)=>b[1]-a[1]);
-  makeChart('scrap_type',{type:'bar',data:{labels:typeS.map(t=>t[0]),datasets:[{data:typeS.map(t=>t[1]),backgroundColor:COLORS,borderRadius:4}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>fmtEur(c.raw)}}},scales:{x:{ticks:{color:'#64748b',font:{size:9},maxRotation:45},grid:{color:'rgba(255,255,255,.04)'}},y:{ticks:{color:'#64748b',font:{size:9},callback:v=>fmtEur(v)},grid:{color:'rgba(255,255,255,.05)'}}}}});
-
-  // Week chart
-  const weekMap={};data.forEach(r=>{const w='W'+String(getCol(r,'WEEK')||'?');const v=parseFloat(getCol(r,amtKey,'AMOUNT_IN_LOCAL_CURRENCY'))||0;weekMap[w]=(weekMap[w]||0)+v;});
-  const weekS=Object.entries(weekMap).sort((a,b)=>a[0].localeCompare(b[0]));
-  makeChart('scrap_week',{type:'bar',data:{labels:weekS.map(w=>w[0]),datasets:[{data:weekS.map(w=>w[1]),backgroundColor:'#ef4444',borderRadius:4}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>fmtEur(c.raw)}}},scales:{x:{ticks:{color:'#64748b',font:{size:9}},grid:{color:'rgba(255,255,255,.04)'}},y:{ticks:{color:'#64748b',font:{size:9},callback:v=>fmtEur(v)},grid:{color:'rgba(255,255,255,.05)'}}}}});
-
-  // Area chart
-  const areaMap={};data.forEach(r=>{const a=String(getCol(r,'AREA')||'?');const v=parseFloat(getCol(r,amtKey,'AMOUNT_IN_LOCAL_CURRENCY'))||0;areaMap[a]=(areaMap[a]||0)+v;});
-  const areaS=Object.entries(areaMap).sort((a,b)=>b[1]-a[1]);
-  makeChart('scrap_area',{type:'doughnut',data:{labels:areaS.map(a=>a[0]),datasets:[{data:areaS.map(a=>a[1]),backgroundColor:COLORS,borderWidth:2,borderColor:'#0f1117'}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{color:'#94a3b8',font:{size:10},padding:8}},tooltip:{callbacks:{label:c=>`${c.label}: ${fmtEur(c.raw)}`}}}}});
-
-  // Pareto
-  const paretoS=[...typeS].sort((a,b)=>b[1]-a[1]);
-  const total=paretoS.reduce((s,p)=>s+p[1],0);
-  let cum=0;const cumPct=paretoS.map(p=>{cum+=p[1];return(cum/total*100);});
-  makeChart('scrap_pareto',{type:'bar',data:{labels:paretoS.map(p=>p[0].length>12?p[0].slice(0,12)+'…':p[0]),datasets:[{type:'bar',data:paretoS.map(p=>p[1]),backgroundColor:'#3b82f6',borderRadius:3,yAxisID:'y'},{type:'line',data:cumPct,borderColor:'#f59e0b',borderWidth:2,pointRadius:3,yAxisID:'y1',tension:.3}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>c.datasetIndex===0?fmtEur(c.raw):fmtPct(c.raw)}}},scales:{x:{ticks:{color:'#64748b',font:{size:9},maxRotation:30},grid:{display:false}},y:{ticks:{color:'#64748b',font:{size:9},callback:v=>fmtEur(v)},grid:{color:'rgba(255,255,255,.05)'}},y1:{position:'right',min:0,max:100,ticks:{color:'#f59e0b',font:{size:9},callback:v=>v+'%'},grid:{display:false}}}}});
-}
+  // CHART 1 — Grouped bar Type x Area
+  const typeLabels=typeS.map(t=>t[0]);
+  const areaDatasets=uniqueAreas.map(area=>({
+    label:area,
+    data:typeLabels.map(t=>parseFloat((typeAreaMap[t]?.[area]||0).toFixed(2))),
+    backgroundColor:getAreaColor(area),
+    borderRadius:3,
+    datalabels:{anchor:'end',align:'top',color:'#e2e8f0',font:{size:8,weight:'bold'},formatter:v=>v>0?fmtEur(v):'',display:ctx=>ctx.dataset.data[ctx.dataIndex]>0}
+  }));
+  makeChart('scrap_grouped',{
+    type:'bar',data:{labels:typeLabels,datasets:areaDatasets},
+    options:{responsive:true,maintainAspectRatio
 
 // ── EXPORT / IMPORT ───────────────────────────────────────────────────────────
 function renderExport(view){
