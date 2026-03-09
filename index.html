@@ -593,48 +593,151 @@ function renderScrap(view){
 function renderExport(view){
   const data=dashData[view]||[];
   const content=document.getElementById(`content_${view}`);
-  const totalVal=data.reduce((s,r)=>{const v=parseFloat(getCol(r,'VALUE'));return s+(isNaN(v)?0:v);},0);
-  const payers=new Set(data.map(r=>getCol(r,'PAYER'))).size;
-  const avgFill=data.reduce((s,r)=>{const v=parseFloat(getCol(r,'NIVEAU_DE_REMPLISSAGE_DES_EXPORTS','NIVEAU_REMPLISSAGE'));return s+(isNaN(v)?0:v);},0)/(data.length||1);
-  const tracks=new Set(data.map(r=>getCol(r,'TRACK'))).size;
+
+  // Nettoyage lignes vides
+  const rows=data.filter(r=>getCol(r,'PAYER_','PAYER')!=='');
+
+  // KPIs globaux
+  const globalVal=rows.reduce((s,r)=>{const v=parseFloat(getCol(r,'VALUE'));return s+(isNaN(v)?0:v);},0);
+  const clients=new Set(rows.map(r=>getCol(r,'PAYER_','PAYER'))).size;
+  const tracks=new Set(rows.map(r=>getCol(r,'TRACK'))).size;
+  const avgFill=rows.reduce((s,r)=>{const v=parseFloat(getCol(r,'NIVEAU_DE_REMPLISSAGE_DES_EXPORTS'));return s+(isNaN(v)?0:v);},0)/(rows.length||1);
+  const avgRM=rows.reduce((s,r)=>{const v=parseFloat(getCol(r,'RM+RETURN_PACKAGINGS','RM+RETURN_PACKAGINGS'));return s+(isNaN(v)?0:v);},0)/(rows.length||1);
+
+  const kpiGlobal=kpiHTML([
+    {label:'Global Values',val:fmtEur(globalVal),color:'#3b82f6',icon:'M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z',sub:'Valeur totale shipments'},
+    {label:'Clients',val:clients,color:'#10b981',icon:'M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2',sub:'Payers'},
+    {label:'Taux Remplissage',val:fmtPct(avgFill*100),color:'#f59e0b',icon:'M22 11.08V12a10 10 0 1 1-5.93-9.14',sub:'Moyenne exports'},
+    {label:'RM+Return Pkg',val:fmtPct(avgRM*100),color:'#ef4444',icon:'M19 7l-.867 12.142A2 2 0 0 1 16.138 21H7.862a2 2 0 0 1-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v3',sub:'Moyenne retours'},
+    {label:'Tracks',val:tracks,color:'#8b5cf6',icon:'M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01',sub:'Lignes transport'},
+  ]);
 
   content.innerHTML=
-    kpiHTML([
-      {label:'Total Value',val:fmtEur(totalVal),color:'#3b82f6',icon:'M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z',sub:'Valeur shipments'},
-      {label:'Clients',val:payers,color:'#10b981',icon:'M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2',sub:'Payers'},
-      {label:'Remplissage Moy.',val:fmtPct(avgFill*100),color:'#f59e0b',icon:'M22 11.08V12a10 10 0 1 1-5.93-9.14',sub:'Taux moyen'},
-      {label:'Tracks',val:tracks,color:'#8b5cf6',icon:'M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01',sub:'Lignes transport'},
-      {label:'Lignes',val:data.length,color:'#06b6d4',icon:'M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2',sub:'Entrées'},
-    ])+
-    `<div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;">
-      ${chartCard('📊 VALUE PAR CLIENT (PAYER)','exp_payer')}
-      ${chartCard('🥧 VENTES PAR MOIS','exp_month',240)}
-    </div>
-    <div style="display:grid;grid-template-columns:1fr;gap:14px;margin-bottom:14px;">
-      ${chartCard('📈 TAUX DE REMPLISSAGE PAR SEMAINE (%)','exp_fill',220)}
-    </div>`+
-    tableSection('exp_table',Object.keys(data[0]||{}),data,'🗂️ DONNÉES EXPORT/IMPORT');
+    kpiGlobal+
+    '<div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;">'+
+      chartCard('📊 VALUE PAR PROJECT (CUSTOMERS SHIPMENTS VALUES)','exp_proj',260)+
+      chartCard('🥧 SALES BY MONTH','exp_month',260)+
+    '</div>'+
+    '<div style="display:grid;grid-template-columns:1fr;gap:14px;margin-bottom:14px;">'+
+      chartCard('📈 TAUX DE REMPLISSAGE PAR SEMAINE (%)','exp_fill',260)+
+    '</div>'+
+    tableSection('exp_table',Object.keys(data[0]||{}),rows,'🗂️ DONNÉES EXPORT/IMPORT');
 
-  // Payer chart
-  const payerMap={};data.forEach(r=>{const p=String(getCol(r,'PAYER')||'?');const v=parseFloat(getCol(r,'VALUE'))||0;payerMap[p]=(payerMap[p]||0)+v;});
-  const payerS=Object.entries(payerMap).sort((a,b)=>b[1]-a[1]).slice(0,10);
-  makeChart('exp_payer',{type:'bar',data:{labels:payerS.map(p=>p[0].length>18?p[0].slice(0,18)+'…':p[0]),datasets:[{data:payerS.map(p=>p[1]),backgroundColor:COLORS,borderRadius:4}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>fmtEur(c.raw)}}},scales:{x:{ticks:{color:'#64748b',font:{size:9},maxRotation:30},grid:{color:'rgba(255,255,255,.04)'}},y:{ticks:{color:'#64748b',font:{size:9},callback:v=>fmtEur(v)},grid:{color:'rgba(255,255,255,.05)'}}}}});
-
-  // Month donut
-  const monthMap={};data.forEach(r=>{const m='M'+String(getCol(r,'MONTH')||'?');const v=parseFloat(getCol(r,'VALUE'))||0;monthMap[m]=(monthMap[m]||0)+v;});
-  makeChart('exp_month',{type:'doughnut',data:{labels:Object.keys(monthMap),datasets:[{data:Object.values(monthMap),backgroundColor:COLORS,borderWidth:2,borderColor:'#0f1117'}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'right',labels:{color:'#94a3b8',font:{size:10},padding:8}},tooltip:{callbacks:{label:c=>`${c.label}: ${fmtEur(c.raw)}`}}}}});
-
-  // Fill rate by week
-  const fillMap={};const fillCnt={};
-  data.forEach(r=>{
-    const w=String(getCol(r,'SEMAINE')||getCol(r,'WEEK')||'?');
-    const v=parseFloat(getCol(r,'NIVEAU_DE_REMPLISSAGE_DES_EXPORTS','NIVEAU_REMPLISSAGE'))||0;
-    fillMap[w]=(fillMap[w]||0)+v;fillCnt[w]=(fillCnt[w]||0)+1;
+  // VALUE PAR PAYER (bar chart)
+  const payerMap={};
+  rows.forEach(r=>{
+    const p=String(getCol(r,'PAYER_','PAYER')||'?');
+    const v=parseFloat(getCol(r,'VALUE'))||0;
+    payerMap[p]=(payerMap[p]||0)+v;
   });
-  const fillS=Object.entries(fillMap).sort((a,b)=>a[0].localeCompare(b[0]));
-  makeChart('exp_fill',{type:'bar',data:{labels:fillS.map(f=>f[0]),datasets:[{data:fillS.map(f=>(f[1]/fillCnt[f[0]]*100).toFixed(1)),backgroundColor:fillS.map(f=>(f[1]/fillCnt[f[0]])>=0.95?'#10b981':'#f59e0b'),borderRadius:4}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>c.raw+'%'}}},scales:{x:{ticks:{color:'#64748b',font:{size:9}},grid:{color:'rgba(255,255,255,.04)'}},y:{min:0,max:100,ticks:{color:'#64748b',font:{size:9},callback:v=>v+'%'},grid:{color:'rgba(255,255,255,.05)'}}}}});
-}
+  const payerS=Object.entries(payerMap).sort((a,b)=>b[1]-a[1]);
+  makeChart('exp_proj',{
+    type:'bar',
+    data:{
+      labels:payerS.map(p=>p[0].length>20?p[0].slice(0,20)+'…':p[0]),
+      datasets:[{
+        data:payerS.map(p=>p[1]),
+        backgroundColor:COLORS,
+        borderRadius:4,
+        datalabels:{display:false}
+      }]
+    },
+    options:{
+      responsive:true,maintainAspectRatio:false,
+      plugins:{
+        legend:{display:false},
+        tooltip:{callbacks:{label:c=>fmtEur(c.raw)}}
+      },
+      scales:{
+        x:{ticks:{color:'#64748b',font:{size:9},maxRotation:30},grid:{color:'rgba(255,255,255,.04)'}},
+        y:{ticks:{color:'#64748b',font:{size:9},callback:v=>fmtEur(v)},grid:{color:'rgba(255,255,255,.05)'}}
+      }
+    }
+  });
 
+  // SALES BY MONTH (donut/pie)
+  const monthNames=['Jan','Fév','Mar','Avr','Mai','Jun','Jul','Aoû','Sep','Oct','Nov','Déc'];
+  const monthMap={};
+  rows.forEach(r=>{
+    const m=parseInt(getCol(r,'MONTH'))||0;
+    const label=monthNames[m-1]||('M'+m);
+    const p=String(getCol(r,'PAYER_','PAYER')||'?');
+    const key=p+' ('+label+')';
+    const v=parseFloat(getCol(r,'VALUE'))||0;
+    // Group by payer for pie like the screenshot
+    monthMap[p]=(monthMap[p]||0)+v;
+  });
+  const monthS=Object.entries(monthMap).sort((a,b)=>b[1]-a[1]);
+  const totalPie=monthS.reduce((s,m)=>s+m[1],0);
+  makeChart('exp_month',{
+    type:'pie',
+    data:{
+      labels:monthS.map(m=>m[0].length>25?m[0].slice(0,25)+'…':m[0]),
+      datasets:[{
+        data:monthS.map(m=>m[1]),
+        backgroundColor:COLORS,
+        borderWidth:2,
+        borderColor:'#0f1117'
+      }]
+    },
+    options:{
+      responsive:true,maintainAspectRatio:false,
+      plugins:{
+        legend:{position:'right',labels:{color:'#94a3b8',font:{size:9},padding:8,boxWidth:12}},
+        tooltip:{callbacks:{label:c=>c.label+': '+fmtEur(c.raw)+' ('+fmtPct(c.raw/totalPie*100)+')'}}
+      }
+    }
+  });
+
+  // TAUX DE REMPLISSAGE PAR SEMAINE (grouped bar: exports + RM)
+  const fillMap={exp:{},rm:{}};
+  rows.forEach(r=>{
+    const w=String(getCol(r,'SEMAINES')||'?');
+    const track=String(getCol(r,'TRACK')||'');
+    const key=w+' '+track;
+    const exp=parseFloat(getCol(r,'NIVEAU_DE_REMPLISSAGE_DES_EXPORTS'))||0;
+    const rm=parseFloat(getCol(r,'RM+RETURN_PACKAGINGS','RM+RETURN_PACKAGINGS'))||0;
+    fillMap.exp[key]=(fillMap.exp[key]||[]);fillMap.exp[key].push(exp);
+    fillMap.rm[key]=(fillMap.rm[key]||[]);fillMap.rm[key].push(rm);
+  });
+  const fillKeys=Object.keys(fillMap.exp).sort();
+  const avgArr=(map,key)=>map[key]?map[key].reduce((a,b)=>a+b,0)/map[key].length:0;
+  makeChart('exp_fill',{
+    type:'bar',
+    data:{
+      labels:fillKeys,
+      datasets:[
+        {
+          label:'Average of Niveau de Remplissage des exports',
+          data:fillKeys.map(k=>(avgArr(fillMap.exp,k)*100).toFixed(0)),
+          backgroundColor:'#3b82f6',
+          borderRadius:3
+        },
+        {
+          label:'Average of RM+Return Packagings',
+          data:fillKeys.map(k=>(avgArr(fillMap.rm,k)*100).toFixed(0)),
+          backgroundColor:'#f97316',
+          borderRadius:3
+        }
+      ]
+    },
+    options:{
+      responsive:true,maintainAspectRatio:false,
+      plugins:{
+        legend:{position:'right',labels:{color:'#94a3b8',font:{size:10},padding:10}},
+        tooltip:{callbacks:{label:c=>c.dataset.label+': '+c.raw+'%'}}
+      },
+      scales:{
+        x:{ticks:{color:'#64748b',font:{size:9},maxRotation:45},grid:{color:'rgba(255,255,255,.04)'}},
+        y:{
+          min:0,max:120,
+          ticks:{color:'#64748b',font:{size:9},callback:v=>v+'%'},
+          grid:{color:'rgba(255,255,255,.05)'}
+        }
+      }
+    }
+  });
+}
 // ── NEGATIVE STOCK ────────────────────────────────────────────────────────────
 function renderNegstock(view){
   const data=dashData[view]||[];
