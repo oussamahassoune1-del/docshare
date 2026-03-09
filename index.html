@@ -10,34 +10,6 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
 <script>Chart.register(ChartDataLabels);</script>
-<!-- 📄 Export PDF -->
-<button class="refresh-btn" onclick="exportPDF(view, title)" title="Exporter en PDF" style="color:#f87171;border-color:rgba(248,113,113,.3);">
-  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-    <polyline points="14,2 14,8 20,8"/>
-    <line x1="16" y1="13" x2="8" y2="13"/>
-    <line x1="16" y1="17" x2="8" y2="17"/>
-  </svg>
-</button>
-
-<!-- 📸 Export Image (PNG) -->
-<button class="refresh-btn" onclick="exportPNG(view, title)" title="Exporter en image" style="color:#a78bfa;border-color:rgba(167,139,250,.3);">
-  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-    <rect x="3" y="3" width="18" height="18" rx="2"/>
-    <circle cx="8.5" cy="8.5" r="1.5"/>
-    <polyline points="21,15 16,10 5,21"/>
-  </svg>
-</button>
-
-<!-- 📊 Export Excel -->
-<button class="refresh-btn" onclick="exportExcel(view, title)" title="Exporter en Excel" style="color:#4ade80;border-color:rgba(74,222,128,.3);">
-  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-    <polyline points="14,2 14,8 20,8"/>
-    <polyline points="8,13 10.5,17 13,13"/>
-    <line x1="10.5" y1="17" x2="10.5" y2="10"/>
-  </svg>
-</button>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;}
 body{font-family:'DM Sans',sans-serif;background:#0f1117;color:#fff;min-height:100vh;}
@@ -349,51 +321,6 @@ function renderDashShell(view,title,renderFn){
       </div>
       <div style="display:flex;align-items:center;gap:8px;">
         <button class="refresh-btn" id="refreshBtn_${view}" onclick="refreshDash('${view}','${renderFn}')" title="Actualiser">
-        // ── Export PDF ────────────────────────────────────────────────────────────────
-async function exportPDF(view, title) {
-  const el = document.getElementById('view' + view.charAt(0).toUpperCase() + view.slice(1));
-  if (!el) { toast('Rien à exporter', 'error'); return; }
-  toast('Génération PDF…');
-  const canvas = await html2canvas(el, { backgroundColor: '#0f1117', scale: 2, useCORS: true, logging: false, height: el.scrollHeight });
-  const { jsPDF } = window.jspdf;
-  const imgData = canvas.toDataURL('image/png');
-  const pdf = new jsPDF({ orientation: canvas.width > canvas.height ? 'landscape' : 'portrait', unit: 'mm', format: 'a4' });
-  const pageW = pdf.internal.pageSize.getWidth(), pageH = pdf.internal.pageSize.getHeight();
-  const ratio = Math.min(pageW / canvas.width, (pageH - 14) / canvas.height);
-  const w = canvas.width * ratio, h = canvas.height * ratio;
-  pdf.setFillColor(13, 15, 24); pdf.rect(0, 0, pageW, 12, 'F');
-  pdf.setTextColor(255, 255, 255); pdf.setFontSize(9); pdf.setFont('helvetica', 'bold');
-  pdf.text('One Mobility — ' + (title || view), 6, 8);
-  pdf.setFont('helvetica', 'normal'); pdf.setFontSize(7); pdf.setTextColor(100, 116, 139);
-  pdf.text(new Date().toLocaleString('fr-FR'), pageW - 6, 8, 'right');
-  pdf.addImage(imgData, 'PNG', (pageW - w) / 2, 13, w, h);
-  pdf.save((title || view).replace(/[^a-z0-9]/gi, '_') + '_' + new Date().toLocaleDateString('fr-FR').replace(/\//g, '-') + '.pdf');
-  toast('📄 PDF exporté !');
-}
-
-// ── Export PNG ────────────────────────────────────────────────────────────────
-async function exportPNG(view, title) {
-  const el = document.getElementById('view' + view.charAt(0).toUpperCase() + view.slice(1));
-  if (!el) { toast('Rien à exporter', 'error'); return; }
-  toast('Capture en cours…');
-  const canvas = await html2canvas(el, { backgroundColor: '#0f1117', scale: 2, useCORS: true, logging: false, height: el.scrollHeight });
-  const link = document.createElement('a');
-  link.download = (title || view).replace(/[^a-z0-9]/gi, '_') + '_' + new Date().toLocaleDateString('fr-FR').replace(/\//g, '-') + '.png';
-  link.href = canvas.toDataURL('image/png');
-  link.click();
-  toast('📸 Image exportée !');
-}
-
-// ── Export Excel ──────────────────────────────────────────────────────────────
-function exportExcel(view, title) {
-  const data = dashData[view];
-  if (!data || data.length === 0) { toast('Aucune donnée à exporter', 'error'); return; }
-  const ws = XLSX.utils.json_to_sheet(data);
-  const wb = XLSX.utils.book_new();
-  XLSX.utils.book_append_sheet(wb, ws, title || view);
-  XLSX.writeFile(wb, (title || view).replace(/[^a-z0-9]/gi, '_') + '_' + new Date().toLocaleDateString('fr-FR').replace(/\//g, '-') + '.xlsx');
-  toast('📊 Excel exporté !');
-}
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23,4 23,10 17,10"/><polyline points="1,20 1,14 7,14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
         </button>
         <button class="btn-primary" onclick="document.getElementById('fileInput_${view}').click()">
