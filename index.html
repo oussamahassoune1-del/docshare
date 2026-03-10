@@ -83,7 +83,9 @@ select.input-field option{background:#1a1d26;}
     </div>
     <div id="loginError" style="display:none;background:rgba(239,68,68,.15);border:1px solid rgba(239,68,68,.3);border-radius:10px;padding:10px 14px;color:#f87171;font-size:13px;margin-bottom:16px;"></div>
     <button onclick="doLogin()" id="loginBtn" class="btn-primary" style="width:100%;justify-content:center;padding:13px;font-size:14px;">Se connecter →</button>
-
+    <div style="margin-top:18px;padding:12px;background:rgba(255,255,255,.03);border-radius:10px;border:1px solid rgba(255,255,255,.06);">
+      <p style="color:#475569;font-size:11px;text-align:center;">Admin : <span style="color:#60a5fa;font-weight:600;">admin@entreprise.com</span> / <span style="color:#60a5fa;font-weight:600;">admin123</span></p>
+    </div>
   </div>
 </div>
 
@@ -177,7 +179,7 @@ select.input-field option{background:#1a1d26;}
   </div>
 </div>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script>
 let token=localStorage.getItem('ds_token'),currentUser=null,allUsers=[],allFiles=[],allShares=[],shareFileId=null;
 let charts={};
 const COLORS=['#3b82f6','#10b981','#f59e0b','#8b5cf6','#ec4899','#06b6d4','#ef4444','#84cc16','#f97316','#a855f7','#14b8a6','#eab308','#64748b','#0ea5e9','#d946ef'];
@@ -739,4 +741,12 @@ async function doCreateUser(){
 }
 async function deleteUser(id,name){
   if(!confirm(`Supprimer "${name}" ?`))return;
-  try{await api('DELETE',`/api/users/${id}`);allUse
+  try{await api('DELETE',`/api/users/${id}`);allUsers=allUsers.filter(u=>u.id!==id);renderUsers();toast('Supprimé');}catch(e){toast(e.message,'error');}
+}
+
+window.onload=async()=>{
+  if(token){try{await initApp();}catch{showLogin();}}else showLogin();
+};
+</script>
+</body>
+</html>
